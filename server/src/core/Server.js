@@ -1,6 +1,6 @@
 const settings = {
     perfectFramerate: 1000 / 60,
-    actualFrameRate: 1000 / 20,
+    actualFrameRate: 1000 / 10,
 }
 
 export default class Server {
@@ -43,7 +43,7 @@ export default class Server {
         players.update(dt);
 
         this.network.io.emit('game:update', {
-            update: this.state,
+            state: this.state,
             timestamp: Date.now()
         });
     }

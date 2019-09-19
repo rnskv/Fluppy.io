@@ -46,7 +46,7 @@ class Player {
             this.dy = -1 * dt;
         }
 
-        this.rotation += 0.4;
+        this.rotation += 0.4 * dt;
 
         this.x += this.dx * this.speed;
         this.y += this.dy * this.speed;

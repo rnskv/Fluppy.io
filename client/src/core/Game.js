@@ -1,44 +1,7 @@
 import Player from './GameObject';
 import EventEmitter from './EventEmitter';
 import Loader from './Loader';
-function interpolateObject(object1, object2, ratio) {
-    if (!object2) {
-        return object1;
-    }
-
-    const interpolated = {};
-    Object.keys(object1).forEach(key => {
-        switch (key) {
-            case 'x':
-            case 'y':
-            case 'rotation':
-                interpolated[key] = object1[key] + (object2[key] - object1[key]) * ratio;
-                break;
-            default:
-                interpolated[key] = object2[key];
-                break;
-        }
-    });
-
-    return interpolated;
-};
-
-function interpolateObjectArray(objects1, objects2, ratio) {
-    return objects1
-}
-
-function interpolateObjectsMap(object1, object2, ratio) {
-    const result = {};
-    Object.keys(object1).forEach((key, index) => {
-        const item1 = object1[key];
-        const item2 = object2[key];
-
-        result[key] = interpolateObject(item1, item2, ratio)
-    });
-
-
-    return result;
-}
+import Interpolator from '../utils/interpolator';
 
 export default class Game {
     constructor({ app, managers }) {
@@ -54,6 +17,8 @@ export default class Game {
         this.renderDelay = 50;
 
         this.subscribe.call(this, null);
+
+        window.interpolate = true;
     }
 
     get currentServerTime() {
@@ -78,20 +43,22 @@ export default class Game {
     }
 
     subscribe() {
-        EventEmitter.subscribe('server:updates', update => {
-            if (!this.firstServerTimestamp) {
-                this.firstServerTimestamp = update.timestamp;
-                this.startGameTimestamp = Date.now();
-            }
+        EventEmitter.subscribe('server:updates', this.onServerUpdate.bind(this));
+    }
 
-            this.updates.push(update);
+    onServerUpdate(update) {
+        if (!this.firstServerTimestamp) {
+            this.firstServerTimestamp = update.timestamp;
+            this.startGameTimestamp = Date.now();
+        }
 
-            const baseUpdateIndex = this.baseUpdateIndex;
+        this.updates.push(update);
 
-            if (baseUpdateIndex > 0) {
-                this.updates.splice(0, baseUpdateIndex);
-            }
-        });
+        const baseUpdateIndex = this.baseUpdateIndex;
+
+        if (baseUpdateIndex > 0) {
+            this.updates.splice(0, baseUpdateIndex);
+        }
     }
 
     getCurrentUpdate() {
@@ -104,22 +71,34 @@ export default class Game {
         const baseUpdateIndex = this.baseUpdateIndex;
         const serverTime = this.currentServerTime;
 
-        if (baseUpdateIndex < 0) {
-            return this.updates[this.updates.length - 1].update;
-        } else if (baseUpdateIndex === this.updates.length - 1) {
-            return this.updates[baseUpdateIndex].update;
-        } else {
-            const baseUpdate = this.updates[baseUpdateIndex];
-            const next = this.updates[baseUpdateIndex + 1];
-            const r = (serverTime - baseUpdate.timestamp) / (next.timestamp - baseUpdate.timestamp);
+        const isInitUpdate = baseUpdateIndex < 0;
+        const isFirstUpdate = baseUpdateIndex === this.updates.length - 1;
 
-            const withInterpolate = true;
+        switch (true) {
+            case isInitUpdate: {
+                return this.updates[this.updates.length - 1].state;
+            }
 
-            return {
-                players: withInterpolate ? interpolateObjectsMap(baseUpdate.update.players, next.update.players, r) : next.update.players
-            };
+            case isFirstUpdate: {
+                return this.updates[baseUpdateIndex].state;
+            }
+
+            default: {
+                const baseUpdate = this.updates[baseUpdateIndex];
+                const next = this.updates[baseUpdateIndex + 1];
+                const ratio = (serverTime - baseUpdate.timestamp) / (next.timestamp - baseUpdate.timestamp);
+
+                if (window.interpolate) {
+                    return {
+                        players: Interpolator.interpolateObjectsMap(baseUpdate.state.players, next.state.players, ratio)
+                    };
+                } else {
+                    return {
+                        players: next.state.players
+                    };
+                }
+            }
         }
-
     }
 
     update(dt) {
