@@ -7,8 +7,11 @@ const socket = io.connect('http://localhost:3000');
 const joinButton = document.querySelector("#join");
 const leaveButton = document.querySelector("#leave");
 
+const checkInterpolateButton = document.querySelector("#interpolate");
+
 joinButton.onclick = () => socket.emit('game:join');
 leaveButton.onclick = () => socket.emit('game:leave');
+checkInterpolateButton.onchange = (e) => window.interpolate = e.target.checked;
 
 socket.on('connect', () => {
     socket.on('game:update', data => {

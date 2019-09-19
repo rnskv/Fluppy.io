@@ -9,15 +9,23 @@ class PlayersManager {
         this.update = this.update.bind(this);
     }
 
+    isHasPlayer(id) {
+        return Boolean(this.map[id]);
+    }
+
     addPlayer(id) {
+        if (this.isHasPlayer(id)) return;
+
         const player = new Player(id, 0, 0);
         this.map[id] = player;
         this.network.io.emit('game:player:join', player.clientData)
     }
 
     removePlayer(id) {
-        this.network.io.emit('game:player:leave', id)
-        delete this.map[id]
+        if (!this.isHasPlayer(id)) return;
+
+        delete this.map[id];
+        this.network.io.emit('game:player:leave', id);
     }
 
     update(dt) {
