@@ -8,10 +8,20 @@ function interpolateObject(object1, object2, ratio) {
 
     const interpolated = {};
     Object.keys(object1).forEach(key => {
-        interpolated[key] = object1[key] + (object2[key] - object1[key]) * ratio;
+        switch (key) {
+            case 'x':
+            case 'y':
+                interpolated[key] = object1[key] + (object2[key] - object1[key]) * ratio;
+                break;
+            default:
+                interpolated[key] = object2[key];
+                break;
+        }
     });
+
     return interpolated;
-}
+};
+
 function interpolateObjectArray(objects1, objects2, ratio) {
     return objects1
 }
@@ -40,7 +50,7 @@ export default class Game {
 
         this.firstServerTimestamp = 0;
         this.startGameTimestamp = 0;
-        this.renderDelay = 100;
+        this.renderDelay = 50;
 
         this.subscribe.call(this, null);
     }
@@ -102,8 +112,10 @@ export default class Game {
             const next = this.updates[baseUpdateIndex + 1];
             const r = (serverTime - baseUpdate.timestamp) / (next.timestamp - baseUpdate.timestamp);
 
+            const withInterpolate = true;
+
             return {
-                players: interpolateObjectsMap(baseUpdate.update.players, next.update.players, r)
+                players: withInterpolate ? interpolateObjectsMap(baseUpdate.update.players, next.update.players, r) : next.update.players
             };
         }
 
@@ -112,7 +124,6 @@ export default class Game {
     update(dt) {
         //Сделать проверку по updates
         const { players } = this.managers;
-        console.log(this.getCurrentUpdate())
         players.list.forEach(player => {
             player.update(dt, this.getCurrentUpdate().players[player.id])
         })

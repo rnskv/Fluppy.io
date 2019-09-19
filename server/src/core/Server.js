@@ -1,6 +1,6 @@
 const settings = {
     perfectFramerate: 1000 / 60,
-    actualFrameRate: 1000 / 10,
+    actualFrameRate: 1000 / 20,
 }
 
 export default class Server {
