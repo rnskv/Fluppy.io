@@ -11,20 +11,16 @@ joinButton.onclick = () => socket.emit('game:join');
 leaveButton.onclick = () => socket.emit('game:leave');
 
 socket.on('connect', () => {
-    console.log('connect');
-
     socket.on('game:update', data => {
         EventEmitter.emit('server:updates', data);
     });
 
     socket.on('game:player:join', data => {
         EventEmitter.emit('game:player:join', data)
-        console.log('player join', data)
     });
 
     socket.on('game:player:leave', data => {
         EventEmitter.emit('game:player:leave', data)
-        console.log('player leave', data)
     });
 
     socket.on('me:init', data => {

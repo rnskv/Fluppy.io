@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 
-export default class Player {
+export default class GameObject {
     constructor({ stage, id, x, y }) {
         this.stage = stage;
         this.id = id;
@@ -8,20 +8,20 @@ export default class Player {
         this.y = y;
 
         this.object = null;
-
-        this.addToStage();
     }
 
-    addToStage() {
-        //Для примера
+    createObject() {
         const graphics = new PIXI.Graphics();
         graphics.beginFill(0xFFFF00);
         graphics.lineStyle(5, 0xFF0000);
         graphics.drawRect(this.x, this.y, 10, 10);
+        return graphics;
+    }
 
-        this.object = graphics;
-
-        this.stage.addChild(graphics)
+    addToStage() {
+        //Для примера
+        this.object = this.createObject();
+        this.stage.addChild(this.object)
     }
 
     removeFromStage() {

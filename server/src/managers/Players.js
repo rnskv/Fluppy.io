@@ -6,7 +6,6 @@ class PlayersManager {
 
         this.map = {};
         this.subscribe();
-        console.log('initPlayersManager')
         this.update = this.update.bind(this);
     }
 
@@ -35,7 +34,6 @@ class PlayersManager {
     }
 
     onJoinHandler(socket) {
-        console.log('join', this)
         this.addPlayer.call(this, socket.id);
     }
 

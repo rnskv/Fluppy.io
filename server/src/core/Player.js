@@ -19,8 +19,6 @@ class Player {
     }
 
     update(dt) {
-        console.log(dt);
-
         if (this.x >= 300) {
             this.dx = -1 * dt;
         }
