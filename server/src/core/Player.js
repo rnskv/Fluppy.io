@@ -3,7 +3,7 @@ class Player {
         this.id = id;
         this.x = x;
         this.y = y;
-
+        this.rotation = 0;
         this.dx = 1;
         this.dy = 1;
         this.speed = 1;
@@ -15,7 +15,8 @@ class Player {
         return {
             id: this.id,
             x: this.x,
-            y: this.y
+            y: this.y,
+            rotation: this.rotation
         }
     }
 
@@ -44,6 +45,8 @@ class Player {
         if (Math.random() >  0.95) {
             this.dy = -1 * dt;
         }
+
+        this.rotation += 0.4;
 
         this.x += this.dx * this.speed;
         this.y += this.dy * this.speed;

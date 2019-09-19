@@ -6,7 +6,7 @@ export default class GameObject {
         this.id = id;
         this.x = x;
         this.y = y;
-
+        this.rotation = 0;
         this.object = null;
     }
 
@@ -37,5 +37,7 @@ export default class GameObject {
 
         this.object.transform.position.x = this.x;
         this.object.transform.position.y = this.y;
+        this.object.transform.rotation = this.rotation;
+        this.object.pivot = { x: 5, y: 5 }
     }
 }

@@ -11,6 +11,7 @@ function interpolateObject(object1, object2, ratio) {
         switch (key) {
             case 'x':
             case 'y':
+            case 'rotation':
                 interpolated[key] = object1[key] + (object2[key] - object1[key]) * ratio;
                 break;
             default:
