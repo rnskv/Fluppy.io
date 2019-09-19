@@ -42,6 +42,9 @@ export default class Server {
 
         players.update(dt);
 
-        this.network.io.emit('game:update', this.state);
+        this.network.io.emit('game:update', {
+            update: this.state,
+            timestamp: Date.now()
+        });
     }
 }

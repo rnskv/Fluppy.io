@@ -9,15 +9,11 @@ export default class Proton extends Game{
 
     subscribe() {
         const { players } = this.managers;
-
+        super.subscribe();
         EventEmitter.subscribe('me:init', data => {
             Object.values(data.players).forEach(player => {
                 players.add(this.stage, player)
             })
-        });
-
-        EventEmitter.subscribe('server:updates', data => {
-            this.updates = data;
         });
 
         EventEmitter.subscribe('game:player:join', player => {
