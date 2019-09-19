@@ -36,6 +36,13 @@ export default class Game {
         }));
     }
 
+    removePlayer(id) {
+        const leaverIndex = this.players.findIndex(player => player.id === id);
+        const leaver = this.players[leaverIndex];
+        leaver.removeFromStage();
+        this.players.slice(leaverIndex, 1)
+    }
+
     update(dt) {
         //Сделать проверку по updates
         this.players.forEach(player => {

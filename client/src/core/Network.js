@@ -22,6 +22,11 @@ socket.on('connect', () => {
         console.log('player join', data)
     });
 
+    socket.on('game:player:leave', data => {
+        EventEmitter.emit('game:player:leave', data)
+        console.log('player leave', data)
+    });
+
     socket.on('me:init', data => {
         EventEmitter.emit('me:init', data);
     });

@@ -24,6 +24,10 @@ export default class Player {
         this.stage.addChild(graphics)
     }
 
+    removeFromStage() {
+        this.stage.removeChild(this.object)
+    }
+
     update(dt, updates) {
         if (!updates) return;
 

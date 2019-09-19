@@ -18,13 +18,15 @@ class Player {
         }
     }
 
-    update() {
+    update(dt) {
+        console.log(dt);
+
         if (this.x >= 300) {
-            this.dx = -1;
+            this.dx = -1 * dt;
         }
 
         if (this.x <= 0) {
-            this.dx = 1;
+            this.dx = 1 * dt;
         }
 
         this.x += this.dx * this.speed;

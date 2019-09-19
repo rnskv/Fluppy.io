@@ -17,13 +17,14 @@ class PlayersManager {
     }
 
     removePlayer(id) {
+        this.network.io.emit('game:player:leave', id)
         delete this.map[id]
     }
 
-    update() {
+    update(dt) {
         Object.keys(this.map).forEach(playerId => {
             if (this.map[playerId]) {
-                this.map[playerId].update();
+                this.map[playerId].update(dt);
             }
         })
     }

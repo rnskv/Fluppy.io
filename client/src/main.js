@@ -1,7 +1,7 @@
 import Client from './core/Client';
 import Network from './core/Network';
 
-import Proton from './classes/Proton';
+import Proton from './entities/Proton';
 
 const gameStage = document.createElement('canvas');
 const rootNode = document.querySelector('#root');

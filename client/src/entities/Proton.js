@@ -20,6 +20,11 @@ export default class Proton extends Game{
 
         EventEmitter.subscribe('game:player:join', data => {
             this.addPlayer(data)
+        });
+
+        EventEmitter.subscribe('game:player:leave', id => {
+            console.log('leave')
+            this.removePlayer(id)
         })
     }
 };

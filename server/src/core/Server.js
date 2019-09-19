@@ -1,9 +1,14 @@
+const settings = {
+    perfectFramerate: 1000 / 60,
+    actualFrameRate: 1000 / 10,
+}
+
 export default class Server {
     constructor({ network, managers }) {
         this.network = network;
         this.players = {};
         this.managers = managers;
-
+        this.lastUpdate = Date.now();
         this.tickerId = null;
         this.network.subscribe('game:join', (socket) => {
             socket.emit('me:init', this.state);
@@ -13,7 +18,7 @@ export default class Server {
 
     start() {
         this.stop();
-        this.tickerId = setInterval(this.tick.bind(this), 1000 / 60)
+        this.tickerId = setInterval(this.tick.bind(this), settings.actualFrameRate)
     }
 
     stop() {
@@ -29,9 +34,13 @@ export default class Server {
     }
 
     tick() {
+        const now = Date.now();
+        const dt =  1 / (settings.perfectFramerate / (now - this.lastUpdate));
+        this.lastUpdate = now;
+
         const { players } = this.managers;
 
-        players.update();
+        players.update(dt);
 
         this.network.io.emit('game:update', this.state);
     }
