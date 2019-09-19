@@ -1,23 +1,30 @@
+import * as PIXI from 'pixi.js'
+
 export default class Client {
     constructor(root, params) {
         this.root = root;
         this.params = params;
-        this.stages = {};
+        this.apps = {};
     }
 
-    setStage(id, stage) {
-        stage.width = this.params.width;
-        stage.height = this.params.height;
+    createApp(id) {
+        const { width, height } = this.params;
 
-        this.stages[id] = stage.getContext('2d');
-        this.root.appendChild(stage)
+        this.apps[id] = new PIXI.Application({
+            width,
+            height
+        });
+
+        const currentView = this.apps[id].view;
+
+        this.root.appendChild(currentView);
     }
 
-    getStage(id) {
-        return this.stages[id];
+    getApp(id) {
+        return this.apps[id];
     }
 
     removeStage(id) {
-        this.stages[id] = null;
+        delete this.apps[id];
     }
 }

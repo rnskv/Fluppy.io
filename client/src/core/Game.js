@@ -1,47 +1,39 @@
 import Player from './Player';
 import EventEmitter from './EventEmitter';
+import Loader from './Loader';
 
 export default class Game {
-    constructor(ctx) {
-        this.ctx = ctx;
-        this.isStarting = false;
-        this.animationFrameId = null;
+    constructor({ app }) {
+        this.loader = new Loader(app.loader);
 
+        this.stage = app.stage;
+        this.ticker = this.getTickerWithSettings(app.ticker, { autostart: false });
         this.players = [];
-        this.updates = {};
+        this.updates = [];
 
-        EventEmitter.subscribe('me:init', data => {
-            console.log('get init', data)
+        this.subscribe.call(this, null);
+    }
 
-
-            Object.values(data.players).forEach(player => {
-                this.addPlayer(player)
-            })
-
-
+    getTickerWithSettings(ticker, params) {
+        Object.keys(params).forEach(key => {
+            ticker[key] = params[key];
         });
+        return ticker;
+    }
 
-        EventEmitter.subscribe('server:updates', data => {
-            this.updates = data;
-        });
-
-        EventEmitter.subscribe('game:player:join', data => {
-            this.addPlayer(data)
-        })
+    subscribe() {
+        /* */
     }
 
     addPlayer(data) {
         if (this.players.find(player => player.id === data.id)) return;
-        this.players.push(new Player({id: data.id, x: 0, y: 0}));
-    }
 
-    loop(dt) {
-        if (!this.isStarting) return;
-
-        this.update(dt);
-        this.draw();
-
-        this.animationFrameId = requestAnimationFrame(this.loop.bind(this))
+        this.players.push(new Player({
+            stage: this.stage,
+            id: data.id,
+            x: 0,
+            y: 0
+        }));
     }
 
     update(dt) {
@@ -51,24 +43,8 @@ export default class Game {
         })
     }
 
-    draw() {
-        const { offsetWidth, offsetHeight } = this.ctx.canvas;
-        this.ctx.clearRect(0, 0, offsetWidth, offsetHeight);
-        this.players.forEach(player => {
-            player.draw(this.ctx)
-        })
-    }
-
     start() {
-        if (this.isStarting) return;
-
-        this.isStarting = true;
-        this.loop();
-    }
-
-    stop() {
-        if (!this.isStarting) return;
-        this.isStarting = false;
-        cancelAnimationFrame(this.animationFrameId);
+        this.ticker.add(this.update.bind(this));
+        this.ticker.start();
     }
 }

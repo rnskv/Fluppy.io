@@ -6,12 +6,13 @@ import Proton from './classes/Proton';
 const gameStage = document.createElement('canvas');
 const rootNode = document.querySelector('#root');
 
-const client = new Client(rootNode, { width: 1000, height: 1000 });
+const client = new Client(rootNode, { width: 1000, height: 300 });
 
-client.setStage('game', gameStage);
+client.createApp('game');
 
-const game = new Proton(
-    client.getStage('game')
-);
+
+const game = new Proton({
+    app: client.getApp('game')
+});
 
 game.start();
