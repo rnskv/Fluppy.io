@@ -25,7 +25,7 @@ export default class Server {
         const { players } = this.managers;
 
         return {
-            players: players.array
+            players: players.dataset
         }
     }
 
