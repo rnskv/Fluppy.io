@@ -1,14 +1,8 @@
-class Player {
-    constructor(id, x, y) {
-        this.id = id;
-        this.x = x;
-        this.y = y;
-        this.rotation = 0;
-        this.dx = 1;
-        this.dy = 1;
-        this.speed = 1;
+import GameObject from "../core/GameObject";
 
-        this.update = this.update.bind(this)
+class Player extends GameObject {
+    constructor({...params}) {
+        super({...params})
     }
 
     get clientData() {

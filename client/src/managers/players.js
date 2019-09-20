@@ -1,4 +1,4 @@
-import Player from "../core/GameObject";
+import Player from "../entities/Player";
 
 class PlayersManager {
     constructor() {

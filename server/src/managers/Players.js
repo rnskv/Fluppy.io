@@ -1,4 +1,4 @@
-import Player from '../core/Player';
+import Player from '../entities/Player';
 
 class PlayersManager {
     constructor({ network }) {
@@ -9,6 +9,7 @@ class PlayersManager {
         this.update = this.update.bind(this);
     }
 
+    //Реализовать структуру Map, это ее область ответственности
     isHasPlayer(id) {
         return Boolean(this.map[id]);
     }
@@ -16,7 +17,7 @@ class PlayersManager {
     addPlayer(id) {
         if (this.isHasPlayer(id)) return;
 
-        const player = new Player(id, 0, 0);
+        const player = new Player({id, x: 0, y: 0});
         this.map[id] = player;
         this.network.io.emit('game:player:join', player.clientData)
     }
@@ -40,6 +41,8 @@ class PlayersManager {
         // return Object.keys(this.map).map(key => this.map[key].clientData)
         return this.map;
     }
+
+    //Уйти от нейминга add{ManagerName} к add.
 
     onJoinHandler(socket) {
         this.addPlayer.call(this, socket.id);

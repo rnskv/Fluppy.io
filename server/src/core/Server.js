@@ -1,10 +1,6 @@
-const settings = {
-    perfectFramerate: 1000 / 60,
-    actualFrameRate: 1000 / 10,
-}
-
 export default class Server {
-    constructor({ network, managers }) {
+    constructor({ network, managers, settings }) {
+        this.settings = settings;
         this.network = network;
         this.players = {};
         this.managers = managers;
@@ -18,7 +14,7 @@ export default class Server {
 
     start() {
         this.stop();
-        this.tickerId = setInterval(this.tick.bind(this), settings.actualFrameRate)
+        this.tickerId = setInterval(this.tick.bind(this), this.settings.serverFrameRate)
     }
 
     stop() {
@@ -34,11 +30,11 @@ export default class Server {
     }
 
     tick() {
-        const now = Date.now();
-        const dt =  1 / (settings.perfectFramerate / (now - this.lastUpdate));
-        this.lastUpdate = now;
-
         const { players } = this.managers;
+
+        const now = Date.now();
+        const dt =  1 / (this.settings.clientFrameRate / (now - this.lastUpdate));
+        this.lastUpdate = now;
 
         players.update(dt);
 
