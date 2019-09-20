@@ -1,14 +1,15 @@
-import Game from '../core/Game';
-import Player from "../entities/Player";
-import EventEmitter from "../core/EventEmitter";
+import Game from './core/Game';
+import Player from "./entities/Player";
+import EventEmitter from "./core/EventEmitter";
 
 export default class Proton extends Game{
-    constructor({ app, managers }) {
-        super({ app, managers });
+    constructor({...params}) {
+        super({...params});
     }
 
     subscribe() {
         const { players } = this.managers;
+
         super.subscribe();
         EventEmitter.subscribe('me:init', data => {
             Object.values(data.players).forEach(player => {

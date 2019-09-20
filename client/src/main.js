@@ -3,15 +3,13 @@ import Network from './core/Network';
 
 import PlayersManager from './managers/players';
 
-import Proton from './entities/Proton';
+import Proton from './Proton';
 
 const gameStage = document.createElement('canvas');
 const rootNode = document.querySelector('#root');
 
 const client = new Client(rootNode, { width: 1000, height: 300 });
-
 client.createApp('game');
-
 
 const game = new Proton({
     app: client.getApp('game'),
@@ -19,7 +17,12 @@ const game = new Proton({
         players: new PlayersManager({
             stage: client.getApp('game').stage
         })
+    },
+    settings: {
+        interpolate: true
     }
 });
 
 game.start();
+
+window.game = game;

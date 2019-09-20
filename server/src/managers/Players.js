@@ -1,44 +1,27 @@
-import Player from '../core/Player';
+import Manager from "../core/Manager";
+import Player from '../entities/Player';
 
-class PlayersManager {
-    constructor({ network }) {
-        this.network = network;
-
-        this.map = {};
-        this.subscribe();
-        this.update = this.update.bind(this);
-    }
-
-    isHasPlayer(id) {
-        return Boolean(this.map[id]);
+class PlayersManager extends Manager{
+    constructor({...params}) {
+        super({...params})
     }
 
     addPlayer(id) {
-        if (this.isHasPlayer(id)) return;
+        const player = new Player({id, x: 0, y: 0});
 
-        const player = new Player(id, 0, 0);
-        this.map[id] = player;
-        this.network.io.emit('game:player:join', player.clientData)
+        const isAdded = this.addObject(id, player);
+
+        if (isAdded) {
+            this.network.io.emit('game:player:join', player.clientData)
+        }
     }
 
     removePlayer(id) {
-        if (!this.isHasPlayer(id)) return;
+        const isRemoved = this.removeObject(id);
 
-        delete this.map[id];
-        this.network.io.emit('game:player:leave', id);
-    }
-
-    update(dt) {
-        Object.keys(this.map).forEach(playerId => {
-            if (this.map[playerId]) {
-                this.map[playerId].update(dt);
-            }
-        })
-    }
-
-    get array() {
-        // return Object.keys(this.map).map(key => this.map[key].clientData)
-        return this.map;
+        if (isRemoved) {
+            this.network.io.emit('game:player:leave', id);
+        }
     }
 
     onJoinHandler(socket) {

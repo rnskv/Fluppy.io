@@ -3,36 +3,11 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
 import Server from './core/Server';
+import Network from './core/Network';
 
 import PlayersManager from './managers/Players';
 
-class Network {
-    constructor(io) {
-        this.io = io;
-        this.handlers = {};
-        this.init = this.init.bind(this);
-    }
-
-    init() {
-        this.io.on('connection', socket => {
-            Object.keys(this.handlers).forEach(eventName => {
-                const callbacks = this.handlers[eventName];
-
-                socket.on(eventName, () => {
-                    callbacks.forEach(callback => callback(socket))
-                })
-            })
-        })
-    }
-
-    subscribe(eventName, callback) {
-        //Здесь нужна проверка
-        if (!this.handlers[eventName]) {
-            this.handlers[eventName] = [];
-        }
-        this.handlers[eventName].push(callback);
-    }
-}
+import settings from "./configs/settings";
 
 const network = new Network(io);
 network.init();
@@ -43,7 +18,8 @@ const managers = {
 
 const application = new Server({
     network,
-    managers
+    managers,
+    settings
 });
 
 application.start();

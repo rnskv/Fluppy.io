@@ -2,6 +2,9 @@ import * as PIXI from 'pixi.js';
 
 export default class GameObject {
     constructor({ stage, id, x, y }) {
+        if (!id) {
+            throw new Error('GameObject must have id')
+        }
         this.stage = stage;
         this.id = id;
         this.x = x;
@@ -13,7 +16,6 @@ export default class GameObject {
     createObject() {
         const graphics = new PIXI.Graphics();
         graphics.beginFill(0xFFFF00);
-        graphics.lineStyle(5, 0xFF0000);
         graphics.drawRect(this.x, this.y, 10, 10);
         return graphics;
     }

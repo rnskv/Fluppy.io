@@ -4,7 +4,7 @@ import Loader from './Loader';
 import Interpolator from '../utils/interpolator';
 
 export default class Game {
-    constructor({ app, managers }) {
+    constructor({ app, managers, settings }) {
         this.loader = new Loader(app.loader);
 
         this.stage = app.stage;
@@ -16,9 +16,9 @@ export default class Game {
         this.startGameTimestamp = 0;
         this.renderDelay = 50;
 
-        this.subscribe.call(this, null);
+        this.settings = settings;
 
-        window.interpolate = true;
+        this.subscribe.call(this, null);
     }
 
     get currentServerTime() {
@@ -33,6 +33,12 @@ export default class Game {
             }
         }
         return -1;
+    }
+
+    updateSettings(settings) {
+        Object.keys(settings).forEach((key) => {
+            this.settings[key] = settings[key]
+        })
     }
 
     getTickerWithSettings(ticker, params) {
@@ -88,7 +94,7 @@ export default class Game {
                 const next = this.updates[baseUpdateIndex + 1];
                 const ratio = (serverTime - baseUpdate.timestamp) / (next.timestamp - baseUpdate.timestamp);
 
-                if (window.interpolate) {
+                if (this.settings.interpolate) {
                     return {
                         players: Interpolator.interpolateObjectsMap(baseUpdate.state.players, next.state.players, ratio)
                     };
