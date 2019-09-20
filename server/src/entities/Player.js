@@ -3,6 +3,8 @@ import GameObject from "../core/GameObject";
 class Player extends GameObject {
     constructor({...params}) {
         super({...params})
+
+        this.speed = 1;
     }
 
     get clientData() {
@@ -15,35 +17,37 @@ class Player extends GameObject {
     }
 
     update(dt) {
-        if (this.x >= 990) {
-            this.dx = -1 * dt;
+        const mirageX = this.x + this.dx * this.speed * dt;
+        const mirageY = this.y + this.dy * this.speed * dt;
+
+        if (mirageX >= 990) {
+            this.dx = -1;
         }
 
-        if (this.x <= 0) {
-            this.dx = 1 * dt;
+        if (mirageX <= 0) {
+            this.dx = 1;
         }
 
-        if (this.y >= 290) {
-            this.dy = -1 * dt;
+        if (mirageY >= 290) {
+            this.dy = -1;
         }
 
-        if (this.y <= 0) {
-            this.dy = 1 * dt;
+        if (mirageY <= 0) {
+            this.dy = 1;
         }
 
+        // if (Math.random() < 0.05) {
+        //     this.dy = 1 * dt;
+        // }
+        //
+        // if (Math.random() >  0.95) {
+        //     this.dy = -1 * dt;
+        // }
 
-        if (Math.random() < 0.05) {
-            this.dy = 1 * dt;
-        }
+        this.x += this.dx * this.speed * dt;
+        this.y += this.dy * this.speed * dt;
 
-        if (Math.random() >  0.95) {
-            this.dy = -1 * dt;
-        }
-
-        this.rotation += 0.4 * dt;
-
-        this.x += this.dx * this.speed;
-        this.y += this.dy * this.speed;
+        this.rotation += 1 * dt;
     }
 }
 
