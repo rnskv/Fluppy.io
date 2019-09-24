@@ -9,8 +9,15 @@ export default class Server {
         this.network.subscribe('game:join', (socket) => {
             socket.emit('me:init', this.state);
         });
+
+        this.createManagersGraph();
+
     }
 
+    createManagersGraph() {
+        const { players, pipes } = this.managers;
+        players.connectManager('pipes', pipes)
+    }
 
     start() {
         this.stop();
@@ -22,10 +29,11 @@ export default class Server {
     }
 
     get state() {
-        const { players } = this.managers;
+        const { players, pipes } = this.managers;
 
         return {
-            players: players.dataset
+            players: players.dataset,
+            pipes: pipes.dataset
         }
     }
 

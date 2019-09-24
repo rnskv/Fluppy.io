@@ -3,6 +3,7 @@ class Manager {
         this.network = network;
 
         this.objects = new Map();
+        this.managers = {};
 
         this.subscribe();
         this.update = this.update.bind(this);
@@ -20,6 +21,10 @@ class Manager {
 
     subscribe() {
         /* */
+    }
+
+    connectManager(name, manager) {
+        this.managers[name] = manager;
     }
 
     addObject(id, object) {

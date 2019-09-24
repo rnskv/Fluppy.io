@@ -5,6 +5,14 @@ class Pipe extends GameObject {
         super({...params})
     }
 
+    get clientData() {
+        return {
+            id: this.id,
+            x: this.x,
+            y: this.y
+        }
+    }
+
     update(dt) {
 
     }
