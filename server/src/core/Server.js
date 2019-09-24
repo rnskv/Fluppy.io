@@ -46,9 +46,11 @@ export default class Server {
 
         players.update(dt);
 
-        this.network.io.emit('game:update', {
-            state: this.state,
-            timestamp: Date.now()
+        this.network.sockets.forEach(socket => {
+            socket.emit('game:update', {
+                state: this.state,
+                timestamp: Date.now()
+            });
         });
     }
 }

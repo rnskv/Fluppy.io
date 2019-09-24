@@ -5,6 +5,10 @@ class Network {
         this.init = this.init.bind(this);
     }
 
+    get sockets() {
+        return Object.values(this.io.sockets.sockets)
+    }
+
     init() {
         this.io.on('connection', socket => {
             Object.keys(this.handlers).forEach(eventName => {
