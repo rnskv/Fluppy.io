@@ -1,4 +1,4 @@
-import Pipe from "../entities/Player";
+import Pipe from "../entities/Pipe";
 import Manager from "../core/Manager";
 
 class PlayersManager extends Manager {
@@ -8,14 +8,14 @@ class PlayersManager extends Manager {
 
     add(stage, objectData) {
         if (super.add(stage, objectData)) {
-            const player = new Player({
+            const pipe = new Pipe({
                 stage,
                 id: objectData.id,
                 x: 0,
                 y: 0
             });
-            this.map[objectData.id] = player;
-            player.addToStage();
+            this.map[objectData.id] = pipe;
+            pipe.addToStage();
         }
     }
 }

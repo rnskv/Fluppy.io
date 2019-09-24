@@ -96,11 +96,13 @@ export default class Game {
 
                 if (this.settings.interpolate) {
                     return {
-                        players: Interpolator.interpolateObjectsMap(baseUpdate.state.players, next.state.players, ratio)
+                        players: Interpolator.interpolateObjectsMap(baseUpdate.state.players, next.state.players, ratio),
+                        pipes: Interpolator.interpolateObjectsMap(baseUpdate.state.pipes, next.state.pipes, ratio)
                     };
                 } else {
                     return {
-                        players: next.state.players
+                        players: next.state.players,
+                        pipes: next.state.pipes
                     };
                 }
             }

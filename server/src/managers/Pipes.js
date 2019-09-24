@@ -6,8 +6,8 @@ class PlayersManager extends Manager {
         super({...params});
 
         this.preset = {
-            1: {x: 0, y: 0},
-            2: {x: 10, y: 10},
+            1: {x: 40, y: 20},
+            2: {x: 200, y: 200},
         };
 
         this.init();

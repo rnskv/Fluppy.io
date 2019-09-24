@@ -2,6 +2,7 @@ import Client from './core/Client';
 import Network from './core/Network';
 
 import PlayersManager from './managers/players';
+import PipesManager from './managers/pipes';
 
 import Proton from './Proton';
 
@@ -15,6 +16,9 @@ const game = new Proton({
     app: client.getApp('game'),
     managers: {
         players: new PlayersManager({
+            stage: client.getApp('game').stage
+        }),
+        pipes: new PipesManager({
             stage: client.getApp('game').stage
         })
     },
