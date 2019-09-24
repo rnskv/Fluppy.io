@@ -1,7 +1,7 @@
 import Manager from "../core/Manager";
 import Player from '../entities/Player';
 
-class PlayersManager extends Manager{
+class PlayersManager extends Manager {
     constructor({...params}) {
         super({...params})
     }

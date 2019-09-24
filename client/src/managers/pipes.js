@@ -1,4 +1,4 @@
-import Player from "../entities/Player";
+import Pipe from "../entities/Player";
 import Manager from "../core/Manager";
 
 class PlayersManager extends Manager {

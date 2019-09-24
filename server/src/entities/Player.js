@@ -36,13 +36,16 @@ class Player extends GameObject {
             this.dy = 1;
         }
 
-        // if (Math.random() < 0.05) {
-        //     this.dy = 1 * dt;
-        // }
-        //
-        // if (Math.random() >  0.95) {
-        //     this.dy = -1 * dt;
-        // }
+        if (Math.random() < 0.05) {
+            this.dy = 1;
+            this.dx = -1;
+            this.speed = Math.random() * 3 + 3;
+        }
+
+        if (Math.random() >  0.95) {
+            this.dy = -1;
+            this.speed = Math.random() * 3 + 3;
+        }
 
         this.x += this.dx * this.speed * dt;
         this.y += this.dy * this.speed * dt;
