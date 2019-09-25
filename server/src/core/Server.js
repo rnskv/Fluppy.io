@@ -1,22 +1,16 @@
 export default class Server {
-    constructor({ network, managers, settings }) {
+    constructor({ network, manager, settings }) {
         this.settings = settings;
         this.network = network;
         this.players = {};
-        this.managers = managers;
+
+        this.manager = manager;
+
         this.lastUpdate = Date.now();
         this.tickerId = null;
         this.network.subscribe('game:join', (socket) => {
             socket.emit('me:init', this.state);
         });
-
-        this.createManagersGraph();
-
-    }
-
-    createManagersGraph() {
-        const { players, pipes } = this.managers;
-        players.connectManager('pipes', pipes)
     }
 
     start() {
@@ -29,7 +23,8 @@ export default class Server {
     }
 
     get state() {
-        const { players, pipes } = this.managers;
+        const players = this.manager.get('players');
+        const pipes =  this.manager.get('pipes');
 
         return {
             players: players.dataset,
@@ -37,31 +32,13 @@ export default class Server {
         }
     }
 
-    getStateForPlayer(player) {
-        let result = {};
-
-        if (player) {
-            Object.keys(this.managers).forEach(managerName => {
-                result[managerName] = this.managers[managerName].getDatasetInRadiusFromPoint(player.x, player.y)
-            });
-        }
-
-        return result
-    }
-
-    callManagersUpdates(dt) {
-        Object.values(this.managers).forEach(manager => {
-            manager.update(dt)
-        })
-    }
-
-    emitUpdate(socket) {
-        const { players } = this.managers;
-
+    emitStateToPlayer(socket) {
+        const players = this.manager.get('players');
         const player = players.getById(socket.id);
+
         if (player) {
             socket.emit('game:update', {
-                state: this.getStateForPlayer(player),
+                state: this.manager.getStateForPlayerByRules(player, {}),
                 timestamp: Date.now()
             });
         }
@@ -72,8 +49,8 @@ export default class Server {
         const dt =  1 / (this.settings.clientFrameRate / (now - this.lastUpdate));
         this.lastUpdate = now;
 
-        this.callManagersUpdates(dt);
+        this.manager.update(dt);
 
-        this.network.sockets.forEach(this.emitUpdate.bind(this));
+        this.network.sockets.forEach(this.emitStateToPlayer.bind(this));
     }
 }

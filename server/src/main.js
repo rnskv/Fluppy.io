@@ -3,6 +3,8 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
 import Server from './core/Server';
+import GlobalManager from './core/GlobalManager';
+
 import Network from './core/Network';
 
 import PlayersManager from './managers/Players';
@@ -22,8 +24,8 @@ const managers = {
 
 const application = new Server({
     network,
-    managers,
-    settings
+    settings,
+    manager: new GlobalManager(managers)
 });
 
 application.start();
