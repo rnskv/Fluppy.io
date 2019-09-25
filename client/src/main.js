@@ -14,13 +14,13 @@ import Proton from './Proton';
 const gameStage = document.createElement('canvas');
 const rootNode = document.querySelector('#root');
 
-const client = new Client(rootNode, { width: 1280, height: 600 });
+const client = new Client(rootNode, { width: window.innerWidth, height: window.innerHeight - 100 });
 
 client.createApp('game');
 
 const app = client.getApp('game');
 const stage = app.stage;
-const camera = new Camera();
+const camera = new Camera({size: client.size});
 
 const managers = {
     players: new PlayersManager({

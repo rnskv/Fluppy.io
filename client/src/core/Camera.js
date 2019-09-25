@@ -1,15 +1,16 @@
 class Camera {
-    constructor() {
+    constructor({ size }) {
         this.x = 0;
         this.y = 0;
         this.target = null;
+        this.size = size;
     }
 
     get position() {
         if (this.target) {
             return {
-                x: this.target.x,
-                y: this.target.y
+                x: this.target.x - this.size.width / 2,
+                y: this.target.y - this.size.height / 2
             }
         }
 

@@ -7,6 +7,13 @@ export default class Client {
         this.apps = {};
     }
 
+    get size() {
+        return {
+            width: this.params.width,
+            height: this.params.height
+        };
+    }
+
     createApp(id) {
         const { width, height } = this.params;
 

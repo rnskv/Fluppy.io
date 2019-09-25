@@ -48,8 +48,8 @@ export default class GameObject {
             this[param] = updates[param];
         });
 
-        this.object.transform.position.x = this.x - this.camera.position.x + 1280 / 2;
-        this.object.transform.position.y = this.y - this.camera.position.y + 600 / 2;
+        this.object.transform.position.x = this.x - this.camera.position.x;
+        this.object.transform.position.y = this.y - this.camera.position.y;
 
         // this.object.transform.rotation = this.rotation;
         this.object.pivot = { x: 5, y: 5 }

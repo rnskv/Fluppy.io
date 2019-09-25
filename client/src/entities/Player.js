@@ -14,13 +14,14 @@ class Player extends GameObject {
 
     createObject() {
         const graphics = new PIXI.Graphics();
-        graphics.beginFill(0xFFFF00);
-        graphics.lineStyle(5, 0xFF0000);
+        const colors = [0xFF0000, 0x00FF00, 0xFFFFFF];
+        graphics.beginFill(colors[Math.floor(Math.random() * colors.length)]);
+        graphics.lineStyle(2, 0x00FF00);
         graphics.drawRect(0, 0, 10, 10);
 
         if (this.isCurrentPlayer) {
             graphics.beginFill(0xFFFF00, 0.1);
-            graphics.lineStyle(5, 0xFF0000);
+            graphics.lineStyle(5, 0xFFFFFF);
             graphics.drawCircle(5, 5, 300);
         }
 
