@@ -33,7 +33,7 @@ class Manager {
 
             const c = Math.sqrt( a*a + b*b );
 
-            if (c < 250) {
+            if (c < 300) {
                 result[entity.id] = entity.clientData;
             }
         }

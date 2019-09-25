@@ -21,9 +21,9 @@ export default class Proton extends Game{
             // });
         });
 
-        EventEmitter.subscribe('game:player:join', player => {
-            players.add(this.stage, player)
-        });
+        // EventEmitter.subscribe('game:player:join', player => {
+        //     players.add(this.stage, player)
+        // });
 
         EventEmitter.subscribe('game:player:leave', id => {
             players.remove(id)
@@ -40,28 +40,20 @@ export default class Proton extends Game{
             if (players.isExist(playerData.id)) {
                 players.get(playerData.id).update(dt, playerData)
             } else {
-                console.log('Add player', playerData)
                 players.add(this.stage, playerData);
                 players.get(playerData.id).update(dt, playerData);
             }
         });
 
+        console.log(serverState);
+
         Object.values(serverState.pipes).forEach(pipesData => {
             if (pipes.isExist(pipesData.id)) {
                 pipes.get(pipesData.id).update(dt, pipesData)
             } else {
-                console.log('Add player', pipesData)
                 pipes.add(this.stage, pipesData);
                 pipes.get(pipesData.id).update(dt, pipesData);
             }
         });
-
-        // players.list.forEach(player => {
-        //     player.update(dt, this.getCurrentUpdate().players[player.id])
-        // });
-
-        pipes.list.forEach(pipe => {
-            pipe.update(dt, this.getCurrentUpdate().pipes[pipe.id])
-        })
     }
 };

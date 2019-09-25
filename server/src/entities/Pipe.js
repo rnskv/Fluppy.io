@@ -14,7 +14,11 @@ class Pipe extends GameObject {
     }
 
     update(dt) {
-        this.x += 1;
+        if (this.x < 300) {
+            this.x += 1;
+        } else {
+            this.x = 1;
+        }
     }
 }
 
