@@ -4,14 +4,14 @@ import Loader from './Loader';
 import Interpolator from '../utils/interpolator';
 
 export default class Game {
-    constructor({ app, controller, settings }) {
+    constructor({ app, controller, camera, settings }) {
         this.loader = new Loader(app.loader);
 
         this.stage = app.stage;
         this.ticker = this.getTickerWithSettings(app.ticker, { autostart: false });
         this.controller = controller;
         this.updates = [];
-
+        this.camera = camera;
         this.firstServerTimestamp = 0;
         this.startGameTimestamp = 0;
         this.renderDelay = 50;

@@ -1,5 +1,7 @@
 import Client from './core/Client';
 import Network from './core/Network';
+import Camera from './core/Camera';
+
 
 import PlayersManager from './managers/players';
 import PipesManager from './managers/pipes';
@@ -18,13 +20,16 @@ client.createApp('game');
 
 const app = client.getApp('game');
 const stage = app.stage;
+const camera = new Camera();
 
 const managers = {
     players: new PlayersManager({
-        stage
+        stage,
+        camera
     }),
     pipes: new PipesManager({
-        stage
+        stage,
+        camera
     })
 };
 
@@ -33,6 +38,7 @@ const controller = new Controller(managers);
 const game = new Proton({
     app,
     controller,
+    camera,
     settings: {
         interpolate: true
     }

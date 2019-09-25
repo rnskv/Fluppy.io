@@ -29,6 +29,9 @@ export default class Proton extends Game {
 
     update(dt) {
         const serverState = this.getCurrentUpdate();
+        const clientState = this.controller.clientState;
+
+
 
         for (let [managerName, manager] of this.controller.managersEntries) {
             manager.clearActives();
@@ -37,7 +40,7 @@ export default class Proton extends Game {
                 if (manager.isExist(data.id)) {
                     manager.get(data.id).update(dt, data)
                 } else {
-                    manager.add(this.stage, data);
+                    manager.add(data);
                     manager.get(data.id).update(dt, data);
                 }
             });

@@ -2,14 +2,16 @@ import Player from "../entities/Player";
 import Manager from "../core/Manager";
 
 class PlayersManager extends Manager {
-    constructor() {
-        super();
+    constructor({...params}) {
+        super({...params});
     }
 
-    add(stage, objectData) {
-        if (super.add(stage, objectData)) {
+    add(objectData) {
+        const { stage } = this;
+        if (super.add(objectData)) {
             const player = new Player({
                 stage,
+                camera: this.camera,
                 id: objectData.id,
                 x: objectData.x,
                 y: objectData.y,

@@ -6,6 +6,10 @@ class Player extends GameObject {
         super({...params});
 
         this.isCurrentPlayer = isCurrentPlayer
+
+        if (this.isCurrentPlayer) {
+            this.camera.setTarget(this);
+        }
     }
 
     createObject() {
@@ -21,6 +25,10 @@ class Player extends GameObject {
         }
 
         return graphics;
+    }
+
+    update(dt, updates) {
+        super.update(dt, updates);
     }
 }
 

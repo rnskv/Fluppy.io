@@ -1,7 +1,9 @@
 import Player from "../entities/Player";
 
 class Manager {
-    constructor() {
+    constructor({stage, camera}) {
+        this.stage = stage;
+        this.camera = camera;
         this.map = {};
         this.actives = {};
         this.managers = {};
@@ -43,7 +45,7 @@ class Manager {
         return this.map[id];
     }
 
-    add(stage, objectData) {
+    add(objectData) {
         return !this.isExist(objectData.id)
     }
 
