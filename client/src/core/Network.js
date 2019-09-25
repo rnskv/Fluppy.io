@@ -15,7 +15,6 @@ checkInterpolateButton.onchange = (e) => window.game.updateSettings({interpolate
 
 socket.on('connect', () => {
     socket.on('game:update', data => {
-        console.log(data)
         EventEmitter.emit('server:updates', data);
     });
 

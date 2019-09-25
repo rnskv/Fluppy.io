@@ -37,18 +37,36 @@ export default class Server {
         }
     }
 
+    getStateForSocket(socket) {
+        const { players, pipes } = this.managers;
+        const player = players.getById(socket.id) || {};
+
+        let result = {
+            ...this.state
+        };
+
+        if (player) {
+            result = {
+                ...this.state,
+                pipes: pipes.getDatasetInRadiusFromPoint(player.x, player.y)
+            }
+        }
+        return result
+    }
+
     tick() {
-        const { players } = this.managers;
+        const { players, pipes } = this.managers;
 
         const now = Date.now();
         const dt =  1 / (this.settings.clientFrameRate / (now - this.lastUpdate));
         this.lastUpdate = now;
 
         players.update(dt);
+        pipes.update(dt);
 
         this.network.sockets.forEach(socket => {
             socket.emit('game:update', {
-                state: this.state,
+                state: this.getStateForSocket(socket),
                 timestamp: Date.now()
             });
         });

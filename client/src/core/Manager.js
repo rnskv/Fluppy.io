@@ -2,7 +2,7 @@ import Player from "../entities/Player";
 
 class Manager {
     constructor() {
-        this.map ={};
+        this.map = {};
     }
 
     get list() {
@@ -13,15 +13,19 @@ class Manager {
         return Boolean(this.map[id]);
     }
 
+    get(id) {
+        return this.map[id];
+    }
+
     add(stage, objectData) {
         return !this.isExist(objectData.id)
     }
 
     remove(id) {
         if (!this.isExist(id)) return;
-        const player = this.map[id];
-        player.removeFromStage();
+        const object = this.map[id];
         delete this.map[id];
+        object.removeFromStage();
     }
 }
 

@@ -1,7 +1,7 @@
 import Manager from "../core/Manager";
 import Pipe from '../entities/Pipe';
 
-class PlayersManager extends Manager {
+class PipesManager extends Manager {
     constructor({...params}) {
         super({...params});
 
@@ -33,7 +33,6 @@ class PlayersManager extends Manager {
 
     connectManager(name, manager) {
         super.connectManager(name, manager);
-        console.log(this.managers)
     }
 
     removePipe(id) {
@@ -42,8 +41,7 @@ class PlayersManager extends Manager {
 
     update(dt) {
         super.update(dt);
-        console.log(this.managers)
     }
 }
 
-export default PlayersManager;
+export default PipesManager;

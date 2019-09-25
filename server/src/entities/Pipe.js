@@ -14,7 +14,7 @@ class Pipe extends GameObject {
     }
 
     update(dt) {
-
+        this.x += 1;
     }
 }
 

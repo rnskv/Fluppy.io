@@ -70,7 +70,8 @@ export default class Game {
     getCurrentUpdate() {
         if (!this.firstServerTimestamp) {
             return {
-                players: []
+                players: [],
+                pipes: [],
             };
         }
 
