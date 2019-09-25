@@ -2,15 +2,16 @@ import Game from './core/Game';
 import Player from "./entities/Player";
 import EventEmitter from "./core/EventEmitter";
 
-export default class Proton extends Game{
+export default class Proton extends Game {
     constructor({...params}) {
         super({...params});
     }
 
     subscribe() {
-        const { players, pipes } = this.manager.entries;
-
         super.subscribe();
+        console.log(this);
+        const players = this.controller.getManager('players');
+
         EventEmitter.subscribe('me:init', data => {
             console.log('Init player')
         });
@@ -28,9 +29,7 @@ export default class Proton extends Game{
     update(dt) {
         const serverState = this.getCurrentUpdate();
 
-        this.manager.names.forEach(managerName => {
-            const manager = this.manager.get(managerName);
-
+        for (let [managerName, manager] of this.controller.managersEntries) {
             manager.clearActives();
             Object.values(serverState[managerName]).forEach(data => {
                 manager.moveToActive(data.id);
@@ -41,6 +40,6 @@ export default class Proton extends Game{
                     manager.get(data.id).update(dt, data);
                 }
             });
-        });
+        }
     }
 };

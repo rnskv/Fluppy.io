@@ -4,7 +4,7 @@ import Network from './core/Network';
 import PlayersManager from './managers/players';
 import PipesManager from './managers/pipes';
 
-import GlobalManager from './core/GlobalManager';
+import Controller from './core/Controller';
 
 
 import Proton from './Proton';
@@ -28,11 +28,11 @@ const managers = {
     })
 };
 
-const manager = new GlobalManager(managers);
+const controller = new Controller(managers);
 
 const game = new Proton({
     app,
-    manager,
+    controller,
     settings: {
         interpolate: true
     }

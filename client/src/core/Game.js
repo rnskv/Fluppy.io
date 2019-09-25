@@ -4,12 +4,12 @@ import Loader from './Loader';
 import Interpolator from '../utils/interpolator';
 
 export default class Game {
-    constructor({ app, manager, settings }) {
+    constructor({ app, controller, settings }) {
         this.loader = new Loader(app.loader);
 
         this.stage = app.stage;
         this.ticker = this.getTickerWithSettings(app.ticker, { autostart: false });
-        this.manager = manager;
+        this.controller = controller;
         this.updates = [];
 
         this.firstServerTimestamp = 0;
@@ -112,10 +112,11 @@ export default class Game {
 
     update(dt) {
         //Сделать проверку по updates
-        const { players } = this.manager.entries;
-        players.list.forEach(player => {
-            player.update(dt, this.getCurrentUpdate().players[player.id])
-        })
+        for (let [managerName, manager] of this.controller.managersEntries) {
+            manager.list.forEach(object => {
+                object.update(dt, this.getCurrentUpdate()[managerName][object.id])
+            })
+        }
     }
 
     start() {

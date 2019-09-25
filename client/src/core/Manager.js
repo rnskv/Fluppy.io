@@ -10,6 +10,10 @@ class Manager {
         return Object.values(this.actives);
     }
 
+    get entries() {
+        return Object.entries(this.actives);
+    }
+
     isExist(id) {
         return Boolean(this.map[id]);
     }
