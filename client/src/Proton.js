@@ -13,7 +13,8 @@ export default class Proton extends Game {
         const players = this.controller.getManager('players');
 
         EventEmitter.subscribe('me:init', data => {
-            console.log('Init player')
+            console.log('Init player', data);
+            this.controller.clientState.playerId = data.id;
         });
 
         EventEmitter.subscribe('game:player:join', player => {

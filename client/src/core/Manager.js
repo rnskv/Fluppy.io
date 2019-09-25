@@ -4,6 +4,7 @@ class Manager {
     constructor() {
         this.map = {};
         this.actives = {};
+        this.managers = {};
     }
 
     get list() {
@@ -12,6 +13,10 @@ class Manager {
 
     get entries() {
         return Object.entries(this.actives);
+    }
+
+    connectManager(name, manager) {
+        this.managers[name] = manager;
     }
 
     isExist(id) {

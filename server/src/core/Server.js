@@ -8,8 +8,9 @@ export default class Server {
 
         this.lastUpdate = Date.now();
         this.tickerId = null;
+
         this.network.subscribe('game:join', (socket) => {
-            socket.emit('me:init', this.state);
+            socket.emit('me:init', { id: socket.id });
         });
     }
 
