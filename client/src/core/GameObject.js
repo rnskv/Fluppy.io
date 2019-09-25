@@ -16,7 +16,7 @@ export default class GameObject {
     createObject() {
         const graphics = new PIXI.Graphics();
         graphics.beginFill(0xFFFF00);
-        graphics.drawRect(this.x, this.y, 10, 10);
+        graphics.drawRect(0, 0, 10, 10);
         return graphics;
     }
 
@@ -28,6 +28,14 @@ export default class GameObject {
 
     removeFromStage() {
         this.stage.removeChild(this.object)
+    }
+
+    hide() {
+        this.object.visible = false;
+    }
+
+    show() {
+        this.object.visible = true;
     }
 
     update(dt, updates) {

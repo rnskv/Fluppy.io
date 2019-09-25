@@ -8,52 +8,39 @@ export default class Proton extends Game{
     }
 
     subscribe() {
-        const { players, pipes } = this.managers;
+        const { players, pipes } = this.manager.entries;
 
         super.subscribe();
         EventEmitter.subscribe('me:init', data => {
-            // Object.values(data.players).forEach(player => {
-            //     players.add(this.stage, player)
-            // });
-
-            // Object.values(data.pipes).forEach(pipe => {
-            //     pipes.add(this.stage, pipe)
-            // });
+            console.log('Init player')
         });
 
-        // EventEmitter.subscribe('game:player:join', player => {
-        //     players.add(this.stage, player)
-        // });
+        EventEmitter.subscribe('game:player:join', player => {
+            console.log('Player join into game')
+        });
 
         EventEmitter.subscribe('game:player:leave', id => {
-            players.remove(id)
+            players.remove(id);
+            console.log('Player leave from game')
         })
     }
 
     update(dt) {
-        //Сделать проверку по updates
-        const { players, pipes } = this.managers;
-
         const serverState = this.getCurrentUpdate();
 
-        Object.values(serverState.players).forEach(playerData => {
-            if (players.isExist(playerData.id)) {
-                players.get(playerData.id).update(dt, playerData)
-            } else {
-                players.add(this.stage, playerData);
-                players.get(playerData.id).update(dt, playerData);
-            }
-        });
+        this.manager.names.forEach(managerName => {
+            const manager = this.manager.get(managerName);
 
-        console.log(serverState);
-
-        Object.values(serverState.pipes).forEach(pipesData => {
-            if (pipes.isExist(pipesData.id)) {
-                pipes.get(pipesData.id).update(dt, pipesData)
-            } else {
-                pipes.add(this.stage, pipesData);
-                pipes.get(pipesData.id).update(dt, pipesData);
-            }
+            manager.clearActives();
+            Object.values(serverState[managerName]).forEach(data => {
+                manager.moveToActive(data.id);
+                if (manager.isExist(data.id)) {
+                    manager.get(data.id).update(dt, data)
+                } else {
+                    manager.add(this.stage, data);
+                    manager.get(data.id).update(dt, data);
+                }
+            });
         });
     }
 };

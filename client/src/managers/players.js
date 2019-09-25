@@ -6,13 +6,13 @@ class PlayersManager extends Manager {
         super();
     }
 
-    add(stage, objectData) {
+    add(stage, objectData, isCurrentPlayer) {
         if (super.add(stage, objectData)) {
             const player = new Player({
                 stage,
                 id: objectData.id,
-                x: 0,
-                y: 0
+                x: objectData.x,
+                y: objectData.y
             });
             this.map[objectData.id] = player;
             player.addToStage();
