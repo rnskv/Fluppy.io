@@ -37,38 +37,43 @@ export default class Server {
         }
     }
 
-    getStateForSocket(socket) {
-        const { players, pipes } = this.managers;
-        const player = players.getById(socket.id) || {};
-
-        let result = {
-            ...this.state
-        };
+    getStateForPlayer(player) {
+        let result = {};
 
         if (player) {
-            result = {
-                ...this.state,
-                pipes: pipes.getDatasetInRadiusFromPoint(player.x, player.y)
-            }
+            Object.keys(this.managers).forEach(managerName => {
+                result[managerName] = this.managers[managerName].getDatasetInRadiusFromPoint(player.x, player.y)
+            });
         }
+
         return result
     }
 
-    tick() {
-        const { players, pipes } = this.managers;
+    callManagersUpdates(dt) {
+        Object.values(this.managers).forEach(manager => {
+            manager.update(dt)
+        })
+    }
 
+    emitUpdate(socket) {
+        const { players } = this.managers;
+
+        const player = players.getById(socket.id);
+        if (player) {
+            socket.emit('game:update', {
+                state: this.getStateForPlayer(player),
+                timestamp: Date.now()
+            });
+        }
+    }
+
+    tick() {
         const now = Date.now();
         const dt =  1 / (this.settings.clientFrameRate / (now - this.lastUpdate));
         this.lastUpdate = now;
 
-        players.update(dt);
-        pipes.update(dt);
+        this.callManagersUpdates(dt);
 
-        this.network.sockets.forEach(socket => {
-            socket.emit('game:update', {
-                state: this.getStateForSocket(socket),
-                timestamp: Date.now()
-            });
-        });
+        this.network.sockets.forEach(this.emitUpdate.bind(this));
     }
 }
