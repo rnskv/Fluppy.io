@@ -1,10 +1,10 @@
 export default class Server {
-    constructor({ network, manager, settings }) {
+    constructor({ network, controller, settings }) {
         this.settings = settings;
         this.network = network;
         this.players = {};
 
-        this.manager = manager;
+        this.controller = controller;
 
         this.lastUpdate = Date.now();
         this.tickerId = null;
@@ -23,8 +23,8 @@ export default class Server {
     }
 
     get state() {
-        const players = this.manager.get('players');
-        const pipes =  this.manager.get('pipes');
+        const players = this.controller.getManager('players');
+        const pipes =  this.controller.getManager('pipes');
 
         return {
             players: players.dataset,
@@ -33,12 +33,12 @@ export default class Server {
     }
 
     emitStateToPlayer(socket) {
-        const players = this.manager.get('players');
+        const players = this.controller.getManager('players');
         const player = players.getById(socket.id);
 
         if (player) {
             socket.emit('game:update', {
-                state: this.manager.getStateForPlayerByRules(player, {}),
+                state: this.controller.getStateForPlayerByRules(player, {}),
                 timestamp: Date.now()
             });
         }
@@ -49,7 +49,7 @@ export default class Server {
         const dt =  1 / (this.settings.clientFrameRate / (now - this.lastUpdate));
         this.lastUpdate = now;
 
-        this.manager.update(dt);
+        this.controller.update(dt);
 
         this.network.sockets.forEach(this.emitStateToPlayer.bind(this));
     }
