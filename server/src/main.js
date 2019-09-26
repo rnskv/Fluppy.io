@@ -8,18 +8,20 @@ import Controller from './core/Controller';
 import Network from './core/Network';
 
 import PlayersManager from './managers/Players';
-import BirdsManager from './managers/Players';
 import PipesManager from './managers/Pipes';
+
+import Player from './entities/Player';
+import Pipe from './entities/Pipe';
 
 import settings from "./configs/settings";
 
 const network = new Network(io);
 network.init();
 
+console.log(Player)
 const managers = {
-    'players': new PlayersManager({network}),
-    'birds': new BirdsManager({network}),
-    'pipes': new PipesManager({network}),
+    'players': new PlayersManager({network, entity: Player}),
+    'pipes': new PipesManager({network, entity: Pipe}),
 };
 
 const application = new Server({

@@ -1,5 +1,4 @@
 import Manager from "../core/Manager";
-import Pipe from '../entities/Pipe';
 
 class PipesManager extends Manager {
     constructor({...params}) {
@@ -20,7 +19,7 @@ class PipesManager extends Manager {
     }
 
     addPipe(id, objectParams) {
-        const pipe = new Pipe(
+        const pipe = new this.entity(
             {
                 id,
                 x: objectParams.x,

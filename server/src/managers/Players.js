@@ -1,5 +1,4 @@
 import Manager from "../core/Manager";
-import Player from '../entities/Player';
 
 class PlayersManager extends Manager {
     constructor({...params}) {
@@ -7,7 +6,8 @@ class PlayersManager extends Manager {
     }
 
     addPlayer(id) {
-        const player = new Player({id, x: 0, y: 0});
+        console.log(this)
+        const player = new this.entity({id, x: 0, y: 0});
 
         const isAdded = this.addObject(id, player);
 
@@ -36,12 +36,15 @@ class PlayersManager extends Manager {
         this.removePlayer.call(this, socket.id);
     }
 
+    onPlayerAtMapEnd() {
+        //Делаем что то с менеджерами PIPES
+    }
+
     subscribe() {
         this.network.subscribe('game:join', this.onJoinHandler.bind(this));
         this.network.subscribe('game:leave', this.onLeaveHandler.bind(this));
         this.network.subscribe('disconnect', this.onDisconnectHandler.bind(this));
     }
-
 }
 
 export default PlayersManager;

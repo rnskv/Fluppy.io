@@ -1,5 +1,5 @@
 class GameObject {
-    constructor({id, x, y}) {
+    constructor({id, x, y, methods}) {
         this.id = id;
 
         this.x = x;
@@ -11,7 +11,9 @@ class GameObject {
         this.speed = 1;
 
         this.rotation = 0;
-        
+
+        this.methods = methods;
+
         this.update = this.update.bind(this)
     }
 

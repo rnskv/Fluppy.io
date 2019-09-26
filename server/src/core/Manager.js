@@ -1,11 +1,13 @@
 class Manager {
-    constructor({ network }) {
+    constructor({ network, entity }) {
         this.network = network;
+        this.entity = entity;
 
         this.objects = new Map();
         this.managers = {};
 
         this.subscribe();
+
         this.update = this.update.bind(this);
     }
 
