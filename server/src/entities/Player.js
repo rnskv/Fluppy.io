@@ -44,7 +44,8 @@ class Player extends GameObject {
             this.y += this.dy * this.speed * dt;
         } else {
             this.rotation = 0;
-            this.y = settings.map.border.bottom;
+            this.y = 0;
+            this.x = 0;
         }
     }
 }

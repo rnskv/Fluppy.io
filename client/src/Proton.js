@@ -9,12 +9,12 @@ export default class Proton extends Game {
 
     subscribe() {
         super.subscribe();
-        console.log(this);
         const players = this.controller.getManager('players');
 
         EventEmitter.subscribe('me:init', data => {
             console.log('Init player', data);
             this.controller.stores.player.set('id', data.id);
+            this.controller.stores.main.set('settings', data.settings);
         });
 
         EventEmitter.subscribe('game:player:join', player => {
@@ -25,22 +25,5 @@ export default class Proton extends Game {
             players.remove(id);
             console.log('Player leave from game')
         })
-    }
-
-    update(dt) {
-        const serverState = this.getCurrentUpdate();
-
-        for (let [managerName, manager] of this.controller.managersEntries) {
-            manager.clearActives();
-            Object.values(serverState[managerName]).forEach(data => {
-                manager.moveToActive(data.id);
-                if (manager.isExist(data.id)) {
-                    manager.get(data.id).update(dt, data)
-                } else {
-                    manager.add(data);
-                    manager.get(data.id).update(dt, data);
-                }
-            });
-        }
     }
 };

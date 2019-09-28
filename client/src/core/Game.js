@@ -112,9 +112,11 @@ export default class Game {
     update(dt) {
         //Сделать проверку по updates
         for (let [managerName, manager] of this.controller.managersEntries) {
-            manager.list.forEach(object => {
-                object.update(dt, this.getCurrentUpdate()[managerName][object.id])
-            })
+            if (!manager.isEnvironment) {
+                manager.update(dt, this.getCurrentUpdate()[managerName])
+            } else {
+                manager.update(dt)
+            }
         }
     }
 

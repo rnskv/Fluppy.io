@@ -6,6 +6,8 @@ class Manager {
         this.map = {};
         this.actives = {};
         this.managers = {};
+        this.isEnvironment = false;
+        this.update = this.update.bind(this);
     }
 
     get list() {
@@ -44,6 +46,10 @@ class Manager {
         return this.map[id];
     }
 
+    getLast() {
+        return this.list[this.list.length - 1] || {};
+    }
+
     add(objectData) {
         return !this.isExist(objectData.id)
     }
@@ -53,6 +59,19 @@ class Manager {
         const object = this.map[id];
         delete this.map[id];
         object.removeFromStage();
+    }
+
+    update(dt, updates) {
+        this.clearActives();
+        Object.values(updates).forEach(data => {
+            this.moveToActive(data.id);
+            if (this.isExist(data.id)) {
+                this.get(data.id).update(dt, data)
+            } else {
+                this.add(data);
+                this.get(data.id).update(dt, data);
+            }
+        });
     }
 }
 

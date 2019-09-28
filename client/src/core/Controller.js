@@ -26,8 +26,14 @@ export default class Controller {
     initGraph() {
         const players = this.getManager('players');
         const pipes =  this.getManager('pipes');
+        const floors =  this.getManager('floors');
 
         players.connectManager('global', this);
+        players.connectManager('floors', floors);
+
         pipes.connectManager('global', this);
+
+        floors.connectManager('global', this);
+        floors.connectManager('players', this);
     }
 }

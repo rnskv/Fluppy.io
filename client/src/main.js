@@ -6,7 +6,10 @@ import Camera from './core/Camera';
 import PlayersManager from './managers/players';
 import PipesManager from './managers/pipes';
 
+import FloorsManager from './managers/floors';
+
 import PlayerStore from './stores/PlayerStore';
+import MainStore from './stores/MainStore';
 
 import Controller from './core/Controller';
 
@@ -28,12 +31,18 @@ const managers = {
     }),
     pipes: new PipesManager({
         stage
+    }),
+    floors: new FloorsManager({
+        stage
     })
 };
 
 const stores = {
     player: new PlayerStore({
         id: null
+    }),
+    main: new MainStore({
+        settings: null
     })
 };
 

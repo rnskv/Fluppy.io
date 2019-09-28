@@ -15,12 +15,22 @@ class PlayersManager extends Manager {
                 id: objectData.id,
                 x: objectData.x,
                 y: objectData.y,
-                isCurrentPlayer: this.managers.global.stores.player.get('id') === objectData.id
+                isCurrentPlayer: this.managers.global.stores.player.get('id') === objectData.id,
+                methods: {
+                    onNewChunck: this.onNewChunck.bind(this)
+                }
             });
 
             this.map[objectData.id] = player;
             player.addToStage();
         }
+    }
+
+    onNewChunck(x, y) {
+        this.managers.floors.add({
+            x: x,
+            y: 0
+        })
     }
 }
 
