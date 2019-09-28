@@ -1,8 +1,9 @@
 export default class Controller {
-    constructor(managers, stores) {
+    constructor({managers, stores, camera, stage}) {
         this.managers = managers || {};
         this.stores = stores || {};
-
+        this.camera = camera;
+        this.stage = stage;
         this.initGraph();
     }
 
@@ -26,6 +27,7 @@ export default class Controller {
         const players = this.getManager('players');
         const pipes =  this.getManager('pipes');
 
-        players.connectManager('global', this)
+        players.connectManager('global', this);
+        pipes.connectManager('global', this);
     }
 }

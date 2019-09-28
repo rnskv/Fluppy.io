@@ -13,9 +13,7 @@ import Controller from './core/Controller';
 
 import Proton from './Proton';
 
-const gameStage = document.createElement('canvas');
 const rootNode = document.querySelector('#root');
-
 const client = new Client(rootNode, { width: window.innerWidth, height: window.innerHeight - 100 });
 
 client.createApp('game');
@@ -26,12 +24,10 @@ const camera = new Camera({size: client.size});
 
 const managers = {
     players: new PlayersManager({
-        stage,
-        camera
+        stage
     }),
     pipes: new PipesManager({
-        stage,
-        camera
+        stage
     })
 };
 
@@ -41,12 +37,16 @@ const stores = {
     })
 };
 
-const controller = new Controller(managers, stores);
+const controller = new Controller({
+    managers,
+    stores,
+    camera,
+    stage
+});
 
 const game = new Proton({
     app,
     controller,
-    camera,
     settings: {
         interpolate: true
     }

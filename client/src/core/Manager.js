@@ -1,9 +1,8 @@
 import Player from "../entities/Player";
 
 class Manager {
-    constructor({stage, camera}) {
+    constructor({stage}) {
         this.stage = stage;
-        this.camera = camera;
         this.map = {};
         this.actives = {};
         this.managers = {};

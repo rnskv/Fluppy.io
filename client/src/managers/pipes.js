@@ -11,7 +11,7 @@ class PlayersManager extends Manager {
         if (super.add(objectData)) {
             const pipe = new Pipe({
                 stage,
-                camera: this.camera,
+                camera: this.managers.global.camera,
                 id: objectData.id,
                 x: 0,
                 y: 0

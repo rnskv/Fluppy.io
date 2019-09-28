@@ -11,7 +11,7 @@ class PlayersManager extends Manager {
         if (super.add(objectData)) {
             const player = new Player({
                 stage,
-                camera: this.camera,
+                camera: this.managers.global.camera,
                 id: objectData.id,
                 x: objectData.x,
                 y: objectData.y,
