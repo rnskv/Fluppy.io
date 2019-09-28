@@ -7,7 +7,7 @@ class Player extends GameObject {
 
         this.speed = 1;
 
-        this.dx = 1;
+        this.dx = 10;
         this.dy = 0;
     }
 

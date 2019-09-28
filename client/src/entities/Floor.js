@@ -4,16 +4,24 @@ import * as PIXI from "pixi.js";
 class Floor extends EnvironmentObject {
     constructor(params) {
         super(params);
-        this.width = 100;
-        this.height = 10;
+        this.width = 800;
+        this.height = 150;
+        this.offsets = {
+            x: 0,
+            y: -30
+        }
     }
 
     createObject() {
-        const graphics = new PIXI.Graphics();
-        graphics.beginFill(0x00FF00);
-        graphics.lineStyle(5, 0xFF00FF);
-        graphics.drawRect(0, 0, this.width, this.height);
-        return graphics;
+        const textures = [PIXI.Texture.from('00_forest_floor.png')];
+
+        console.log(textures)
+        console.log(this.resources)
+        const sprite = new PIXI.Sprite(textures[0]);
+        sprite.width = this.width;
+        sprite.height = this.height;
+        // sprite.setTexture(textures[0]);
+        return sprite;
     }
 }
 

@@ -23,7 +23,6 @@ client.createApp('game');
 
 const app = client.getApp('game');
 const stage = app.stage;
-const camera = new Camera({size: client.size});
 
 const managers = {
     players: new PlayersManager({
@@ -42,9 +41,12 @@ const stores = {
         id: null
     }),
     main: new MainStore({
-        settings: null
+        settings: null,
+        resources: null
     })
 };
+
+const camera = new Camera({ size: client.size });
 
 const controller = new Controller({
     managers,
@@ -59,6 +61,16 @@ const game = new Proton({
     settings: {
         interpolate: true
     }
+});
+
+game.loader.addManifest({
+    'wordAssests': '/resources/jsons/wordassets.json',
+    'viking': '/resources/jsons/viking.json'
+});
+
+game.loader.load((loader, resources) => {
+    //@todo Вынести эту логику в другое место.
+    stores.main.set('resources', resources);
 });
 
 game.start();

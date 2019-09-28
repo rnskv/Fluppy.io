@@ -1,15 +1,20 @@
 import * as PIXI from 'pixi.js';
 
 export default class GameObject {
-    constructor({ stage, camera, id, x, y, width, height, methods }) {
+    constructor({ stage, camera, id, x, y, width, height, methods, resources }) {
         if (!id) {
             throw new Error('GameObject must have id')
         }
         this.stage = stage;
         this.camera = camera;
+        this.resources = resources;
         this.id = id;
-        this.x = new Number(x);
+        this.x = x;
         this.y = y;
+        this.offsets = {
+            x: 0,
+            y: 0
+        };
         this.width = width || 10;
         this.height = height || 10;
         this.rotation = 0;
@@ -48,9 +53,8 @@ export default class GameObject {
             this[param] = updates[param];
         });
 
-        this.object.transform.position.x = this.x - this.camera.position.x;
-        this.object.transform.position.y = this.y - this.camera.position.y;
-        this.object.transform.position.y = this.y - this.camera.position.y;
+        this.object.transform.position.x = this.x + this.offsets.x - this.camera.position.x;
+        this.object.transform.position.y = this.y + this.offsets.y - this.camera.position.y;
 
         this.object.transform.rotation = this.rotation;
         this.object.pivot = { x: 5, y: 5 }

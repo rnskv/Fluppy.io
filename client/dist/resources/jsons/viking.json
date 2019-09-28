@@ -3118,7 +3118,7 @@
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
-	"image": "viking.png",
+	"image": "/resources/images/viking.png",
 	"format": "RGBA8888",
 	"size": {"w":2016,"h":1824},
 	"scale": "1",
