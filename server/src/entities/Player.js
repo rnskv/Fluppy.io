@@ -22,6 +22,7 @@ class Player extends GameObject {
 
     onClick() {
         this.dy = -8;
+        this.dx = 10;
         this.rotation = -15;
     }
 
@@ -29,6 +30,7 @@ class Player extends GameObject {
 
         if (this.dy < 9.8) {
             this.dy += 1;
+            this.y = this.y - 1;
         }
 
         if (this.rotation < 25) {
@@ -39,13 +41,13 @@ class Player extends GameObject {
             this.dy = 10;
         }
 
-        if (this.y < settings.map.border.bottom) {
+        if (this.y + this.dx * this.speed * dt < settings.map.border.bottom) {
             this.x += this.dx * this.speed * dt;
             this.y += this.dy * this.speed * dt;
         } else {
+            this.y = settings.map.border.bottom;
+            this.dx = 0;
             this.rotation = 0;
-            this.y = 0;
-            this.x = 0;
         }
     }
 }

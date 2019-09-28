@@ -9,7 +9,7 @@ class EvironmentObject extends GameObject {
     }
 
     update(dt) {
-        this.x += this.dx;
+        // this.x += this.dx;
 
         this.object.transform.position.x = this.x + this.offsets.x - this.camera.position.x;
         this.object.transform.position.y = this.y + this.offsets.y - this.camera.position.y;

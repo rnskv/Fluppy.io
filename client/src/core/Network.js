@@ -3,7 +3,7 @@
 import io from 'socket.io-client';
 import EventEmitter from './EventEmitter';
 
-const socket = io.connect('http://localhost:3000');
+const socket = io.connect('http://93.124.22.78:25565');
 
 //test
 const joinButton = document.querySelector("#join");
@@ -16,6 +16,10 @@ leaveButton.onclick = () => socket.emit('game:leave');
 checkInterpolateButton.onchange = (e) => window.game.updateSettings({interpolate: e.target.checked});
 
 document.addEventListener('click', (e) => {
+    socket.emit('game:player:click', e);
+});
+
+document.addEventListener('touchstart', (e) => {
     socket.emit('game:player:click', e);
 });
 

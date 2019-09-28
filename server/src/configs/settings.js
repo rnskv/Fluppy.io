@@ -1,5 +1,5 @@
 export default {
-    serverFrameRate: 1000 / 20,
+    serverFrameRate: 1000 / 30,
     clientFrameRate: 1000 / 60,
     map: {
         border: {
