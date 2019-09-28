@@ -1,3 +1,5 @@
+//Этот файл надо нахуй переписать
+
 import io from 'socket.io-client';
 import EventEmitter from './EventEmitter';
 
@@ -12,6 +14,10 @@ const checkInterpolateButton = document.querySelector("#interpolate");
 joinButton.onclick = () => socket.emit('game:join');
 leaveButton.onclick = () => socket.emit('game:leave');
 checkInterpolateButton.onchange = (e) => window.game.updateSettings({interpolate: e.target.checked});
+
+document.addEventListener('click', (e) => {
+    socket.emit('game:player:click', e);
+});
 
 socket.on('connect', () => {
     socket.on('game:update', data => {

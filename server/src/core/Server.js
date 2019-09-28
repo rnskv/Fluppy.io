@@ -10,7 +10,7 @@ export default class Server {
         this.tickerId = null;
 
         this.network.subscribe('game:join', (socket) => {
-            socket.emit('me:init', { id: socket.id });
+            socket.emit('me:init', { id: socket.id, settings: settings });
         });
     }
 

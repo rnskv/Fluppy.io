@@ -6,7 +6,6 @@ class PlayersManager extends Manager {
     }
 
     addPlayer(id) {
-        console.log(this)
         const player = new this.entity({id, x: 0, y: 0});
 
         const isAdded = this.addObject(id, player);
@@ -36,6 +35,13 @@ class PlayersManager extends Manager {
         this.removePlayer.call(this, socket.id);
     }
 
+    onClickHandler(socket) {
+        const player = this.getById(socket.id);
+        if (player) {
+            player.onClick()
+        }
+    }
+
     onPlayerAtMapEnd() {
         //Делаем что то с менеджерами PIPES
     }
@@ -44,6 +50,8 @@ class PlayersManager extends Manager {
         this.network.subscribe('game:join', this.onJoinHandler.bind(this));
         this.network.subscribe('game:leave', this.onLeaveHandler.bind(this));
         this.network.subscribe('disconnect', this.onDisconnectHandler.bind(this));
+
+        this.network.subscribe('game:player:click', this.onClickHandler.bind(this));
     }
 }
 

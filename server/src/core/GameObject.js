@@ -1,9 +1,12 @@
 class GameObject {
-    constructor({id, x, y, methods}) {
+    constructor({id, x, y, width, height, methods}) {
         this.id = id;
 
         this.x = x;
         this.y = y;
+
+        this.width = width || 10;
+        this.height = height || 10;
 
         this.dx = 1;
         this.dy = 1;

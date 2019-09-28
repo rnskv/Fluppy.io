@@ -1,10 +1,14 @@
 import GameObject from "../core/GameObject";
+import settings from '../configs/settings';
 
 class Player extends GameObject {
     constructor({...params}) {
         super({...params})
 
         this.speed = 1;
+
+        this.dx = 1;
+        this.dy = 0;
     }
 
     get clientData() {
@@ -12,45 +16,36 @@ class Player extends GameObject {
             id: this.id,
             x: this.x,
             y: this.y,
-            rotation: this.rotation
+            rotation: (Math.PI * this.rotation) / 180
         }
     }
 
+    onClick() {
+        this.dy = -8;
+        this.rotation = -15;
+    }
+
     update(dt) {
-        const mirageX = this.x + this.dx * this.speed * dt;
-        const mirageY = this.y + this.dy * this.speed * dt;
 
-        if (mirageX >= 990) {
-            this.dx = -1;
+        if (this.dy < 9.8) {
+            this.dy += 1;
         }
 
-        if (mirageX <= 0) {
-            this.dx = 1;
+        if (this.rotation < 25) {
+            this.rotation += 5;
         }
 
-        if (mirageY >= 290) {
-            this.dy = -1;
+        if (this.y < settings.map.border - this.height) {
+            this.dy = 10;
         }
 
-        if (mirageY <= 0) {
-            this.dy = 1;
+        if (this.y < settings.map.border.bottom) {
+            this.x += this.dx * this.speed * dt;
+            this.y += this.dy * this.speed * dt;
+        } else {
+            this.rotation = 0;
+            this.y = settings.map.border.bottom;
         }
-
-        if (Math.random() < 0.05) {
-            this.dy = 1;
-            this.dx = -1;
-            this.speed = Math.random() * 3 + 1;
-        }
-
-        if (Math.random() >  0.95) {
-            this.dy = -1;
-            this.speed = Math.random() * 3 + 1;
-        }
-
-        this.x += this.dx * this.speed * dt;
-        this.y += this.dy * this.speed * dt;
-
-        this.rotation += 1 * dt;
     }
 }
 

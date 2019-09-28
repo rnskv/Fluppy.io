@@ -15,7 +15,7 @@ class Pipe extends GameObject {
 
     update(dt) {
         if (this.x < 1280) {
-            this.x += 10;
+            // this.x += 10;
         } else {
             this.x = 0;
         }

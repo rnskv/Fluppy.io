@@ -17,8 +17,6 @@ import settings from "./configs/settings";
 
 const network = new Network(io);
 network.init();
-
-console.log(Player)
 const managers = {
     'players': new PlayersManager({network, entity: Player}),
     'pipes': new PipesManager({network, entity: Pipe}),
