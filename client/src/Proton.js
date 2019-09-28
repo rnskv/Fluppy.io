@@ -14,7 +14,7 @@ export default class Proton extends Game {
 
         EventEmitter.subscribe('me:init', data => {
             console.log('Init player', data);
-            this.controller.clientState.playerId = data.id;
+            this.controller.stores.player.set('id', data.id);
         });
 
         EventEmitter.subscribe('game:player:join', player => {
@@ -29,9 +29,6 @@ export default class Proton extends Game {
 
     update(dt) {
         const serverState = this.getCurrentUpdate();
-        const clientState = this.controller.clientState;
-
-
 
         for (let [managerName, manager] of this.controller.managersEntries) {
             manager.clearActives();

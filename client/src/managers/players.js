@@ -15,7 +15,7 @@ class PlayersManager extends Manager {
                 id: objectData.id,
                 x: objectData.x,
                 y: objectData.y,
-                isCurrentPlayer: this.managers.global.clientState.playerId === objectData.id
+                isCurrentPlayer: this.managers.global.stores.player.get('id') === objectData.id
             });
 
             this.map[objectData.id] = player;

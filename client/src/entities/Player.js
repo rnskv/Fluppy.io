@@ -5,7 +5,7 @@ class Player extends GameObject {
     constructor({ isCurrentPlayer, ...params}) {
         super({...params});
 
-        this.isCurrentPlayer = isCurrentPlayer
+        this.isCurrentPlayer = isCurrentPlayer;
 
         if (this.isCurrentPlayer) {
             this.camera.setTarget(this);

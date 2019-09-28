@@ -6,6 +6,8 @@ import Camera from './core/Camera';
 import PlayersManager from './managers/players';
 import PipesManager from './managers/pipes';
 
+import PlayerStore from './stores/PlayerStore';
+
 import Controller from './core/Controller';
 
 
@@ -33,7 +35,13 @@ const managers = {
     })
 };
 
-const controller = new Controller(managers);
+const stores = {
+    player: new PlayerStore({
+        id: null
+    })
+};
+
+const controller = new Controller(managers, stores);
 
 const game = new Proton({
     app,

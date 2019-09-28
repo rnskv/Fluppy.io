@@ -1,9 +1,7 @@
 export default class Controller {
-    constructor(managers) {
+    constructor(managers, stores) {
         this.managers = managers || {};
-        this.clientState = {
-            playerId: null
-        }
+        this.stores = stores || {};
 
         this.initGraph();
     }

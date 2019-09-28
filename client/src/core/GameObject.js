@@ -41,9 +41,6 @@ export default class GameObject {
 
     update(dt, updates) {
         if (!updates) return;
-
-        console.log('camera', this.camera);
-
         Object.keys(updates).forEach(param => {
             this[param] = updates[param];
         });
