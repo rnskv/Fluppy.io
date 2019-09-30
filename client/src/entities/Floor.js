@@ -15,8 +15,6 @@ class Floor extends EnvironmentObject {
     createObject() {
         const textures = [PIXI.Texture.from('00_forest_floor.png')];
 
-        console.log(textures)
-        console.log(this.resources)
         const sprite = new PIXI.Sprite(textures[0]);
         sprite.width = this.width;
         sprite.height = this.height;

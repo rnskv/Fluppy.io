@@ -10,28 +10,23 @@ class PlayersManager extends Manager {
         return this.managers.global.stores.player.get('id') === id
     }
 
-    add(objectData) {
-        const { stage } = this;
-        if (super.add(objectData)) {
-            const player = new Player({
-                stage,
-                camera: this.managers.global.camera,
-                id: objectData.id,
-                x: objectData.x,
-                y: objectData.y,
-                isCurrentPlayer: this.isCurrentPlayer(objectData.id),
-                viewRadius: this.managers.global.stores.main.get('settings').viewRadius,
-                methods: {
-                    onNewChunck: this.onNewChunck.bind(this)
-                }
-            });
-
-            this.map[objectData.id] = player;
-            player.addToStage();
+    selector(objectData) {
+        return {
+            controller: this.managers.global,
+            id: objectData.id,
+            x: objectData.x,
+            y: objectData.y,
+            width: objectData.width,
+            height: objectData.height,
+            isCurrentPlayer: this.isCurrentPlayer(objectData.id),
+            viewRadius: this.managers.global.stores.main.get('settings').viewRadius,
+            methods: {
+                generateNewFloor: this.generateNewFloor.bind(this)
+            }
         }
     }
 
-    onNewChunck(x, y) {
+    generateNewFloor(x, y) {
         this.managers.floors.add({
             x: x,
             y: 0

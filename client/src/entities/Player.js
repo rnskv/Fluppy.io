@@ -9,7 +9,7 @@ class Player extends GameObject {
         this.viewRadius = viewRadius;
 
         if (this.isCurrentPlayer) {
-            this.camera.setTarget(this);
+            this.controller.camera.setTarget(this);
         }
     }
 
@@ -27,10 +27,6 @@ class Player extends GameObject {
         }
 
         return graphics;
-    }
-
-    update(dt, updates) {
-        super.update(dt, updates);
     }
 }
 

@@ -13,6 +13,9 @@ import MainStore from './stores/MainStore';
 
 import Controller from './core/Controller';
 
+import Player from "./entities/Player";
+import Pipe from "./entities/Pipe";
+import Floor from "./entities/Floor";
 
 import Proton from './Proton';
 
@@ -26,13 +29,13 @@ const stage = app.stage;
 
 const managers = {
     players: new PlayersManager({
-        stage
+        entity: Player
     }),
     pipes: new PipesManager({
-        stage
+        entity: Pipe
     }),
     floors: new FloorsManager({
-        stage
+        entity: Floor
     })
 };
 

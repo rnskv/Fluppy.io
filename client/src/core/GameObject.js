@@ -1,13 +1,11 @@
 import * as PIXI from 'pixi.js';
 
 export default class GameObject {
-    constructor({ stage, camera, id, x, y, width, height, methods, resources }) {
+    constructor({ id, x, y, width, height, methods, controller }) {
         if (!id) {
             throw new Error('GameObject must have id')
         }
-        this.stage = stage;
-        this.camera = camera;
-        this.resources = resources;
+        this.controller = controller;
         this.id = id;
         this.x = x;
         this.y = y;
@@ -32,11 +30,11 @@ export default class GameObject {
     addToStage() {
         //Для примера
         this.object = this.createObject();
-        this.stage.addChild(this.object)
+        this.controller.stage.addChild(this.object)
     }
 
     removeFromStage() {
-        this.stage.removeChild(this.object)
+        this.controller.stage.removeChild(this.object)
     }
 
     hide() {
@@ -47,16 +45,22 @@ export default class GameObject {
         this.object.visible = true;
     }
 
-    update(dt, updates) {
-        if (!updates) return;
+    setUpdates(updates) {
         Object.keys(updates).forEach(param => {
             this[param] = updates[param];
         });
+    }
 
-        this.object.transform.position.x = this.x + this.offsets.x - this.camera.position.x;
-        this.object.transform.position.y = this.y + this.offsets.y - this.camera.position.y;
+    runUpdates() {
+        this.object.transform.position.x = this.x + this.offsets.x - this.controller.camera.position.x;
+        this.object.transform.position.y = this.y + this.offsets.y - this.controller.camera.position.y;
 
         this.object.transform.rotation = this.rotation;
-        this.object.pivot = { x: 5, y: 5 }
+    }
+
+    update(dt, updates) {
+        if (!updates) return;
+        this.setUpdates(updates);
+        this.runUpdates();
     }
 }

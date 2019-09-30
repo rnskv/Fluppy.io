@@ -9,6 +9,12 @@ class Player extends GameObject {
 
         this.dx = 10;
         this.dy = 0;
+
+        this.width = 20;
+        this.height = 20;
+
+        this.gravity = 9.8;
+        this.moveUpRotation = 25;
     }
 
     get clientData() {
@@ -16,6 +22,8 @@ class Player extends GameObject {
             id: this.id,
             x: this.x,
             y: this.y,
+            width: this.width,
+            height: this.height,
             rotation: (Math.PI * this.rotation) / 180
         }
     }
@@ -28,13 +36,13 @@ class Player extends GameObject {
 
     update(dt) {
 
-        if (this.dy < 9.8) {
+        if (this.dy < this.gravity) {
             this.dy += 1;
             this.y = this.y - 1;
         }
 
-        if (this.rotation < 25) {
-            this.rotation += 5;
+        if (this.rotation < this.moveUpRotation) {
+            this.rotation += 5 * dt;
         }
 
         if (this.y < settings.map.border - this.height) {

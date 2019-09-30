@@ -1,12 +1,10 @@
-import Player from "../entities/Player";
-
 class Manager {
-    constructor({stage}) {
-        this.stage = stage;
+    constructor({ entity }) {
         this.map = {};
         this.actives = {};
         this.managers = {};
         this.isEnvironment = false;
+        this.entity = entity;
         this.update = this.update.bind(this);
     }
 
@@ -16,6 +14,10 @@ class Manager {
 
     get entries() {
         return Object.entries(this.actives);
+    }
+
+    getUniqueId() {
+        return Math.random();
     }
 
     connectManager(name, manager) {
@@ -50,8 +52,20 @@ class Manager {
         return this.list[this.list.length - 1] || {};
     }
 
+    selector(objectData) {
+        return {};
+    }
+
     add(objectData) {
-        return !this.isExist(objectData.id)
+        const data = this.selector(objectData);
+        if (!this.isExist(data.id)) {
+            const entity = new this.entity(data);
+
+            this.map[data.id] = entity;
+            entity.addToStage();
+        } else {
+            throw new Error(`Object id isn't unique`)
+        }
     }
 
     remove(id) {

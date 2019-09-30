@@ -1,4 +1,3 @@
-import Floor from "../entities/Floor";
 import Manager from "../core/Manager";
 
 class FloorsManager extends Manager {
@@ -7,21 +6,12 @@ class FloorsManager extends Manager {
         this.isEnvironment = true;
     }
 
-    add(objectData) {
-        const { stage } = this;
-        objectData.id = Math.random();
-        if (super.add(objectData)) {
-            const floor = new Floor({
-                stage,
-                camera: this.managers.global.camera,
-                resources: this.managers.global.stores.main.get('resources'),
-                id: objectData.id,
-                x: objectData.x,
-                y: objectData.y
-            });
-
-            this.map[objectData.id] = floor;
-            floor.addToStage();
+    selector(objectData) {
+        return {
+            controller: this.managers.global,
+            id: Math.random(),
+            x: objectData.x,
+            y: objectData.y
         }
     }
 
@@ -46,6 +36,7 @@ class FloorsManager extends Manager {
             }
 
         }
+
 
         this.clearActives();
         Object.values(this.map).forEach((floor, index) => {
