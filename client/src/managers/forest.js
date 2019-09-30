@@ -1,6 +1,6 @@
 import Manager from "../core/Manager";
 
-class FloorsManager extends Manager {
+class ForestManager extends Manager {
     constructor({...params}) {
         super({...params});
         this.isEnvironment = true;
@@ -21,30 +21,28 @@ class FloorsManager extends Manager {
 
     addNewFloor() {
         const settings = this.controller.stores.main.get('settings');
-        const gluingOffset = 100;
 
         const isFirstFloor = !this.getLast().x;
 
         const leftViewportPoint = this.controller.camera.position.x + this.controller.camera.size.width;
-        const leftFloorPoint = this.getLast().x - gluingOffset;
+        const leftFloorPoint = this.getLast().x;
 
         const isNeedAddNewFloor = leftViewportPoint > leftFloorPoint;
-
+        console.log(isNeedAddNewFloor)
         if (settings) {
             if (isFirstFloor) {
                 this.add({
                     x: 0,
-                    y: settings.map.border.bottom
-                });
+                    y: settings.map.border.top
+            });
             }
-
+            console.log(this.getLast())
             if (isNeedAddNewFloor) {
                 this.add({
-                    x: this.getLast().x + this.getLast().width - gluingOffset,
-                    y: settings.map.border.bottom
+                    x: this.getLast().x + this.getLast().width - 1,
+                    y: settings.map.border.top
                 });
             }
-
         }
 
     }
@@ -55,4 +53,4 @@ class FloorsManager extends Manager {
     }
 }
 
-export default FloorsManager;
+export default ForestManager;

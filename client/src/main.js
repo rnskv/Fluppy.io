@@ -5,8 +5,8 @@ import Camera from './core/Camera';
 
 import PlayersManager from './managers/players';
 import PipesManager from './managers/pipes';
-
 import FloorsManager from './managers/floors';
+import ForestManager from './managers/forest';
 
 import PlayerStore from './stores/PlayerStore';
 import MainStore from './stores/MainStore';
@@ -16,6 +16,7 @@ import Controller from './core/Controller';
 import Player from "./entities/Player";
 import Pipe from "./entities/Pipe";
 import Floor from "./entities/Floor";
+import Forest from "./entities/Forest";
 
 import Proton from './Proton';
 
@@ -28,14 +29,17 @@ const app = client.getApp('game');
 const stage = app.stage;
 
 const managers = {
+    forest: new ForestManager({
+        entity: Forest
+    }),
+    floors: new FloorsManager({
+        entity: Floor
+    }),
     players: new PlayersManager({
         entity: Player
     }),
     pipes: new PipesManager({
         entity: Pipe
-    }),
-    floors: new FloorsManager({
-        entity: Floor
     })
 };
 

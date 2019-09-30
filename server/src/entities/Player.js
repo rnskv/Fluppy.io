@@ -7,8 +7,13 @@ class Player extends GameObject {
 
         this.speed = 1;
 
-        this.dx = 10;
-        this.dy = 0;
+        this.dx = 0;
+        this.dy = 10;
+
+        this.acceleration = {
+            x: 0.5,
+            y: 0.5
+        };
 
         this.width = 20;
         this.height = 20;
@@ -32,15 +37,27 @@ class Player extends GameObject {
 
     onClick() {
         this.dy = -10;
-        this.dx = 10;
+        this.dx = 0;
         this.rotation = -15;
+        this.acceleration.y = 0.4;
+        this.y -= 1;
     }
 
     update(dt) {
+        if (this.acceleration.y < 2) {
+            this.acceleration.y *= 1.01;
+        }
+
+        if (this.acceleration.x < 3) {
+            this.acceleration.x *= 1.01;
+        }
 
         if (this.dy < this.gravity) {
-            this.dy += 0.3 * dt;
-            this.y -= 1;
+            this.dy += this.acceleration.y;
+        }
+
+        if (this.dx < 5) {
+            this.dx += this.acceleration.x;
         }
 
         if (this.rotation < this.moveUpRotation) {
@@ -51,7 +68,7 @@ class Player extends GameObject {
             this.dy = 10 * dt;
         }
 
-        if (this.y + this.dx * this.speed * dt < settings.map.border.bottom) {
+        if (this.y + this.dy * this.speed * dt < settings.map.border.bottom) {
             this.x += this.dx * this.speed * dt;
             this.y += this.dy * this.speed * dt;
         } else {

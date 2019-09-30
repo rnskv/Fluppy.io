@@ -26,20 +26,7 @@ export default class Controller {
     setControllerToManagers() {
         this.managersList.forEach(manager => {
             manager.connectController(this);
+            manager.init();
         })
-    }
-
-    initGraph() {
-        const players = this.getManager('players');
-        const pipes =  this.getManager('pipes');
-        const floors =  this.getManager('floors');
-
-        players.connectManager('global', this);
-        players.connectManager('floors', floors);
-
-        pipes.connectManager('global', this);
-
-        floors.connectManager('global', this);
-        floors.connectManager('players', this);
     }
 }

@@ -1,10 +1,15 @@
 import * as PIXI from 'pixi.js';
 
 export default class GameObject {
-    constructor({ id, x, y, width, height, pivot, methods, controller }) {
+    constructor({ container, id, x, y, width, height, pivot, methods, controller }) {
+        if (!container) {
+            throw new Error('GameObject must have container')
+        }
+
         if (!id) {
             throw new Error('GameObject must have id')
         }
+        this.container = container;
         this.controller = controller;
         this.id = id;
         this.x = x;
@@ -33,11 +38,11 @@ export default class GameObject {
     addToStage() {
         //Для примера
         this.object = this.createObject();
-        this.controller.stage.addChild(this.object)
+        this.container.addChild(this.object)
     }
 
     removeFromStage() {
-        this.controller.stage.removeChild(this.object)
+        this.container.removeChild(this.object)
     }
 
     hide() {

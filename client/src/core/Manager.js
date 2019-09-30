@@ -1,3 +1,5 @@
+import * as PIXI from 'pixi.js';
+
 class Manager {
     constructor({ entity }) {
         this.map = {};
@@ -17,6 +19,15 @@ class Manager {
 
     get entries() {
         return Object.entries(this.actives);
+    }
+
+    init() {
+        this.container = this.getContainer();
+        this.controller.stage.addChild(this.container)
+    }
+
+    getContainer() {
+        return new PIXI.Container();
     }
 
     getUniqueId() {
@@ -71,7 +82,11 @@ class Manager {
         }
 
         if (!this.isExist(data.id)) {
-            const entity = new this.entity(data);
+            const entity = new this.entity(
+                {
+                    ...data,
+                    container: this.container
+                });
 
             this.map[data.id] = entity;
             entity.addToStage();
