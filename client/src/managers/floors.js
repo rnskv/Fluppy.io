@@ -4,15 +4,19 @@ class FloorsManager extends Manager {
     constructor({...params}) {
         super({...params});
         this.isEnvironment = true;
+
     }
 
     selector(objectData) {
         return {
             controller: this.controller,
-            id: Math.random(),
             x: objectData.x,
             y: objectData.y
         }
+    }
+
+    getActiveObjects(updates) {
+        return Object.values(this.map).filter((floor, index) => floor.x + floor.width > this.controller.camera.x);
     }
 
     update(dt) {
@@ -39,8 +43,8 @@ class FloorsManager extends Manager {
 
 
         this.clearActives();
-        Object.values(this.map).forEach((floor, index) => {
 
+        this.getActiveObjects().forEach((floor, index) => {
             if (floor.x + floor.width > this.controller.camera.x
             ) {
                 this.moveToActive(floor.id);
