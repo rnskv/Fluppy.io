@@ -1,3 +1,5 @@
+import settings from "../configs/settings";
+
 class Manager {
     constructor({ network, entity }) {
         this.network = network;
@@ -35,7 +37,7 @@ class Manager {
 
             const c = Math.sqrt( a*a + b*b );
 
-            if (c < 300) {
+            if (c < settings.viewRadius) {
                 result[entity.id] = entity.clientData;
             }
         }

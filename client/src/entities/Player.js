@@ -2,10 +2,11 @@ import GameObject from "../core/GameObject";
 import * as PIXI from "pixi.js";
 
 class Player extends GameObject {
-    constructor({ isCurrentPlayer, ...params}) {
+    constructor({ isCurrentPlayer, viewRadius, ...params}) {
         super({...params});
 
         this.isCurrentPlayer = isCurrentPlayer;
+        this.viewRadius = viewRadius;
 
         if (this.isCurrentPlayer) {
             this.camera.setTarget(this);
@@ -22,7 +23,7 @@ class Player extends GameObject {
         if (this.isCurrentPlayer) {
             graphics.beginFill(0xFFFF00, 0.1);
             graphics.lineStyle(5, 0xFFFFFF);
-            graphics.drawCircle(5, 5, 300);
+            graphics.drawCircle(5, 5, this.viewRadius);
         }
 
         return graphics;

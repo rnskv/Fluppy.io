@@ -31,4 +31,4 @@ const application = new Server({
 application.start();
 
 
-server.listen(25565);
+server.listen(3000);

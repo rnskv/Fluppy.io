@@ -3,7 +3,7 @@
 import io from 'socket.io-client';
 import EventEmitter from './EventEmitter';
 
-const socket = io.connect('http://93.124.22.78:25565');
+const socket = io.connect('http://192.168.101.155:3000');
 
 //test
 const joinButton = document.querySelector("#join");

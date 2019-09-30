@@ -6,6 +6,10 @@ class PlayersManager extends Manager {
         super({...params});
     }
 
+    isCurrentPlayer(id) {
+        return this.managers.global.stores.player.get('id') === id
+    }
+
     add(objectData) {
         const { stage } = this;
         if (super.add(objectData)) {
@@ -15,7 +19,8 @@ class PlayersManager extends Manager {
                 id: objectData.id,
                 x: objectData.x,
                 y: objectData.y,
-                isCurrentPlayer: this.managers.global.stores.player.get('id') === objectData.id,
+                isCurrentPlayer: this.isCurrentPlayer(objectData.id),
+                viewRadius: this.managers.global.stores.main.get('settings').viewRadius,
                 methods: {
                     onNewChunck: this.onNewChunck.bind(this)
                 }
