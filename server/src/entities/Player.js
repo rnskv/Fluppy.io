@@ -31,7 +31,7 @@ class Player extends GameObject {
     }
 
     onClick() {
-        this.dy = -8;
+        this.dy = -10;
         this.dx = 10;
         this.rotation = -15;
     }
@@ -39,8 +39,8 @@ class Player extends GameObject {
     update(dt) {
 
         if (this.dy < this.gravity) {
-            this.dy += 1;
-            this.y = this.y - 1;
+            this.dy += 0.3 * dt;
+            this.y -= 1;
         }
 
         if (this.rotation < this.moveUpRotation) {
@@ -48,7 +48,7 @@ class Player extends GameObject {
         }
 
         if (this.y < settings.map.border - this.height) {
-            this.dy = 10;
+            this.dy = 10 * dt;
         }
 
         if (this.y + this.dx * this.speed * dt < settings.map.border.bottom) {
