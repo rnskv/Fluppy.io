@@ -13,6 +13,7 @@ class Player extends GameObject {
         this.width = 20;
         this.height = 20;
 
+        this.pivot = { x: this.width / 2, y: this.height / 2 };
         this.gravity = 9.8;
         this.moveUpRotation = 25;
     }
@@ -24,6 +25,7 @@ class Player extends GameObject {
             y: this.y,
             width: this.width,
             height: this.height,
+            pivot: this.pivot,
             rotation: (Math.PI * this.rotation) / 180
         }
     }

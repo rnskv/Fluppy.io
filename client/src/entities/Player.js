@@ -18,12 +18,12 @@ class Player extends GameObject {
         const colors = [0xFF0000, 0x00FF00, 0xFFFFFF];
         graphics.beginFill(colors[Math.floor(Math.random() * colors.length)]);
         graphics.lineStyle(2, 0x00FF00);
-        graphics.drawRect(0, 0, 10, 10);
+        graphics.drawRect(0, 0, this.width, this.height);
 
         if (this.isCurrentPlayer) {
             graphics.beginFill(0xFFFF00, 0.1);
-            graphics.lineStyle(5, 0xFFFFFF);
-            graphics.drawCircle(5, 5, this.viewRadius);
+            graphics.lineStyle(1, 0xFFFFFF);
+            graphics.drawCircle(1, 1, this.viewRadius);
         }
 
         return graphics;

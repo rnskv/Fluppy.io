@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 
 export default class GameObject {
-    constructor({ id, x, y, width, height, methods, controller }) {
+    constructor({ id, x, y, width, height, pivot, methods, controller }) {
         if (!id) {
             throw new Error('GameObject must have id')
         }
@@ -9,13 +9,16 @@ export default class GameObject {
         this.id = id;
         this.x = x;
         this.y = y;
+
         this.offsets = {
             x: 0,
             y: 0
         };
+
         this.width = width || 10;
         this.height = height || 10;
         this.rotation = 0;
+        this.pivot = pivot || {x: 0, y: 0};
         this.object = null;
         this.methods = methods || {}
     }
@@ -54,8 +57,8 @@ export default class GameObject {
     runUpdates() {
         this.object.transform.position.x = this.x + this.offsets.x - this.controller.camera.position.x;
         this.object.transform.position.y = this.y + this.offsets.y - this.controller.camera.position.y;
-
         this.object.transform.rotation = this.rotation;
+        this.object.pivot = this.pivot;
     }
 
     update(dt, updates) {
