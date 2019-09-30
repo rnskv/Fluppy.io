@@ -5,6 +5,7 @@ class Manager {
         this.managers = {};
         this.isEnvironment = false;
         this.entity = entity;
+        this.controller = null;
         this.update = this.update.bind(this);
     }
 
@@ -18,6 +19,10 @@ class Manager {
 
     getUniqueId() {
         return Math.random();
+    }
+
+    connectController(controller) {
+        this.controller = controller;
     }
 
     connectManager(name, manager) {

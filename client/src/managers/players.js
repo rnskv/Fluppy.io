@@ -7,19 +7,19 @@ class PlayersManager extends Manager {
     }
 
     isCurrentPlayer(id) {
-        return this.managers.global.stores.player.get('id') === id
+        return this.controller.stores.player.get('id') === id
     }
 
     selector(objectData) {
         return {
-            controller: this.managers.global,
+            controller: this.controller,
             id: objectData.id,
             x: objectData.x,
             y: objectData.y,
             width: objectData.width,
             height: objectData.height,
             isCurrentPlayer: this.isCurrentPlayer(objectData.id),
-            viewRadius: this.managers.global.stores.main.get('settings').viewRadius,
+            viewRadius: this.controller.stores.main.get('settings').viewRadius,
             methods: {
                 generateNewFloor: this.generateNewFloor.bind(this)
             }

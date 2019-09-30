@@ -8,7 +8,7 @@ class PlayersManager extends Manager {
 
     selector(objectData) {
         return {
-            controller: this.managers.global,
+            controller: this.controller,
             id: objectData.id,
             x: 0,
             y: 0

@@ -8,7 +8,7 @@ class FloorsManager extends Manager {
 
     selector(objectData) {
         return {
-            controller: this.managers.global,
+            controller: this.controller,
             id: Math.random(),
             x: objectData.x,
             y: objectData.y
@@ -16,7 +16,7 @@ class FloorsManager extends Manager {
     }
 
     update(dt) {
-        const settings = this.managers.global.stores.main.get('settings');
+        const settings = this.controller.stores.main.get('settings');
 
         if (settings) {
             if (!this.getLast().x) {
@@ -28,7 +28,7 @@ class FloorsManager extends Manager {
 
             const gluingOffset = 100;
 
-            if ((this.managers.global.camera.position.x + this.managers.global.camera.size.width) > this.getLast().x - gluingOffset) {
+            if ((this.controller.camera.position.x + this.controller.camera.size.width) > this.getLast().x - gluingOffset) {
                 this.add({
                     x: this.getLast().x + this.getLast().width - gluingOffset,
                     y: settings.map.border.bottom
@@ -41,7 +41,7 @@ class FloorsManager extends Manager {
         this.clearActives();
         Object.values(this.map).forEach((floor, index) => {
 
-            if (floor.x + floor.width > this.managers.global.camera.x
+            if (floor.x + floor.width > this.controller.camera.x
             ) {
                 this.moveToActive(floor.id);
             }

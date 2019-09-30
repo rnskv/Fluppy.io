@@ -4,7 +4,7 @@ export default class Controller {
         this.stores = stores || {};
         this.camera = camera;
         this.stage = stage;
-        this.initGraph();
+        this.setControllerToManagers();
     }
 
     get managersNames() {
@@ -16,11 +16,17 @@ export default class Controller {
     }
 
     get managersList() {
-        return Object.list(this.managers);
+        return Object.values(this.managers);
     }
 
     getManager(name) {
         return this.managers[name]
+    }
+
+    setControllerToManagers() {
+        this.managersList.forEach(manager => {
+            manager.connectController(this);
+        })
     }
 
     initGraph() {
