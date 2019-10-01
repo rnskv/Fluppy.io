@@ -31,7 +31,6 @@ class Camera {
             }
         }
 
-        console.log(this.settings)
         return {
             x: this.x,
             y: this.y

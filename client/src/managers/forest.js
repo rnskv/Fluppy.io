@@ -25,10 +25,9 @@ class ForestManager extends Manager {
         const isFirstFloor = !this.getLast().x;
 
         const leftViewportPoint = this.controller.camera.position.x + this.controller.camera.size.width;
-        const leftFloorPoint = this.getLast().x;
+        const leftFloorPoint = this.getLast().x * 0.3;
 
         const isNeedAddNewFloor = leftViewportPoint > leftFloorPoint;
-        console.log(isNeedAddNewFloor)
         if (settings) {
             if (isFirstFloor) {
                 this.add({
@@ -36,8 +35,9 @@ class ForestManager extends Manager {
                     y: settings.map.border.top
             });
             }
-            console.log(this.getLast())
+
             if (isNeedAddNewFloor) {
+                console.log('add new floor')
                 this.add({
                     x: this.getLast().x + this.getLast().width - 1,
                     y: settings.map.border.top
