@@ -27,7 +27,7 @@ class PipesManager extends Manager {
             }
         );
 
-        const isAdded = this.addObject(id, pipe);
+        const isAdded = this.addObject(pipe);
     }
 
     connectManager(name, manager) {

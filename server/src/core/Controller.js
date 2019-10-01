@@ -2,7 +2,7 @@ class Controller {
     constructor(managers) {
         this.managers = managers;
 
-        this.initGraph();
+        this.setControllerToManagers();
     }
 
     get managersList() {
@@ -36,6 +36,13 @@ class Controller {
         const pipes =  this.getManager('pipes');
 
         players.connectManager('pipes', pipes)
+    }
+
+    setControllerToManagers() {
+        this.managersList.forEach(manager => {
+            manager.connectController(this);
+            manager.init();
+        })
     }
 
     update(dt) {

@@ -42,14 +42,14 @@ const managers = {
     silhouette: new SilhouetteManager({
         entity: Silhouette
     }),
+    pipes: new PipesManager({
+        entity: Pipe
+    }),
     floors: new FloorsManager({
         entity: Floor
     }),
     players: new PlayersManager({
         entity: Player
-    }),
-    pipes: new PipesManager({
-        entity: Pipe
     })
 };
 

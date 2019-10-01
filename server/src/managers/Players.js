@@ -8,7 +8,7 @@ class PlayersManager extends Manager {
     addPlayer(id) {
         const player = new this.entity({id, x: 0, y: 0});
 
-        const isAdded = this.addObject(id, player);
+        const isAdded = this.addObject(player);
 
         if (isAdded) {
             this.network.io.emit('game:player:join', player.clientData)
@@ -42,8 +42,11 @@ class PlayersManager extends Manager {
         }
     }
 
-    onPlayerAtMapEnd() {
+    spawnPipe() {
         //Делаем что то с менеджерами PIPES
+        this.controller.managers.pipes.add({
+
+        })
     }
 
     subscribe() {

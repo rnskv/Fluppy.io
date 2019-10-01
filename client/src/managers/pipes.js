@@ -10,6 +10,8 @@ class PlayersManager extends Manager {
         return {
             controller: this.controller,
             id: objectData.id,
+            width: objectData.width,
+            height: objectData.height,
             x: 0,
             y: 0
         }
