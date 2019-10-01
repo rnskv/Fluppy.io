@@ -1,19 +1,19 @@
 import EnvironmentObject from "../core/EnvironmentObject";
 import * as PIXI from "pixi.js";
 
-class Forest extends EnvironmentObject {
+class Silhouette extends EnvironmentObject {
     constructor(params) {
         super(params);
         this.width = 1300;
-        this.height = 1300;
+        this.height = 300;
         this.offsets = {
             x: 0,
-            y: 100
+            y: -200
         }
     }
 
     createObject() {
-        const textures = [PIXI.Texture.from('05_far_BG.jpg')];
+        const textures = [PIXI.Texture.from('03_rear_silhouette.png')];
 
         const sprite = new PIXI.Sprite(textures[0]);
 
@@ -29,4 +29,4 @@ class Forest extends EnvironmentObject {
     }
 }
 
-export default Forest;
+export default Silhouette;

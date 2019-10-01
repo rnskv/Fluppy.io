@@ -1,13 +1,13 @@
 import ParalaxManager from "../core/ParalaxManager";
 
-class ForestManager extends ParalaxManager {
+class SilhouetteManager extends ParalaxManager {
     constructor({...params}) {
         super({...params});
         this.isEnvironment = true;
         this.gluingOffset = 10;
         this.paralaxFactors = {
-            x: -0.3,
-            y: -0.9
+            x: -0.8,
+            y: -0.95
         };
     }
 
@@ -17,7 +17,7 @@ class ForestManager extends ParalaxManager {
 
         return {
             x: lastPart.x + lastPart.width - this.gluingOffset,
-            y: settings.map.border.top
+            y: settings.map.border.bottom - 200
         }
     }
 
@@ -26,7 +26,7 @@ class ForestManager extends ParalaxManager {
 
         return {
             x: 0,
-            y: settings.map.border.top
+            y: settings.map.border.bottom - 200
         }
     }
 
@@ -40,4 +40,4 @@ class ForestManager extends ParalaxManager {
     }
 }
 
-export default ForestManager;
+export default SilhouetteManager;

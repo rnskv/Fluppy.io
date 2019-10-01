@@ -7,6 +7,8 @@ import PlayersManager from './managers/players';
 import PipesManager from './managers/pipes';
 import FloorsManager from './managers/floors';
 import ForestManager from './managers/forest';
+import SilhouetteManager from './managers/silhoutte';
+import ThicketsManager from './managers/thickets';
 
 import PlayerStore from './stores/PlayerStore';
 import MainStore from './stores/MainStore';
@@ -17,6 +19,8 @@ import Player from "./entities/Player";
 import Pipe from "./entities/Pipe";
 import Floor from "./entities/Floor";
 import Forest from "./entities/Forest";
+import Silhouette from "./entities/Silhouette";
+import Thicket from "./entities/Thicket";
 
 import Proton from './Proton';
 
@@ -31,6 +35,12 @@ const stage = app.stage;
 const managers = {
     forest: new ForestManager({
         entity: Forest
+    }),
+    thickets: new ThicketsManager({
+        entity: Thicket
+    }),
+    silhouette: new SilhouetteManager({
+        entity: Silhouette
     }),
     floors: new FloorsManager({
         entity: Floor
