@@ -6,7 +6,9 @@ class PlayersManager extends Manager {
     }
 
     addPlayer(id) {
-        const player = new this.entity({id, x: 0, y: 0});
+        const player = new this.entity({id, x: 0, y: 0, methods: {
+            spawnPipe: this.spawnPipe.bind(this)
+        }});
 
         const isAdded = this.addObject(player);
 
@@ -42,10 +44,12 @@ class PlayersManager extends Manager {
         }
     }
 
-    spawnPipe() {
+    spawnPipe(x, y) {
         //Делаем что то с менеджерами PIPES
-        this.controller.managers.pipes.add({
-
+        console.log('spawn pipe')
+        this.controller.managers.pipes.addPipe(Math.random(), {
+            x: x,
+            y: 10
         })
     }
 

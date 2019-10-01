@@ -44,6 +44,10 @@ class Player extends GameObject {
     }
 
     update(dt) {
+        if (this.x % 100) {
+            this.methods.spawnPipe(this.x);
+        }
+
         if (this.acceleration.y < 2) {
             this.acceleration.y *= 1.01;
         }
