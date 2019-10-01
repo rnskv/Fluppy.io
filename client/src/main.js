@@ -25,7 +25,7 @@ import Thicket from "./entities/Thicket";
 import Proton from './Proton';
 
 const rootNode = document.querySelector('#root');
-const client = new Client(rootNode, { width: window.innerWidth, height: window.innerHeight - 100 });
+const client = new Client(rootNode, { width: document.documentElement.clientWidth, height: document.documentElement.clientHeight });
 
 client.createApp('game');
 
