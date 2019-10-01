@@ -17,7 +17,7 @@ class Player extends GameObject {
         const graphics = new PIXI.Graphics();
         const colors = [0xFF0000, 0x00FF00, 0xFFFFFF];
         graphics.beginFill(colors[Math.floor(Math.random() * colors.length)]);
-        graphics.lineStyle(2, 0x00FF00);
+        graphics.lineStyle(4, 0x000000);
         graphics.drawRect(0, 0, this.width, this.height);
 
         if (this.isCurrentPlayer) {

@@ -5,10 +5,10 @@ class Floor extends EnvironmentObject {
     constructor(params) {
         super(params);
         this.width = 800;
-        this.height = 150;
+        this.height = 160;
         this.offsets = {
             x: 0,
-            y: -30
+            y: -40
         }
     }
 
