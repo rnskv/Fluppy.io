@@ -1,10 +1,10 @@
-import EnvironmentObject from "../core/EnvironmentObject";
+import ParalaxObject from "../core/ParalaxObject";
 import * as PIXI from "pixi.js";
 
-class Silhouette extends EnvironmentObject {
+class Silhouette extends ParalaxObject {
     constructor(params) {
         super(params);
-        this.width = 1300;
+        this.width = 1400;
         this.height = 300;
         this.offsets = {
             x: 0,
@@ -21,11 +21,6 @@ class Silhouette extends EnvironmentObject {
         sprite.height = this.height;
 
         return sprite;
-    }
-
-    update(dt) {
-        this.object.transform.position.x =  Math.floor(this.x +  this.controller.camera.position.x * this.paralaxFactors.x);
-        this.object.transform.position.y =  Math.floor(this.y +  this.controller.camera.position.y * this.paralaxFactors.y);
     }
 }
 
