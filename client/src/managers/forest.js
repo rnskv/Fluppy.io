@@ -1,10 +1,30 @@
-import Manager from "../core/Manager";
+import ParalaxManager from "../core/ParalaxManager";
 
-class ForestManager extends Manager {
+class ForestManager extends ParalaxManager {
     constructor({...params}) {
         super({...params});
         this.isEnvironment = true;
+        this.gluingOffset = 10;
+        this.paralaxFactor = 0.3;
+    }
 
+    getNewPartPosition() {
+        const settings = this.controller.stores.main.get('settings');
+        const lastPart = this.getLast();
+
+        return {
+            x: lastPart.x + lastPart.width - this.gluingOffset,
+            y: settings.map.border.top
+        }
+    }
+
+    getFirstPartPosition() {
+        const settings = this.controller.stores.main.get('settings');
+
+        return {
+            x: 0,
+            y: settings.map.border.top
+        }
     }
 
     selector(objectData) {
@@ -13,43 +33,6 @@ class ForestManager extends Manager {
             x: objectData.x,
             y: objectData.y
         }
-    }
-
-    getActiveObjects(updates) {
-        return Object.values(this.map).filter((floor) => floor.x + floor.width > this.controller.camera.x);
-    }
-
-    addNewFloor() {
-        const settings = this.controller.stores.main.get('settings');
-
-        const isFirstFloor = !this.getLast().x;
-
-        const leftViewportPoint = this.controller.camera.position.x + this.controller.camera.size.width;
-        const leftFloorPoint = this.getLast().x * 0.3;
-
-        const isNeedAddNewFloor = leftViewportPoint > leftFloorPoint;
-        if (settings) {
-            if (isFirstFloor) {
-                this.add({
-                    x: 0,
-                    y: settings.map.border.top
-            });
-            }
-
-            if (isNeedAddNewFloor) {
-                console.log('add new floor')
-                this.add({
-                    x: this.getLast().x + this.getLast().width - 1,
-                    y: settings.map.border.top
-                });
-            }
-        }
-
-    }
-
-    update(dt, updates) {
-        this.addNewFloor();
-        super.update(dt, updates)
     }
 }
 
