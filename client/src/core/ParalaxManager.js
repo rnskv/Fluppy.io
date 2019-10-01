@@ -34,16 +34,16 @@ class ParalaxManager extends Manager {
         const gluingOffset = this.gluingOffset;
         const isFirstPart = !this.getLast().x;
         const leftViewportPoint = this.controller.camera.position.x + this.controller.camera.size.width;
-        const leftFloorPoint = this.getLast().x - gluingOffset * this.paralaxFactor;
+        const leftPartPoint = this.getLast().x - gluingOffset * this.paralaxFactor;
 
-        const isNeedAddNewFloor = leftViewportPoint > leftFloorPoint;
+        const isNeedAddNewPart = leftViewportPoint > leftPartPoint;
 
         if (settings) {
             if (isFirstPart) {
                 this.add(this.getFirstPartPosition());
             }
 
-            if (isNeedAddNewFloor) {
+            if (isNeedAddNewPart) {
                 this.add(this.getNewPartPosition());
             }
 
