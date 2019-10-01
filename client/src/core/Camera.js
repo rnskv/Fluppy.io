@@ -11,6 +11,8 @@ class Camera {
                 left: 0
             }
         };
+
+        //Сюда добавить отсутпы (120)
     }
 
     get position() {

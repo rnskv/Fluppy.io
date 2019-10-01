@@ -29,12 +29,16 @@ class ParalaxManager extends Manager {
         }
     }
 
+    get isFirstPart() {
+        return !this.getLast().x
+    }
+
     addPart() {
         const settings = this.controller.stores.main.get('settings');
-        const gluingOffset = this.gluingOffset;
-        const isFirstPart = !this.getLast().x;
-        const leftViewportPoint = this.controller.camera.position.x + this.controller.camera.size.width;
-        const leftPartPoint = this.getLast().x - gluingOffset * this.paralaxFactor;
+        const { controller, gluingOffset, paralaxFactor, isFirstPart} = this;
+
+        const leftViewportPoint = controller.camera.position.x + controller.camera.size.width;
+        const leftPartPoint = this.getLast().x - gluingOffset * paralaxFactor;
 
         const isNeedAddNewPart = leftViewportPoint > leftPartPoint;
 
@@ -46,7 +50,6 @@ class ParalaxManager extends Manager {
             if (isNeedAddNewPart) {
                 this.add(this.getNewPartPosition());
             }
-
         }
 
     }
