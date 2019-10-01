@@ -24,8 +24,17 @@ class Manager {
         return this.objects.get(id);
     }
 
+    getLast() {
+        return Array.from(this.objects)[this.objects.size - 1][1]
+    }
+
     getUniqueId() {
+        // console.log('getId',  this.lastGeneratedId)
         return ++this.lastGeneratedId;
+    }
+
+    get list() {
+        return this.objects.values()
     }
 
     get dataset() {
@@ -69,11 +78,6 @@ class Manager {
     }
 
     addObject(object) {
-        console.log('addObject', object);
-        if (this.isEnvironment) {
-            object.id = this.getUniqueId()
-        }
-
         if (this.objects.has(object.id)) return false;
 
         this.objects.set(object.id, object);

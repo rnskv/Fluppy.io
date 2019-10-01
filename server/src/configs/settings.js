@@ -1,10 +1,10 @@
 export default {
-    serverFrameRate: 1000 / 90,
+    serverFrameRate: 1000 / 30,
     clientFrameRate: 1000 / 60,
-    viewRadius: 900,
+    viewRadius: 2000,
     map: {
         border: {
-            top: -300,
+            top: -200,
             bottom: 700
         }
     },

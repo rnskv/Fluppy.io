@@ -23,7 +23,9 @@ class PipesManager extends Manager {
             {
                 id,
                 x: objectParams.x,
-                y: objectParams.y
+                y: objectParams.y,
+                width: objectParams.width,
+                height: objectParams.height
             }
         );
 

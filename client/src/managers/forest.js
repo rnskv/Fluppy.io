@@ -6,7 +6,7 @@ class ForestManager extends ParalaxManager {
         this.isEnvironment = true;
         this.gluingOffset = 10;
         this.paralaxFactors = {
-            x: -0.3,
+            x: -0.35,
             y: -0.9
         };
     }
