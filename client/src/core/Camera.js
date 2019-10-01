@@ -6,8 +6,8 @@ class Camera {
         this.size = size;
         this.settings = settings || {
             max: {
-                top: -200,
-                bottom: 900,
+                top: -300,
+                bottom: 700,
                 left: 0
             }
         };
@@ -24,9 +24,9 @@ class Camera {
                     : this.settings.max.left ,
 
                 y: y > this.settings.max.top
-                    ? y + this.size.height < this.settings.max.bottom
+                    ? y + this.size.height < this.settings.max.bottom + 120
                         ? y
-                        : this.settings.max.bottom - this.size.height
+                        : this.settings.max.bottom - this.size.height + 120
                     : this.settings.max.top
             }
         }

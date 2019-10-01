@@ -4,8 +4,8 @@ export default {
     viewRadius: 900,
     map: {
         border: {
-            top: -200,
-            bottom: 800
+            top: -300,
+            bottom: 700
         }
     },
 }

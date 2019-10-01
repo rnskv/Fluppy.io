@@ -4,11 +4,11 @@ import * as PIXI from "pixi.js";
 class Forest extends EnvironmentObject {
     constructor(params) {
         super(params);
-        this.width = 2000;
-        this.height = 1100;
+        this.width = 1300;
+        this.height = 1300;
         this.offsets = {
             x: 0,
-            y: 0
+            y: 100
         }
     }
 

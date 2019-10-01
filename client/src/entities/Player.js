@@ -21,7 +21,7 @@ class Player extends GameObject {
         graphics.drawRect(0, 0, this.width, this.height);
 
         if (this.isCurrentPlayer) {
-            graphics.beginFill(0xFFFF00, 0.1);
+            graphics.beginFill(0xFFFF00, 0.0);
             graphics.lineStyle(1, 0xFFFFFF);
             graphics.drawCircle(1, 1, this.viewRadius);
         }

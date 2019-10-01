@@ -64,7 +64,7 @@ class Player extends GameObject {
             this.rotation += 5 * dt;
         }
 
-        if (this.y < settings.map.border - this.height) {
+        if (this.y < settings.map.border.top) {
             this.dy = 10 * dt;
         }
 
