@@ -31,7 +31,7 @@ class Player extends GameObject {
     }
 
     onClick() {
-        this.dy = -8;
+        this.dy = -10;
         this.rotation = -15;
         this.y -= 1;
     }
@@ -39,12 +39,12 @@ class Player extends GameObject {
     update(dt) {
         this.methods.spawnPipe(this.x, 0);
         // console.log(this.x)
-        if (this.dy < 14) {
-            this.dy += 1;
+        if (this.dy < 7) {
+            this.dy += 1 * dt;
         }
 
-        if (this.dx < 3) {
-            this.dx += 1;
+        if (this.dx < 5) {
+            this.dx += 1 * dt;
         }
 
         if (this.rotation < this.moveUpRotation) {
