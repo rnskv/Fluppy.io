@@ -3,6 +3,11 @@ import GameObject from "../core/GameObject";
 class Pipe extends GameObject {
     constructor({...params}) {
         super({...params});
+
+        this.dx = 0;
+        this.dy = 1;
+
+        this.distance = 1;
     }
 
     get clientData() {
@@ -16,11 +21,19 @@ class Pipe extends GameObject {
     }
 
     update(dt) {
-        // if (this.x < 1280) {
-        //     // this.x += 10;
-        // } else {
-        //     this.x = 0;
-        // }
+        if (this.distance > 100) {
+            this.dy = -this.x / 1000;
+        }
+
+        if (this.distance < -100) {
+            this.dy = this.x / 1000;
+        }
+
+        if (this.x > 1000) {
+            this.distance += this.dy;
+
+            this.y += this.dy;
+        }
     }
 }
 

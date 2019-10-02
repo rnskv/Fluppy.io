@@ -46,6 +46,9 @@ const managers = {
     silhouette: new SilhouetteManager({
         entity: Silhouette
     }),
+    conopyes: new ConopyesManager({
+        entity: Conopy
+    }),
     pipes: new PipesManager({
         entity: Pipe
     }),
@@ -54,9 +57,6 @@ const managers = {
     }),
     players: new PlayersManager({
         entity: Player
-    }),
-    conopyes: new ConopyesManager({
-        entity: Conopy
     }),
     leaves: new LeavesManager({
         entity: Leave

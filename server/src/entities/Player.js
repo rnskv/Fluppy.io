@@ -43,7 +43,7 @@ class Player extends GameObject {
             this.dy += 1 * dt;
         }
 
-        if (this.dx < 5) {
+        if (this.dx < 2.5) {
             this.dx += 1 * dt;
         }
 

@@ -60,7 +60,7 @@ class PlayersManager extends Manager {
         //Код для примера - верстать все в зад
         if (lastPipe && lastPipe.x < x + settings.viewRadius) {
             const width = 100;
-            const height = 350;
+            const height = 450;
 
             // const firstHeight = getRandomInt(100, 300);
             // const secondHeight = getRandomInt(
