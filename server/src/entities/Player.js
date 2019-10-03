@@ -40,9 +40,12 @@ class Player extends GameObject {
     }
 
     onCollide(object) {
+        if (this.isDie) return;
         this.dx = 0;
         this.rotation = 90;
         this.isDie = true;
+        this.x = object.x - this.width;
+        this.dy = -10;
     }
 
     update(dt) {
