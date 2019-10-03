@@ -13,7 +13,7 @@ class Pipe extends GameObject {
 
         const sprite = new PIXI.Sprite(textures[0]);
 
-        sprite.width = 100;
+        sprite.width = this.width;
         sprite.height = this.height;
         container.addChild(sprite);
 
