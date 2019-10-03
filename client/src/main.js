@@ -93,14 +93,17 @@ const game = new Proton({
 game.loader.addManifest({
     'wordAssests': '/resources/jsons/wordassets.json',
     'pipe': '/resources/jsons/pipe.png',
-    'viking': '/resources/jsons/viking.json'
+    'viking': '/resources/jsons/viking.json',
+    'background': '/resources/images/background.png',
+    'player': '/resources/images/player.png'
 });
 
 game.loader.load((loader, resources) => {
     //@todo Вынести эту логику в другое место.
     stores.main.set('resources', resources);
+    alert('Загрузка ресурсов завершена')
+    game.start();
 });
 
-game.start();
 
 window.game = game;

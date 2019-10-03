@@ -5,7 +5,7 @@ export default {
     map: {
         border: {
             top: -300,
-            bottom: 700
+            bottom: 600
         }
     },
 }

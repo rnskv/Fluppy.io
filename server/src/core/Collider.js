@@ -24,8 +24,6 @@ class Collider {
         const firstList = manager1.list;
         const secondList = manager2.list;
 
-        console.log(firstList)
-
         for (let object of firstList) {
             for (let enemyObject of secondList) {
                 if (this.checkCollistion(object, enemyObject)) {

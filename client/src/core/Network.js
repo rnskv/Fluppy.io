@@ -3,7 +3,7 @@
 import io from 'socket.io-client';
 import EventEmitter from './EventEmitter';
 
-const socket = io.connect('http://192.168.101.155:3000');
+const socket = io.connect('http://localhost:3000');
 
 //test
 const joinButton = document.querySelector("#join");
@@ -22,6 +22,14 @@ document.addEventListener('click', (e) => {
 document.addEventListener('touchstart', (e) => {
     socket.emit('game:player:click', e);
 });
+
+document.addEventListener('keypress', (e) => {
+    if (e.keyCode === 32) {
+        socket.emit('game:player:click', e);
+    }
+});
+
+
 
 socket.on('connect', () => {
     socket.on('game:update', data => {

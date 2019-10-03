@@ -10,12 +10,12 @@ class Player extends GameObject {
         this.dx = 0;
         this.dy = 10;
 
-        this.width = 20;
-        this.height = 20;
+        this.width = 30;
+        this.height = 30;
 
         this.pivot = { x: this.width / 2, y: this.height / 2 };
         this.gravity = 9.8;
-        this.moveUpRotation = 25;
+        this.moveUpRotation = 35;
 
         this.isDie = false;
     }
@@ -34,13 +34,13 @@ class Player extends GameObject {
 
     onClick() {
         if (this.isDie) return;
-        this.dy = -10;
-        this.rotation = -15;
+        this.dy = -7;
+        this.rotation = -25;
         this.y -= 1;
     }
 
     onCollide(object) {
-        this.x = object.x - this.width;
+        // this.x = object.x - this.width;
         this.kill();
     }
 
@@ -61,20 +61,20 @@ class Player extends GameObject {
 
     update(dt) {
         this.methods.spawnPipe(this.x, 0);
-        if (this.dy < 7) {
+        if (this.dy < 6) {
             this.dy += 1 * dt;
         }
 
-        if (this.dx < 2.5 && !this.isDie) {
-            this.dx += 1 * dt;
+        if (this.dx < 1.5 && !this.isDie) {
+            this.dx += 0.5 * dt;
         }
 
         if (this.rotation < this.moveUpRotation) {
-            this.rotation += 5 * dt;
+            this.rotation += 3.5 * dt;
         }
 
         if (this.y < settings.map.border.top) {
-            this.dy = 10 * dt;
+            this.kill();
         }
 
         if (this.y + this.dy * this.speed * dt < settings.map.border.bottom) {
@@ -85,6 +85,7 @@ class Player extends GameObject {
                 this.spawn();
             } else {
                 this.rotation = 0;
+                this.isDie = false;
             }
         }
     }

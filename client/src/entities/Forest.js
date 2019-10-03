@@ -5,15 +5,15 @@ class Forest extends ParalaxObject {
     constructor(params) {
         super(params);
         this.width = 1300;
-        this.height = 1300;
+        this.height = 1000;
         this.offsets = {
             x: 0,
-            y: 100
+            y: 0
         }
     }
 
     createObject() {
-        const textures = [PIXI.Texture.from('05_far_BG.jpg')];
+        const textures = [PIXI.Texture.from('/resources/images/background.png')];
 
         const sprite = new PIXI.Sprite(textures[0]);
 

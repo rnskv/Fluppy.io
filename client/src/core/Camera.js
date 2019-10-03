@@ -7,7 +7,7 @@ class Camera {
         this.settings = settings || {
             max: {
                 top: -300,
-                bottom: 700,
+                bottom: 600,
                 left: 0
             }
         };
