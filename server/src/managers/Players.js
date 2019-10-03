@@ -1,12 +1,19 @@
 import Manager from "../core/Manager";
 import settings from '../configs/settings';
 
-
+let botsCount = 0;
 class PlayersManager extends Manager {
     constructor({...params}) {
         super({...params});
 
         this.spawnPipe = this.spawnPipe.bind(this);
+
+        setInterval(() => {
+            botsCount++;
+            if (botsCount < 10) {
+                this.onJoinHandler({ id: Math.random(), isBot: true})
+            }
+        }, 1000)
     }
 
     init(controller) {
@@ -14,8 +21,8 @@ class PlayersManager extends Manager {
         controller.collider.addCollisionManager('players', this);
     }
 
-    addPlayer(id) {
-        const player = new this.entity({id, x: 0, y: 0, methods: {
+    addPlayer(id, isBot) {
+        const player = new this.entity({id, isBot, x: 0, y: 0, methods: {
             spawnPipe: this.spawnPipe
         }});
 
@@ -35,7 +42,7 @@ class PlayersManager extends Manager {
     }
 
     onJoinHandler(socket) {
-        this.addPlayer.call(this, socket.id);
+        this.addPlayer.call(this, socket.id, socket.isBot || false);
     }
 
     onLeaveHandler(socket) {

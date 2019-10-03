@@ -33,19 +33,24 @@ class Player extends GameObject {
         sprite.y = -5;
         container.addChild(sprite);
 
-        // if (this.isCurrentPlayer) {
-        //     graphics.beginFill(0x000000, 0.0);
-        //     graphics.lineStyle(1, 0x000000);
-        //     graphics.drawCircle(1, 1, this.viewRadius);
-        //
-        //     graphics.beginFill(0xffffff, 0.1);
-        //     graphics.lineStyle(1, 0xffffff);
-        //     graphics.drawCircle(this.width / 2, this.height / 2, 30);
-        //
-        // }
+        if (this.isCurrentPlayer) {
+            graphics.beginFill(0x000000, 0.0);
+            graphics.lineStyle(1, 0x000000);
+            graphics.drawCircle(1, 1, this.viewRadius);
 
-        // container.addChild(graphics);
+            graphics.beginFill(0xffffff, 0.1);
+            graphics.lineStyle(1, 0xffffff);
+            graphics.drawCircle(this.width / 2, this.height / 2, 30);
 
+        }
+
+        container.addChild(graphics);
+
+        const text = new PIXI.Text(`${this.id.toString().slice(0, 5)}`,{fontFamily : 'Arial', fontSize: 14, fill : 0x0000, align : 'center'});
+        container.addChild(text);
+        text.position.y = 50;
+        text.position.x = 15;
+        text.anchor = new PIXI.Point(0.5, 1);
         return container
     }
 }

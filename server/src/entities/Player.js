@@ -1,8 +1,15 @@
 import GameObject from "../core/GameObject";
 import settings from '../configs/settings';
 
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
+}
+
 class Player extends GameObject {
-    constructor({...params}) {
+    constructor({isBot, ...params}) {
         super({...params})
 
         this.speed = 1;
@@ -17,7 +24,19 @@ class Player extends GameObject {
         this.gravity = 9.8;
         this.moveUpRotation = 35;
 
+        this.isBot = isBot;
+
+        this.maxDX = 1.5;
         this.isDie = false;
+
+        if (this.isBot) {
+            this.botClick()
+        }
+    }
+
+    botClick() {
+        this.onClick();
+        setTimeout(this.botClick.bind(this), getRandomInt(100, 700));
     }
 
     get clientData() {
@@ -35,7 +54,7 @@ class Player extends GameObject {
     onClick() {
         if (this.isDie) return;
         this.dy = -7;
-        this.rotation = -25;
+        this.rotation = -40;
         this.y -= 1;
     }
 
@@ -62,15 +81,15 @@ class Player extends GameObject {
     update(dt) {
         this.methods.spawnPipe(this.x, 0);
         if (this.dy < 6) {
-            this.dy += 1 * dt;
+            this.dy += 0.5 * dt;
         }
 
-        if (this.dx < 1.5 && !this.isDie) {
+        if (this.dx < this.maxDX && !this.isDie) {
             this.dx += 0.5 * dt;
         }
 
         if (this.rotation < this.moveUpRotation) {
-            this.rotation += 3.5 * dt;
+            this.rotation += Math.abs(this.dy) / 2 * dt;
         }
 
         if (this.y < settings.map.border.top) {
