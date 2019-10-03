@@ -20,6 +20,10 @@ class GameObject {
         this.update = this.update.bind(this)
     }
 
+    onCollide(object) {
+        console.log(`Object ${this.id} collide with object ${object.id}`)
+    }
+
     get clientData() {
         return {
             id: this.id

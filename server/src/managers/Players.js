@@ -9,6 +9,11 @@ class PlayersManager extends Manager {
         this.spawnPipe = this.spawnPipe.bind(this);
     }
 
+    init(controller) {
+        super.init(controller);
+        controller.collider.addCollisionManager('players', this);
+    }
+
     addPlayer(id) {
         const player = new this.entity({id, x: 0, y: 0, methods: {
             spawnPipe: this.spawnPipe

@@ -16,8 +16,9 @@ class Manager {
         this.update = this.update.bind(this);
     }
 
-    init() {
-        console.log('Manager was inited')
+    init(controller) {
+        this.connectController(controller);
+        console.log('Manager was inited', controller)
     }
 
     getById(id) {
@@ -25,16 +26,16 @@ class Manager {
     }
 
     getLast() {
+        if (!this.objects.size) return null;
         return Array.from(this.objects)[this.objects.size - 1][1]
     }
 
     getUniqueId() {
-        // console.log('getId',  this.lastGeneratedId)
         return ++this.lastGeneratedId;
     }
 
     get list() {
-        return this.objects.values()
+        return Array.from(this.objects.values())
     }
 
     get dataset() {
@@ -71,6 +72,10 @@ class Manager {
 
     connectController(controller) {
         this.controller = controller;
+    }
+
+    connectCollider(collider) {
+        this.collider = collider;
     }
 
     connectManager(name, manager) {

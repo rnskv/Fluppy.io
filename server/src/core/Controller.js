@@ -1,8 +1,9 @@
 class Controller {
-    constructor(managers) {
+    constructor({ managers, collider }) {
         this.managers = managers;
+        this.collider = collider;
 
-        this.setControllerToManagers();
+        this.setControllerToManagers.call(this);
     }
 
     get managersList() {
@@ -40,12 +41,14 @@ class Controller {
 
     setControllerToManagers() {
         this.managersList.forEach(manager => {
-            manager.connectController(this);
-            manager.init();
+            manager.init(this);
         })
     }
 
     update(dt) {
+
+        this.collider.checkCollisionsBetween(this.getManager('players'), this.getManager('pipes'));
+
         this.managersList.forEach(manager => {
             manager.update(dt)
         })

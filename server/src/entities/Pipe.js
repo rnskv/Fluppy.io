@@ -8,7 +8,7 @@ class Pipe extends GameObject {
         this.dx = 0;
         this.dy = 1;
 
-        this.width = 100;
+        this.width = 50;
         this.height = (Math.abs(settings.map.border.top) + Math.abs(settings.map.border.bottom));
         this.distance = 1;
         this.position = position;

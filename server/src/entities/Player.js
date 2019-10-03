@@ -16,6 +16,8 @@ class Player extends GameObject {
         this.pivot = { x: this.width / 2, y: this.height / 2 };
         this.gravity = 9.8;
         this.moveUpRotation = 25;
+
+        this.isDie = false;
     }
 
     get clientData() {
@@ -31,19 +33,25 @@ class Player extends GameObject {
     }
 
     onClick() {
+        if (this.isDie) return;
         this.dy = -10;
         this.rotation = -15;
         this.y -= 1;
     }
 
+    onCollide(object) {
+        this.dx = 0;
+        this.rotation = 90;
+        this.isDie = true;
+    }
+
     update(dt) {
         this.methods.spawnPipe(this.x, 0);
-        // console.log(this.x)
         if (this.dy < 7) {
             this.dy += 1 * dt;
         }
 
-        if (this.dx < 2.5) {
+        if (this.dx < 2.5 && !this.isDie) {
             this.dx += 1 * dt;
         }
 
@@ -59,9 +67,14 @@ class Player extends GameObject {
             this.x += this.dx * this.speed * dt;
             this.y += this.dy * this.speed * dt;
         } else {
-            this.y = settings.map.border.bottom;
-            this.dx = 0;
-            this.rotation = 0;
+            if (this.x > 500) {
+                this.y = 0;
+                this.x = 0;
+                this.rotation = 0;
+                this.isDie = false;
+            } else {
+                this.rotation = 0;
+            }
         }
     }
 }

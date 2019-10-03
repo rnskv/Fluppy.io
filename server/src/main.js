@@ -13,6 +13,8 @@ import PipesManager from './managers/Pipes';
 import Player from './entities/Player';
 import Pipe from './entities/Pipe';
 
+import Collider from './core/Collider';
+
 import settings from "./configs/settings";
 
 const network = new Network(io);
@@ -25,7 +27,7 @@ const managers = {
 const application = new Server({
     network,
     settings,
-    controller: new Controller(managers)
+    controller: new Controller({managers, collider: new Collider()})
 });
 
 application.start();

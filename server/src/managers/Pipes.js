@@ -11,19 +11,21 @@ class PipesManager extends Manager {
         super({...params});
 
         this.preset = {
-            1: {x: 40, y: 20},
-            2: {x: 200, y: 200},
+            'spawnertop': {x: 500, y: -99999},
+            'spawnerbottom': {x: 500, y: 99999},
         };
 
-        this.gapDistance = 300;
-
-        this.init();
+        this.gapDistance = 400;
     }
 
-    init() {
+    init(controller) {
+        super.init(controller);
+
         for (let [id, data] of Object.entries(this.preset)) {
             this.addPipe(id, data)
         }
+
+        controller.collider.addCollisionManager('pipes', this);
     }
 
     addPipe(id, objectParams) {
@@ -44,9 +46,9 @@ class PipesManager extends Manager {
     }
 
     spawnPipes() {
-        const lastPosition = this.getLast().x;
+        const lastPosition = this.getLast() ? this.getLast().x : 0;
 
-        const wholeSize = getRandomInt(80, 200);
+        const wholeSize = getRandomInt(150, 300);
         const shift = getRandomInt(0, 200);
 
         this.addPipe(this.getUniqueId(), {
