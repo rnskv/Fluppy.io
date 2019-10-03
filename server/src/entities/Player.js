@@ -36,7 +36,13 @@ class Player extends GameObject {
 
     botClick() {
         this.onClick();
-        setTimeout(this.botClick.bind(this), getRandomInt(100, 700));
+
+        if (this.y > 400) {
+            setTimeout(this.botClick.bind(this), getRandomInt(100, 300));
+        } else {
+            setTimeout(this.botClick.bind(this), getRandomInt(30, 700));
+        }
+
     }
 
     get clientData() {

@@ -10,10 +10,10 @@ class PlayersManager extends Manager {
 
         setInterval(() => {
             botsCount++;
-            if (botsCount < 10) {
+            if (botsCount < 200) {
                 this.onJoinHandler({ id: Math.random(), isBot: true})
             }
-        }, 1000)
+        }, 50)
     }
 
     init(controller) {
