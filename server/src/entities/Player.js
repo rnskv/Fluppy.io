@@ -40,12 +40,23 @@ class Player extends GameObject {
     }
 
     onCollide(object) {
+        this.x = object.x - this.width;
+        this.kill();
+    }
+
+    kill() {
         if (this.isDie) return;
         this.dx = 0;
         this.rotation = 90;
         this.isDie = true;
-        this.x = object.x - this.width;
         this.dy = -10;
+    }
+
+    spawn() {
+        this.y = 0;
+        this.x = 0;
+        this.rotation = 0;
+        this.isDie = false;
     }
 
     update(dt) {
@@ -71,10 +82,7 @@ class Player extends GameObject {
             this.y += this.dy * this.speed * dt;
         } else {
             if (this.x > 500) {
-                this.y = 0;
-                this.x = 0;
-                this.rotation = 0;
-                this.isDie = false;
+                this.spawn();
             } else {
                 this.rotation = 0;
             }
