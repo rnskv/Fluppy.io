@@ -86,6 +86,8 @@ class Manager {
         if (this.objects.has(object.id)) return false;
 
         this.objects.set(object.id, object);
+        object.init();
+
         return true;
     }
 

@@ -13,7 +13,6 @@ export default class Game {
         this.updates = [];
         this.firstServerTimestamp = 0;
         this.startGameTimestamp = 0;
-        this.renderDelay = 50;
 
         this.settings = settings;
 
@@ -21,7 +20,7 @@ export default class Game {
     }
 
     get currentServerTime() {
-        return this.firstServerTimestamp + (Date.now() - this.startGameTimestamp) - this.renderDelay;
+        return this.firstServerTimestamp + (Date.now() - this.startGameTimestamp) - this.settings.renderDelay;
     }
 
     get baseUpdateIndex() {
@@ -34,6 +33,13 @@ export default class Game {
         return -1;
     }
 
+    get initState() {
+        let result = {};
+        for (let [managerName] of this.controller.managersEntries) {
+            result[managerName] = {};
+        }
+        return result;
+    }
     updateSettings(settings) {
         Object.keys(settings).forEach((key) => {
             this.settings[key] = settings[key]
@@ -68,24 +74,21 @@ export default class Game {
 
     getCurrentUpdate() {
         if (!this.firstServerTimestamp) {
-            return {
-                players: [],
-                pipes: [],
-            };
+            return this.initState;
         }
 
         const baseUpdateIndex = this.baseUpdateIndex;
         const serverTime = this.currentServerTime;
 
         const isInitUpdate = baseUpdateIndex < 0;
-        const isFirstUpdate = baseUpdateIndex === this.updates.length - 1;
+        const isNotIterpolatedUpdate = baseUpdateIndex === this.updates.length - 1;
 
         switch (true) {
             case isInitUpdate: {
                 return this.updates[this.updates.length - 1].state;
             }
 
-            case isFirstUpdate: {
+            case isNotIterpolatedUpdate: {
                 return this.updates[baseUpdateIndex].state;
             }
 
@@ -110,9 +113,12 @@ export default class Game {
     }
 
     update(dt) {
-        //Сделать проверку по updates
         for (let [managerName, manager] of this.controller.managersEntries) {
             if (!manager.isEnvironment) {
+                if (!this.getCurrentUpdate()[managerName]) {
+                    console.error(`Hasn't state for manager: ${managerName}`);
+                    return;
+                }
                 manager.update(dt, this.getCurrentUpdate()[managerName])
             } else {
                 manager.update(dt)

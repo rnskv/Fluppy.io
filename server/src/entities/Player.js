@@ -1,4 +1,4 @@
-import GameObject from "../core/GameObject";
+import CollisionGameObject from "../core/CollisionGameObject";
 import settings from '../configs/settings';
 
 
@@ -8,9 +8,9 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
 }
 
-class Player extends GameObject {
+class Player extends CollisionGameObject {
     constructor({isBot, ...params}) {
-        super({...params})
+        super({...params});
 
         this.speed = 1;
 
@@ -28,21 +28,6 @@ class Player extends GameObject {
 
         this.maxDX = 1.5;
         this.isDie = false;
-
-        if (this.isBot) {
-            this.botClick()
-        }
-    }
-
-    botClick() {
-        this.onClick();
-
-        if (this.y > 400) {
-            setTimeout(this.botClick.bind(this), getRandomInt(100, 300));
-        } else {
-            setTimeout(this.botClick.bind(this), getRandomInt(30, 700));
-        }
-
     }
 
     get clientData() {

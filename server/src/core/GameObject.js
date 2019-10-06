@@ -1,5 +1,8 @@
+import Shape from './Shape';
+import * as SHAPES from '../types/shapes';
+
 class GameObject {
-    constructor({id, x, y, width, height, methods}) {
+    constructor({id, x, y, radius, width, height, methods}) {
         this.id = id;
 
         this.x = x;
@@ -15,13 +18,15 @@ class GameObject {
 
         this.rotation = 0;
 
+        this.radius = radius || null;
+
         this.methods = methods;
 
         this.update = this.update.bind(this)
     }
 
-    onCollide(object) {
-        console.log(`Object ${this.id} collide with object ${object.id}`)
+    init() {
+        /* */
     }
 
     get clientData() {

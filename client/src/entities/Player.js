@@ -17,21 +17,21 @@ class Player extends GameObject {
         const container = new PIXI.Container();
 
         const graphics = new PIXI.Graphics();
-        // const colors = [0xFF0000, 0x00FF00, 0xFFFFFF];
-        // graphics.beginFill(colors[Math.floor(Math.random() * colors.length)]);
-        // graphics.lineStyle(4, 0x000000);
-        // graphics.drawRect(0, 0, this.width, this.height);
+        const colors = [0xFF0000, 0x00FF00, 0xFFFFFF];
+        graphics.beginFill(colors[Math.floor(Math.random() * colors.length)]);
+        graphics.lineStyle(4, 0x000000);
+        graphics.drawRect(0, 0, this.width, this.height);
 
 
-        const textures = [PIXI.Texture.from('/resources/images/player.png')];
+        // const textures = [PIXI.Texture.from('/resources/images/player.png')];
 
-        const sprite = new PIXI.Sprite(textures[0]);
-
-        sprite.width = this.width + 20;
-        sprite.height = this.height + 10;
-        sprite.x = -10;
-        sprite.y = -5;
-        container.addChild(sprite);
+        // const sprite = new PIXI.Sprite(textures[0]);
+        //
+        // sprite.width = this.width + 20;
+        // sprite.height = this.height + 10;
+        // sprite.x = -10;
+        // sprite.y = -5;
+        // container.addChild(sprite);
 
         if (this.isCurrentPlayer) {
             graphics.beginFill(0x000000, 0.0);

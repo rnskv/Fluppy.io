@@ -1,7 +1,7 @@
-import GameObject from "../core/GameObject";
+import CollisionGameObject from "../core/CollisionGameObject";
 import settings from "../configs/settings";
 
-class Pipe extends GameObject {
+class Pipe extends CollisionGameObject {
     constructor({position, wholeSize, shift,...params}) {
         super({position, ...params});
 

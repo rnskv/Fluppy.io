@@ -1,19 +1,11 @@
 import Manager from "../core/Manager";
 import settings from '../configs/settings';
 
-let botsCount = 0;
 class PlayersManager extends Manager {
     constructor({...params}) {
         super({...params});
 
         this.spawnPipe = this.spawnPipe.bind(this);
-
-        setInterval(() => {
-            botsCount++;
-            if (botsCount < 200) {
-                this.onJoinHandler({ id: Math.random(), isBot: true})
-            }
-        }, 50)
     }
 
     init(controller) {
@@ -27,7 +19,6 @@ class PlayersManager extends Manager {
         }});
 
         const isAdded = this.addObject(player);
-
         if (isAdded) {
             this.network.io.emit('game:player:join', player.clientData)
         }
