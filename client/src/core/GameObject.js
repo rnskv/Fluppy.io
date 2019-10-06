@@ -24,7 +24,8 @@ export default class GameObject {
         this.height = height || 10;
         this.rotation = 0;
         this.pivot = pivot || {x: 0, y: 0};
-        this.object = null;
+        this.objectContainer = null;
+
         this.methods = methods || {};
         this.shape = shape;
     }
@@ -47,25 +48,36 @@ export default class GameObject {
         return graphics;
     }
 
+    createStaticObject() {
+        /* */
+    }
+
     addToStage() {
         //Для примера
-        this.object = this.createObject();
-        this.container.addChild(this.object);
-        if (this.shape) {
-            this.drawShape(this.object);
+
+        this.objectContainer = new PIXI.Container();
+        this.staticObject = this.createStaticObject();
+        this.activeObject = this.createObject();
+
+        this.objectContainer.addChild(this.activeObject);
+        if (this.staticObject) {
+            this.objectContainer.addChild(this.staticObject);
         }
+
+        this.container.addChild(this.objectContainer);
     }
 
     removeFromStage() {
-        this.container.removeChild(this.object)
+        this.container.removeChild(this.objectContainer)
     }
 
     hide() {
-        this.object.visible = false;
+        this.objectContainer.visible = false;
+        this.objectContainer.visible = false;
     }
 
     show() {
-        this.object.visible = true;
+        this.objectContainer.visible = true;
     }
 
     setUpdates(updates) {
@@ -75,10 +87,11 @@ export default class GameObject {
     }
 
     runUpdates() {
-        this.object.transform.position.x = this.x + this.offsets.x - this.controller.camera.position.x;
-        this.object.transform.position.y = this.y + this.offsets.y - this.controller.camera.position.y;
-        this.object.transform.rotation = this.rotation;
-        this.object.pivot = this.pivot;
+        this.objectContainer.transform.position.x = this.x + this.offsets.x - this.controller.camera.position.x;
+        this.objectContainer.transform.position.y = this.y + this.offsets.y - this.controller.camera.position.y;
+        this.objectContainer.pivot = this.pivot;
+
+        this.activeObject.transform.rotation = this.rotation;
     }
 
     update(dt, updates) {

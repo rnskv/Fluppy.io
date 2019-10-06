@@ -17,7 +17,6 @@ class Collider {
 
         if (obj1.shape.type === 'CIRCLE') {
             if (obj2.shape.type === 'RECT') {
-                console.log('check col circle with rect')
                 return this.checkCircleRectangle(obj1, obj2)
             }
         }
@@ -30,8 +29,6 @@ class Collider {
 
         var XColl=false;
         var YColl=false;
-
-        console.log('shape:', obj2.shape.size);
 
         if ((obj1.x + obj1.shape.size.width >= obj2.x) && (obj1.x <= obj2.x + obj2.shape.size.width)) XColl = true;
         if ((obj1.y + obj1.shape.size.height >= obj2.y) && (obj1.y <= obj2.y + obj2.shape.size.height)) YColl = true;

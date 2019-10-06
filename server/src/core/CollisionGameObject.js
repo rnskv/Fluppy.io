@@ -13,7 +13,6 @@ class CollisionGameObject extends GameObject {
 
     init() {
         super.init();
-        console.log('setShape');
         if (!this.shape) {
             this.setShape(this.shapeType);
         }
@@ -26,7 +25,6 @@ class CollisionGameObject extends GameObject {
     setShape(shapeType) {
         switch (shapeType) {
             case SHAPES.CIRCLE: {
-                console.log('set circle shape');
                 this.shape = new Shape({
                     type:  SHAPES.CIRCLE,
                     radius: this.radius,
@@ -35,7 +33,6 @@ class CollisionGameObject extends GameObject {
                 break;
             }
             case SHAPES.RECT: {
-                console.log('set rect shape')
                 this.shape = new Shape({
                     type:  SHAPES.RECT,
                     width: this.width ,

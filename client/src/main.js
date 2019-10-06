@@ -87,7 +87,7 @@ const game = new Proton({
     controller,
     settings: {
         interpolate: true,
-        renderDelay: 30
+        renderDelay: 60
     }
 });
 

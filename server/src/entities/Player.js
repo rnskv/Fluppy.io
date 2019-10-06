@@ -62,6 +62,7 @@ class Player extends CollisionGameObject {
     }
 
     spawn() {
+        this.dy = 0;
         this.y = 0;
         this.x = 0;
         this.rotation = 0;
@@ -70,7 +71,7 @@ class Player extends CollisionGameObject {
 
     update(dt) {
         this.methods.spawnPipe(this.x, 0);
-        if (this.dy < 6) {
+        if (this.dy < 6 || (this.isDie && this.dy < 10)) {
             this.dy += 0.5 * dt;
         }
 
@@ -93,6 +94,9 @@ class Player extends CollisionGameObject {
             if (this.x > 500) {
                 this.spawn();
             } else {
+                if (this.isDie) {
+                    this.spawn();
+                }
                 this.rotation = 0;
                 this.isDie = false;
             }

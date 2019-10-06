@@ -48,7 +48,7 @@ class PipesManager extends Manager {
     spawnPipes() {
         const lastPosition = this.getLast() ? this.getLast().x : 0;
 
-        const wholeSize = getRandomInt(100, 180);
+        const wholeSize = getRandomInt(130, 180);
         const shift = getRandomInt(-250, 250);
 
         this.addPipe(this.getUniqueId(), {

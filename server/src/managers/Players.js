@@ -54,6 +54,7 @@ class PlayersManager extends Manager {
 
     onClickHandler(socket) {
         const player = this.getById(socket.id);
+        console.log('onClick')
         if (player) {
             player.onClick()
         }
