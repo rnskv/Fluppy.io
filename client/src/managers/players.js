@@ -16,13 +16,13 @@ class PlayersManager extends Manager {
             id: objectData.id,
             x: objectData.x,
             y: objectData.y,
-            width: objectData.width,
-            height: objectData.height,
+            radius: objectData.radius,
             isCurrentPlayer: this.isCurrentPlayer(objectData.id),
             viewRadius: this.controller.stores.main.get('settings').viewRadius,
             methods: {
                 generateNewFloor: this.generateNewFloor.bind(this)
-            }
+            },
+            shape: objectData.shape
         }
     }
 

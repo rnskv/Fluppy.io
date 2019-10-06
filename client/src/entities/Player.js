@@ -18,13 +18,11 @@ class Player extends GameObject {
 
         const graphics = new PIXI.Graphics();
         const colors = [0xFF0000, 0x00FF00, 0xFFFFFF];
-        graphics.beginFill(colors[Math.floor(Math.random() * colors.length)]);
-        graphics.lineStyle(4, 0x000000);
-        graphics.drawRect(0, 0, this.width, this.height);
-
-
+        graphics.beginFill(0x000000, 1);
+        graphics.lineStyle(1, 0x000000);
+        graphics.drawCircle(0, 0, this.radius);
         // const textures = [PIXI.Texture.from('/resources/images/player.png')];
-
+        console.log(this);
         // const sprite = new PIXI.Sprite(textures[0]);
         //
         // sprite.width = this.width + 20;
@@ -36,12 +34,11 @@ class Player extends GameObject {
         if (this.isCurrentPlayer) {
             graphics.beginFill(0x000000, 0.0);
             graphics.lineStyle(1, 0x000000);
-            graphics.drawCircle(1, 1, this.viewRadius);
+            graphics.drawCircle(0, 0, this.viewRadius);
 
             graphics.beginFill(0xffffff, 0.1);
             graphics.lineStyle(1, 0xffffff);
-            graphics.drawCircle(this.width / 2, this.height / 2, 30);
-
+            graphics.drawCircle(0, 0, 30);
         }
 
         container.addChild(graphics);
@@ -49,7 +46,7 @@ class Player extends GameObject {
         const text = new PIXI.Text(`${this.id.toString().slice(0, 5)}`,{fontFamily : 'Arial', fontSize: 14, fill : 0x0000, align : 'center'});
         container.addChild(text);
         text.position.y = 50;
-        text.position.x = 15;
+        text.position.x = 0;
         text.anchor = new PIXI.Point(0.5, 1);
         return container
     }

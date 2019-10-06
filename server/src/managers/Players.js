@@ -1,5 +1,6 @@
 import Manager from "../core/Manager";
 import settings from '../configs/settings';
+import * as SHAPES from '../types/shapes';
 
 class PlayersManager extends Manager {
     constructor({...params}) {
@@ -14,9 +15,16 @@ class PlayersManager extends Manager {
     }
 
     addPlayer(id, isBot) {
-        const player = new this.entity({id, isBot, x: 0, y: 0, methods: {
-            spawnPipe: this.spawnPipe
-        }});
+        const player = new this.entity({
+            id,
+            isBot,
+            x: 0,
+            y: 0,
+            methods: {
+                spawnPipe: this.spawnPipe
+            },
+            shapeType: SHAPES.CIRCLE
+        });
 
         const isAdded = this.addObject(player);
         if (isAdded) {

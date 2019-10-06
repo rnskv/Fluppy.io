@@ -17,8 +17,7 @@ class Player extends CollisionGameObject {
         this.dx = 0;
         this.dy = 10;
 
-        this.width = 30;
-        this.height = 30;
+        this.radius = 15;
 
         this.pivot = { x: this.width / 2, y: this.height / 2 };
         this.gravity = 9.8;
@@ -35,10 +34,10 @@ class Player extends CollisionGameObject {
             id: this.id,
             x: this.x,
             y: this.y,
-            width: this.width,
-            height: this.height,
+            radius: this.radius,
             pivot: this.pivot,
-            rotation: (Math.PI * this.rotation) / 180
+            rotation: (Math.PI * this.rotation) / 180,
+            shape: this.shape.size
         }
     }
 

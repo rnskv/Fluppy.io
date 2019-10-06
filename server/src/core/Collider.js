@@ -15,6 +15,19 @@ class Collider {
             throw new Error(`Object with id - ${obj2.id} is not collider`)
         }
 
+        if (obj1.shape.type === 'CIRCLE') {
+            if (obj2.shape.type === 'RECT') {
+                console.log('check col circle with rect')
+                return this.checkCircleRectangle(obj1, obj2)
+            }
+        }
+
+        if (obj1.shape.type === 'RECT') {
+            if (obj2.shape.type === 'CIRCLE') {
+                return this.checkCircleRectangle(obj2, obj1)
+            }
+        }
+
         var XColl=false;
         var YColl=false;
 
@@ -26,6 +39,32 @@ class Collider {
         if (XColl&YColl){return true;}
 
         return false;
+    }
+
+    checkCircleCircle(circle1, circle2) {
+
+    }
+
+    checkRectangleRectangle(rectangle1, rectangle2) {
+
+    }
+
+    checkCircleRectangle(circle, rectangle) {
+        // Get from http://qaru.site/questions/696570/detecting-collision-of-rectangle-with-circle
+        const distX = Math.abs(circle.x - rectangle.x - rectangle.width / 2);
+        const distY = Math.abs(circle.y - rectangle.y - rectangle.height / 2);
+
+        if (distX > (rectangle.width / 2 + circle.radius)) { return false; }
+        if (distY > (rectangle.height / 2 + circle.radius)) { return false; }
+
+        if (distX <= (rectangle.width / 2)) { return true; }
+        if (distY <= (rectangle.height / 2)) { return true; }
+
+        const dx = distX - rectangle.width / 2;
+        const dy = distY - rectangle.height / 2;
+
+        return ((dx * dx) + (dy * dy) <= (circle.radius * circle.radius));
+
     }
 
     checkCollisionsBetween(manager1, manager2) {

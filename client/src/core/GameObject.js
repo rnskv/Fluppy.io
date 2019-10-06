@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 
 export default class GameObject {
-    constructor({ container, id, x, y, width, height, pivot, methods, controller }) {
+    constructor({ container, id, x, y, radius, width, height, pivot, methods, controller, shape }) {
         if (!container) {
             throw new Error('GameObject must have container')
         }
@@ -14,7 +14,7 @@ export default class GameObject {
         this.id = id;
         this.x = x;
         this.y = y;
-
+        this.radius = radius;
         this.offsets = {
             x: 0,
             y: 0
@@ -25,7 +25,19 @@ export default class GameObject {
         this.rotation = 0;
         this.pivot = pivot || {x: 0, y: 0};
         this.object = null;
-        this.methods = methods || {}
+        this.methods = methods || {};
+        this.shape = shape;
+    }
+
+    drawShape(object) {
+        const graphics = new PIXI.Graphics();
+
+        graphics.beginFill('#FFFFFF');
+        graphics.lineStyle(4, 0x000000);
+        graphics.drawRect(this.shape.x, this.shape.y, this.shape.width, this.shape.height);
+
+        object.addChild(graphics);
+        // return graphics;
     }
 
     createObject() {
@@ -38,7 +50,10 @@ export default class GameObject {
     addToStage() {
         //Для примера
         this.object = this.createObject();
-        this.container.addChild(this.object)
+        this.container.addChild(this.object);
+        if (this.shape) {
+            this.drawShape(this.object);
+        }
     }
 
     removeFromStage() {

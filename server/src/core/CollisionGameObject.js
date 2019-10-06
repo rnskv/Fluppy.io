@@ -29,7 +29,8 @@ class CollisionGameObject extends GameObject {
                 console.log('set circle shape');
                 this.shape = new Shape({
                     type:  SHAPES.CIRCLE,
-                    radius: this.radius
+                    radius: this.radius,
+                    origin: this
                 });
                 break;
             }
@@ -37,8 +38,9 @@ class CollisionGameObject extends GameObject {
                 console.log('set rect shape')
                 this.shape = new Shape({
                     type:  SHAPES.RECT,
-                    width: this.width,
-                    height: this.height
+                    width: this.width ,
+                    height: this.height,
+                    origin: this,
                 });
                 break;
             }

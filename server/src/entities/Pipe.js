@@ -29,7 +29,8 @@ class Pipe extends CollisionGameObject {
             height: this.height,
             x: this.x,
             y: this.y,
-            position: this.position
+            position: this.position,
+            shape: this.shape.size
         }
     }
 

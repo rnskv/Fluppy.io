@@ -12,8 +12,9 @@ class PlayersManager extends Manager {
             id: objectData.id,
             width: objectData.width,
             height: objectData.height,
-            x: 0,
-            y: 0
+            x: objectData.x,
+            y: objectData.y,
+            shape: objectData.shape
         }
     }
 }
