@@ -22,7 +22,7 @@ export default class Proton extends Game {
         });
 
         EventEmitter.subscribe('game:player:leave', id => {
-            players.remove(id);
+            players.removeObject(id);
             console.log('Player leave from game')
         })
     }

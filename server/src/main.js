@@ -20,8 +20,8 @@ import settings from "./configs/settings";
 const network = new Network(io);
 network.init();
 const managers = {
-    'players': new PlayersManager({network, entity: Player, emitRule: 'DEFAULT'}),
-    'pipes': new PipesManager({network, entity: Pipe, emitRule: 'DEFAULT'}),
+    'players': new PlayersManager({network, entity: Player, emitRule: 'RADIUS'}),
+    'pipes': new PipesManager({network, entity: Pipe, emitRule: 'RADIUS'}),
 };
 
 const application = new Server({

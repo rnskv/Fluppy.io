@@ -8,7 +8,7 @@ class ParalaxManager extends Manager {
     }
 
     getActiveObjects(updates) {
-        return this.objects.values.filter((floor) => floor.x + floor.width > this.controller.camera.x);
+        return this.objects.values.filter((object) => object.x + object.width > this.controller.camera.x);
     }
 
     getNewPartPosition() {
@@ -44,11 +44,11 @@ class ParalaxManager extends Manager {
 
         if (settings) {
             if (isFirstPart) {
-                this.add(this.getFirstPartPosition());
+                this.addObject(this.getFirstPartPosition());
             }
 
             if (isNeedAddNewPart) {
-                this.add(this.getNewPartPosition());
+                this.addObject(this.getNewPartPosition());
             }
         }
 

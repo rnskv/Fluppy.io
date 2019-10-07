@@ -5,80 +5,57 @@ class Manager {
     constructor({ entity }) {
         this.objects = new ObjectPool({type: 'OBJECTS'});
 
-        this.actives = {};
+        this.actives = new ObjectPool({type: 'ACTIVES'});
         this.isEnvironment = false;
         this.entity = entity;
         this.controller = null;
+        this.container = new PIXI.Container();
         this.update = this.update.bind(this);
-
-        this.lastGeneratedId = 0;
-    }
-
-    get list() {
-        return Object.values(this.actives);
-    }
-
-    get entries() {
-        return Object.entries(this.actives);
     }
 
     init() {
-        this.container = this.getContainer();
         this.controller.stage.addChild(this.container)
-    }
-
-    getContainer() {
-        return new PIXI.Container();
-    }
-
-    getUniqueId() {
-        return ++this.lastGeneratedId;
     }
 
     connectController(controller) {
         this.controller = controller;
     }
 
-    connectManager(name, manager) {
-        this.managers[name] = manager;
-    }
-
-    moveToActive(id) {
+    moveToActives(id) {
         const object = this.objects.getById(id);
         if (!object) return;
-        this.actives[id] = object;
-        object.show();
+        if (this.actives.add(id, object)) {
+            object.show();
+        }
     }
 
     clearActives() {
-        this.list.forEach(object => {
-            if (!object) return;
-            object.hide();
-        });
-
-        this.actives = {}
+        this.actives.values.forEach(object => object.hide());
+        this.actives.reset();
     }
 
     selector(objectData) {
-        return {};
+        return {
+            id: objectData.id
+        };
     }
 
-    add(objectData) {
+    addObject(objectData) {
         const data = this.selector(objectData);
 
         if (this.isEnvironment) {
-            data.id = this.getUniqueId();
+            data.id = this.objects.uniqueId;
         }
 
         if (!this.objects.isExist(data.id)) {
-            const entity = new this.entity(
-                {
-                    ...data,
-                    container: this.container
-                });
+            const entity = new this.entity({
+                ...data,
+                container: this.container
+            });
 
-            this.objects.add(data.id, entity);
-            entity.addToStage();
+            if (this.objects.add(data.id, entity)) {
+                entity.addToStage();
+            }
 
             return entity;
         } else {
@@ -86,11 +63,12 @@ class Manager {
         }
     }
 
-    remove(id) {
+    removeObject(id) {
         if (!this.objects.isExist(id)) return;
         const object = this.objects.getById(id);
-        object.removeFromStage();
-        this.objects.remove(id);
+        if (this.objects.remove(id)) {
+            object.removeFromStage();
+        }
     }
 
     getActiveObjects(updates) {
@@ -100,11 +78,11 @@ class Manager {
     update(dt, updates) {
         this.clearActives();
         this.getActiveObjects(updates).forEach(data => {
-            this.moveToActive(data.id);
+            this.moveToActives(data.id);
             if (this.objects.isExist(data.id)) {
                 this.objects.getById(data.id).update(dt, data)
             } else {
-                this.add(data).update(dt, data);
+                this.addObject(data).update(dt, data);
             }
         });
     }

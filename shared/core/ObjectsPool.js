@@ -79,6 +79,10 @@ class ObjectsPool {
             entries: []
         }
     }
+
+    reset() {
+        this.map = new Map();
+    }
 }
 
 export default ObjectsPool
