@@ -1,21 +1,31 @@
 import Manager from "../core/Manager";
 
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
+}
+
 class PipesManager extends Manager {
     constructor({...params}) {
         super({...params});
 
         this.preset = {
-            1: {x: 40, y: 20},
-            2: {x: 200, y: 200},
+            'spawnertop': {x: 500, y: -99999},
+            'spawnerbottom': {x: 500, y: 99999},
         };
 
-        this.init();
+        this.gapDistance = 400;
     }
 
-    init() {
+    init(controller) {
+        super.init(controller);
+
         for (let [id, data] of Object.entries(this.preset)) {
             this.addPipe(id, data)
         }
+
+        controller.collider.addCollisionManager('pipes', this);
     }
 
     addPipe(id, objectParams) {
@@ -23,11 +33,37 @@ class PipesManager extends Manager {
             {
                 id,
                 x: objectParams.x,
-                y: objectParams.y
+                y: objectParams.y,
+                width: objectParams.width,
+                height: objectParams.height,
+                position: objectParams.position,
+                shift: objectParams.shift,
+                wholeSize: objectParams.wholeSize
             }
         );
 
-        const isAdded = this.addObject(id, pipe);
+        const isAdded = this.addObject(pipe);
+    }
+
+    spawnPipes() {
+        const lastPosition = this.getLast() ? this.getLast().x : 0;
+
+        const wholeSize = getRandomInt(130, 180);
+        const shift = getRandomInt(-250, 250);
+
+        this.addPipe(this.getUniqueId(), {
+            x: lastPosition + this.gapDistance,
+            position: 'top',
+            shift: shift,
+            wholeSize
+        });
+
+        this.addPipe(this.getUniqueId(), {
+            x: lastPosition + this.gapDistance,
+            position: 'bottom',
+            shift: shift,
+            wholeSize
+        });
     }
 
     connectManager(name, manager) {

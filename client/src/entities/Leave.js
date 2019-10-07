@@ -1,19 +1,19 @@
 import ParalaxObject from "../core/ParalaxObject";
 import * as PIXI from "pixi.js";
 
-class Forest extends ParalaxObject {
+class Leave extends ParalaxObject {
     constructor(params) {
         super(params);
-        this.width = 1300;
-        this.height = 1000;
+        this.width = 1200;
+        this.height = 260;
         this.offsets = {
             x: 0,
-            y: 0
+            y: -40
         }
     }
 
     createObject() {
-        const textures = [PIXI.Texture.from('/resources/images/background.png')];
+        const textures = [PIXI.Texture.from('02_front_canopy.png')];
 
         const sprite = new PIXI.Sprite(textures[0]);
 
@@ -24,4 +24,4 @@ class Forest extends ParalaxObject {
     }
 }
 
-export default Forest;
+export default Leave;

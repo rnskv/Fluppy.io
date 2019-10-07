@@ -1,15 +1,32 @@
 import Manager from "../core/Manager";
+import settings from '../configs/settings';
+import * as SHAPES from '../types/shapes';
 
 class PlayersManager extends Manager {
     constructor({...params}) {
-        super({...params})
+        super({...params});
+
+        this.spawnPipe = this.spawnPipe.bind(this);
     }
 
-    addPlayer(id) {
-        const player = new this.entity({id, x: 0, y: 0});
+    init(controller) {
+        super.init(controller);
+        controller.collider.addCollisionManager('players', this);
+    }
 
-        const isAdded = this.addObject(id, player);
+    addPlayer(id, isBot) {
+        const player = new this.entity({
+            id,
+            isBot,
+            x: 0,
+            y: 0,
+            methods: {
+                spawnPipe: this.spawnPipe
+            },
+            shapeType: SHAPES.CIRCLE
+        });
 
+        const isAdded = this.addObject(player);
         if (isAdded) {
             this.network.io.emit('game:player:join', player.clientData)
         }
@@ -24,7 +41,7 @@ class PlayersManager extends Manager {
     }
 
     onJoinHandler(socket) {
-        this.addPlayer.call(this, socket.id);
+        this.addPlayer.call(this, socket.id, socket.isBot || false);
     }
 
     onLeaveHandler(socket) {
@@ -37,13 +54,18 @@ class PlayersManager extends Manager {
 
     onClickHandler(socket) {
         const player = this.getById(socket.id);
+        console.log('onClick')
         if (player) {
             player.onClick()
         }
     }
 
-    onPlayerAtMapEnd() {
-        //Делаем что то с менеджерами PIPES
+    spawnPipe(x) {
+        const lastPipe = this.controller.managers.pipes.getLast();
+
+        if (lastPipe && lastPipe.x < x + settings.viewRadius) {
+            this.controller.managers.pipes.spawnPipes();
+        }
     }
 
     subscribe() {

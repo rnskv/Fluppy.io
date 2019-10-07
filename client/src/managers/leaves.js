@@ -1,13 +1,13 @@
 import ParalaxManager from "../core/ParalaxManager";
 
-class ForestManager extends ParalaxManager {
+class LeavesManager extends ParalaxManager {
     constructor({...params}) {
         super({...params});
         this.isEnvironment = true;
         this.gluingOffset = 10;
         this.paralaxFactors = {
-            x: -0.35,
-            y: -0.9
+            x: -1,
+            y: -1
         };
     }
 
@@ -40,4 +40,4 @@ class ForestManager extends ParalaxManager {
     }
 }
 
-export default ForestManager;
+export default LeavesManager;

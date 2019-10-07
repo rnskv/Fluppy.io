@@ -14,19 +14,45 @@ class Player extends GameObject {
     }
 
     createObject() {
+        const container = new PIXI.Container();
         const graphics = new PIXI.Graphics();
-        const colors = [0xFF0000, 0x00FF00, 0xFFFFFF];
-        graphics.beginFill(colors[Math.floor(Math.random() * colors.length)]);
-        graphics.lineStyle(4, 0x000000);
-        graphics.drawRect(0, 0, this.width, this.height);
 
-        if (this.isCurrentPlayer) {
-            graphics.beginFill(0xFFFF00, 0.0);
-            graphics.lineStyle(1, 0xFFFFFF);
-            graphics.drawCircle(1, 1, this.viewRadius);
-        }
+        graphics.beginFill(0x00FF00, 1);
+        graphics.lineStyle(3, 0x000000);
+        graphics.drawCircle(0, 0, this.radius);
 
-        return graphics;
+        graphics.beginFill(0x000000, 1);
+        graphics.lineStyle(1, 0x000000);
+        graphics.drawCircle(this.radius * 0.5, this.radius * 0.05, 5);
+
+        graphics.beginFill(0xFFFFFF, 1);
+        graphics.lineStyle(1, 0x000000);
+        graphics.drawCircle(this.radius * 0.5, this.radius * 0.05, 3);
+
+
+        // if (this.isCurrentPlayer && this.x < 500) {
+        //     graphics.beginFill(0x000000, 0.0);
+        //     graphics.lineStyle(1, 0x000000);
+        //     graphics.drawCircle(0, 0, this.viewRadius);
+        //
+        //     graphics.beginFill(0xffffff, 0.1);
+        //     graphics.lineStyle(1, 0xffffff);
+        //     graphics.drawCircle(0, 0, 70);
+        // }
+
+        container.addChild(graphics);
+
+        return container
+    }
+
+    createStaticObject() {
+        console.log(this)
+        const text = new PIXI.Text(`${this.id.toString().slice(0, 5)}`,{fontFamily : 'Roboto', fontSize: 16, fill : 0xffffff, align : 'center', stroke: 0x000000, strokeThickness: 3});
+        text.position.y = this.radius + 10;
+        text.position.x = 0;
+        text.anchor = new PIXI.Point(0.5, 0);
+
+        return text;
     }
 }
 

@@ -7,11 +7,24 @@ class Pipe extends GameObject {
     }
 
     createObject() {
+        const container = new PIXI.Container();
+
+        // const textures = [PIXI.Texture.from('/resources/images/pipe.png')];
+        //
+        // const sprite = new PIXI.Sprite(textures[0]);
+        //
+        // sprite.width = this.width;
+        // sprite.height = this.height;
+
         const graphics = new PIXI.Graphics();
-        graphics.beginFill(0x00FF00);
-        graphics.lineStyle(5, 0xFF00FF);
-        graphics.drawRect(0, 0, 10, 10);
-        return graphics;
+        const colors = [0xFF0000, 0x00FF00, 0xFFFFFF];
+        graphics.beginFill(colors[Math.floor(Math.random() * colors.length)]);
+        graphics.lineStyle(4, 0x000000);
+        graphics.drawRect(0, 0, this.width, this.height);
+
+        container.addChild(graphics);
+
+        return container;
     }
 }
 

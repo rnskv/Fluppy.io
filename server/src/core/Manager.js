@@ -7,14 +7,35 @@ class Manager {
 
         this.objects = new Map();
         this.managers = {};
+        this.controller = null;
+        this.isEnvironment = false;
 
         this.subscribe();
 
+        this.lastGeneratedId = 0;
         this.update = this.update.bind(this);
+    }
+
+    init(controller) {
+        this.connectController(controller);
+        console.log('Manager was inited', controller)
     }
 
     getById(id) {
         return this.objects.get(id);
+    }
+
+    getLast() {
+        if (!this.objects.size) return null;
+        return Array.from(this.objects)[this.objects.size - 1][1]
+    }
+
+    getUniqueId() {
+        return ++this.lastGeneratedId;
+    }
+
+    get list() {
+        return Array.from(this.objects.values())
     }
 
     get dataset() {
@@ -49,13 +70,24 @@ class Manager {
         /* */
     }
 
+    connectController(controller) {
+        this.controller = controller;
+    }
+
+    connectCollider(collider) {
+        this.collider = collider;
+    }
+
     connectManager(name, manager) {
         this.managers[name] = manager;
     }
 
-    addObject(id, object) {
-        if (this.objects.has(id)) return false;
-        this.objects.set(id, object);
+    addObject(object) {
+        if (this.objects.has(object.id)) return false;
+
+        this.objects.set(object.id, object);
+        object.init();
+
         return true;
     }
 

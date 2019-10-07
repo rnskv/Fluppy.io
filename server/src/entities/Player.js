@@ -1,26 +1,32 @@
-import GameObject from "../core/GameObject";
+import CollisionGameObject from "../core/CollisionGameObject";
 import settings from '../configs/settings';
 
-class Player extends GameObject {
-    constructor({...params}) {
-        super({...params})
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
+}
+
+class Player extends CollisionGameObject {
+    constructor({isBot, ...params}) {
+        super({...params});
 
         this.speed = 1;
 
         this.dx = 0;
         this.dy = 10;
 
-        this.acceleration = {
-            x: 0.5,
-            y: 0.5
-        };
-
-        this.width = 20;
-        this.height = 20;
+        this.radius = 15;
 
         this.pivot = { x: this.width / 2, y: this.height / 2 };
         this.gravity = 9.8;
-        this.moveUpRotation = 25;
+        this.moveUpRotation = 35;
+
+        this.isBot = isBot;
+
+        this.maxDX = 1.5;
+        this.isDie = false;
     }
 
     get clientData() {
@@ -28,53 +34,72 @@ class Player extends GameObject {
             id: this.id,
             x: this.x,
             y: this.y,
-            width: this.width,
-            height: this.height,
+            radius: this.radius,
             pivot: this.pivot,
-            rotation: (Math.PI * this.rotation) / 180
+            rotation: (Math.PI * this.rotation) / 180,
+            shape: this.shape.size
         }
     }
 
     onClick() {
-        this.dy = -10;
-        this.dx = 0;
-        this.rotation = -15;
-        this.acceleration.y = 0.4;
+        if (this.isDie) return;
+        this.dy = -7;
+        this.rotation = -40;
         this.y -= 1;
     }
 
+    onCollide(object) {
+        // this.x = object.x - this.width;
+        this.kill();
+    }
+
+    kill() {
+        if (this.isDie) return;
+        this.dx = 0;
+        this.rotation = 90;
+        this.isDie = true;
+        this.dy = -10;
+    }
+
+    spawn() {
+        this.dy = 0;
+        this.y = 0;
+        this.x = 0;
+        this.rotation = 0;
+        this.isDie = false;
+    }
+
     update(dt) {
-        if (this.acceleration.y < 2) {
-            this.acceleration.y *= 1.01;
+        this.methods.spawnPipe(this.x, 0);
+        if (this.dy < 6 || (this.isDie && this.dy < 10)) {
+            this.dy += 0.5 * dt;
         }
 
-        if (this.acceleration.x < 3) {
-            this.acceleration.x *= 1.01;
-        }
-
-        if (this.dy < this.gravity) {
-            this.dy += this.acceleration.y;
-        }
-
-        if (this.dx < 5) {
-            this.dx += this.acceleration.x;
+        if (this.dx < this.maxDX && !this.isDie) {
+            this.dx += 0.5 * dt;
         }
 
         if (this.rotation < this.moveUpRotation) {
-            this.rotation += 5 * dt;
+            this.rotation += Math.abs(this.dy) / 2 * dt;
         }
 
         if (this.y < settings.map.border.top) {
-            this.dy = 10 * dt;
+            this.kill();
         }
 
         if (this.y + this.dy * this.speed * dt < settings.map.border.bottom) {
             this.x += this.dx * this.speed * dt;
             this.y += this.dy * this.speed * dt;
         } else {
-            this.y = settings.map.border.bottom;
-            this.dx = 0;
-            this.rotation = 0;
+            if (this.x > 500) {
+                this.spawn();
+            } else {
+                if (this.isDie) {
+                    this.spawn();
+                }
+                this.rotation = 0;
+                this.isDie = false;
+            }
         }
     }
 }
