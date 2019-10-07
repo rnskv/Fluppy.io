@@ -6,6 +6,12 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].bundle.js'
     },
+    resolve: {
+        alias: {
+            shared: path.resolve(__dirname, '../shared'),
+            Templates: path.resolve(__dirname, 'src/templates/')
+        }
+    },
     mode: 'development',
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
