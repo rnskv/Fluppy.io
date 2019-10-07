@@ -11,6 +11,7 @@ class Collider {
         if (!obj1.hasCollision || !obj1.shape) {
             throw new Error(`Object with id - ${obj1.id} is not collider`)
         }
+
         if (!obj2.hasCollision || !obj1.shape) {
             throw new Error(`Object with id - ${obj2.id} is not collider`)
         }
@@ -21,21 +22,17 @@ class Collider {
             }
         }
 
+
+
         if (obj1.shape.type === 'RECT') {
             if (obj2.shape.type === 'CIRCLE') {
                 return this.checkCircleRectangle(obj2, obj1)
             }
+
+            if (obj2.shape.type === 'RECT') {
+                return this.checkRectangleRectangle(obj1, obj2)
+            }
         }
-
-        var XColl=false;
-        var YColl=false;
-
-        if ((obj1.x + obj1.shape.size.width >= obj2.x) && (obj1.x <= obj2.x + obj2.shape.size.width)) XColl = true;
-        if ((obj1.y + obj1.shape.size.height >= obj2.y) && (obj1.y <= obj2.y + obj2.shape.size.height)) YColl = true;
-
-        if (XColl&YColl){return true;}
-
-        return false;
     }
 
     checkCircleCircle(circle1, circle2) {
@@ -43,24 +40,30 @@ class Collider {
     }
 
     checkRectangleRectangle(rectangle1, rectangle2) {
+        let XColl = false;
+        let YColl = false;
 
+        if ((rectangle1.x + rectangle1.shape.size.x + rectangle1.shape.size.width >= rectangle2.x + rectangle2.shape.size.x) && (rectangle1.x + rectangle1.shape.size.x <= rectangle2.x + rectangle2.shape.size.x + rectangle1.shape.size.width)) XColl = true;
+        if ((rectangle1.y + rectangle1.shape.size.y + rectangle1.shape.size.height >= rectangle2.y + rectangle2.shape.size.y) && (rectangle1.y + rectangle1.shape.size.y <= rectangle2.y + rectangle2.shape.size.y + rectangle1.shape.size.height)) YColl = true;
+
+        return XColl && YColl;
     }
 
     checkCircleRectangle(circle, rectangle) {
         // Get from http://qaru.site/questions/696570/detecting-collision-of-rectangle-with-circle
-        const distX = Math.abs(circle.x - rectangle.x - rectangle.width / 2);
-        const distY = Math.abs(circle.y - rectangle.y - rectangle.height / 2);
+        const distX = Math.abs(circle.x + circle.shape.size.x - rectangle.x + rectangle.shape.size.x - rectangle.shape.width / 2);
+        const distY = Math.abs(circle.y + circle.shape.size.y - rectangle.y + rectangle.shape.size.y - rectangle.shape.height / 2);
 
-        if (distX > (rectangle.width / 2 + circle.radius)) { return false; }
-        if (distY > (rectangle.height / 2 + circle.radius)) { return false; }
+        if (distX > (rectangle.shape.size.width / 2 + circle.shape.size.radius)) { return false; }
+        if (distY > (rectangle.shape.size.height / 2 + circle.shape.size.radius)) { return false; }
 
-        if (distX <= (rectangle.width / 2)) { return true; }
-        if (distY <= (rectangle.height / 2)) { return true; }
+        if (distX <= (rectangle.shape.size.width / 2)) { return true; }
+        if (distY <= (rectangle.shape.size.height / 2)) { return true; }
 
-        const dx = distX - rectangle.width / 2;
-        const dy = distY - rectangle.height / 2;
+        const dx = distX - rectangle.shape.size.width / 2;
+        const dy = distY - rectangle.shape.size.height / 2;
 
-        return ((dx * dx) + (dy * dy) <= (circle.radius * circle.radius));
+        return ((dx * dx) + (dy * dy) <= (circle.shape.size.radius * circle.shape.size.radius));
 
     }
 
