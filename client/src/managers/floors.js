@@ -12,7 +12,7 @@ class FloorsManager extends ParalaxManager {
         const settings = this.controller.stores.main.get('settings');
 
         return {
-            x: this.getLast().x + this.getLast().width - this.gluingOffset,
+            x: this.objects.last.x + this.objects.last.width - this.gluingOffset,
             y: settings.map.border.bottom
         }
     }

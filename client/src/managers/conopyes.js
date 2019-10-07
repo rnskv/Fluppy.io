@@ -13,7 +13,7 @@ class ConopyesManager extends ParalaxManager {
 
     getNewPartPosition() {
         const settings = this.controller.stores.main.get('settings');
-        const lastPart = this.getLast();
+        const lastPart = this.objects.last;
 
         return {
             x: lastPart.x + lastPart.width - this.gluingOffset,

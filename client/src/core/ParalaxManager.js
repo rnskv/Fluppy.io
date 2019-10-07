@@ -8,14 +8,14 @@ class ParalaxManager extends Manager {
     }
 
     getActiveObjects(updates) {
-        return Object.values(this.map).filter((floor) => floor.x + floor.width > this.controller.camera.x);
+        return this.objects.values.filter((floor) => floor.x + floor.width > this.controller.camera.x);
     }
 
     getNewPartPosition() {
         const settings = this.controller.stores.main.get('settings');
 
         return {
-            x: this.getLast().x + this.getLast().width - this.gluingOffset,
+            x: this.objects.last.x + this.objects.last.width - this.gluingOffset,
             y: settings.map.border.bottom
         }
     }
@@ -30,7 +30,7 @@ class ParalaxManager extends Manager {
     }
 
     get isFirstPart() {
-        return !this.getLast().x
+        return !this.objects.last
     }
 
     addPart() {
@@ -38,7 +38,7 @@ class ParalaxManager extends Manager {
         const { controller, gluingOffset, paralaxFactor, isFirstPart} = this;
 
         const leftViewportPoint = controller.camera.position.x + controller.camera.size.width;
-        const leftPartPoint = this.getLast().x - gluingOffset * paralaxFactor;
+        const leftPartPoint = this.objects.last ? this.objects.last.x : 0 - gluingOffset * paralaxFactor;
 
         const isNeedAddNewPart = leftViewportPoint > leftPartPoint;
 

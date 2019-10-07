@@ -1,10 +1,11 @@
 import * as PIXI from 'pixi.js';
+import ObjectPool from 'shared/core/ObjectsPool';
 
 class Manager {
     constructor({ entity }) {
-        this.map = {};
+        this.objects = new ObjectPool({type: 'OBJECTS'});
+
         this.actives = {};
-        this.managers = {};
         this.isEnvironment = false;
         this.entity = entity;
         this.controller = null;
@@ -42,12 +43,8 @@ class Manager {
         this.managers[name] = manager;
     }
 
-    isExist(id) {
-        return Boolean(this.map[id]);
-    }
-
     moveToActive(id) {
-        const object = this.get(id);
+        const object = this.objects.getById(id);
         if (!object) return;
         this.actives[id] = object;
         object.show();
@@ -62,14 +59,6 @@ class Manager {
         this.actives = {}
     }
 
-    get(id) {
-        return this.map[id];
-    }
-
-    getLast() {
-        return this.list[this.list.length - 1] || {};
-    }
-
     selector(objectData) {
         return {};
     }
@@ -81,14 +70,14 @@ class Manager {
             data.id = this.getUniqueId();
         }
 
-        if (!this.isExist(data.id)) {
+        if (!this.objects.isExist(data.id)) {
             const entity = new this.entity(
                 {
                     ...data,
                     container: this.container
                 });
 
-            this.map[data.id] = entity;
+            this.objects.add(data.id, entity);
             entity.addToStage();
 
             return entity;
@@ -98,10 +87,10 @@ class Manager {
     }
 
     remove(id) {
-        if (!this.isExist(id)) return;
-        const object = this.map[id];
-        delete this.map[id];
+        if (!this.objects.isExist(id)) return;
+        const object = this.objects.getById(id);
         object.removeFromStage();
+        this.objects.remove(id);
     }
 
     getActiveObjects(updates) {
@@ -112,8 +101,8 @@ class Manager {
         this.clearActives();
         this.getActiveObjects(updates).forEach(data => {
             this.moveToActive(data.id);
-            if (this.isExist(data.id)) {
-                this.get(data.id).update(dt, data)
+            if (this.objects.isExist(data.id)) {
+                this.objects.getById(data.id).update(dt, data)
             } else {
                 this.add(data).update(dt, data);
             }
