@@ -12,9 +12,7 @@ module.exports = {
     },
     resolve: {
         alias: {
-            shared: path.resolve(__dirname, '../shared'),
-            Templates: path.resolve(__dirname, 'src/templates/')
-        }
+            shared: path.resolve(__dirname, '../shared')}
     },
     module: {
         rules: [

@@ -24,22 +24,21 @@ export default class Server {
     }
 
     get state() {
-        const players = this.controller.getManager('players');
-        const pipes =  this.controller.getManager('pipes');
+        let result = {};
 
-        return {
-            players: players.dataset,
-            pipes: pipes.dataset
+        for (let [name, manager] of this.controller.entries) {
+            result[name] = manager.dataset
         }
+
+        return result;
     }
 
     emitStateToPlayer(socket) {
-        const players = this.controller.getManager('players');
-        const player = players.getById(socket.id);
+        const player = this.controller.getManager('players').objects.getById(socket.id);
 
         if (player) {
             socket.emit('game:update', {
-                state: this.controller.getStateForPlayerByRules(player, {}),
+                state: this.controller.getStateForPlayerByRules(player),
                 timestamp: Date.now()
             });
         }

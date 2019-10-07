@@ -9,73 +9,54 @@ function getRandomInt(min, max) {
 class PipesManager extends Manager {
     constructor({...params}) {
         super({...params});
-
-        this.preset = {
-            'spawnertop': {x: 500, y: -99999},
-            'spawnerbottom': {x: 500, y: 99999},
-        };
-
+        this.preset = [{x: 500, y: -99999}, {x: 500, y: 99999}];
         this.gapDistance = 400;
     }
 
     init(controller) {
         super.init(controller);
 
-        for (let [id, data] of Object.entries(this.preset)) {
-            this.addPipe(id, data)
+        for (let data of this.preset) {
+            this.addObject(data)
         }
 
         controller.collider.addCollisionManager('pipes', this);
     }
 
-    addPipe(id, objectParams) {
-        const pipe = new this.entity(
-            {
-                id,
-                x: objectParams.x,
-                y: objectParams.y,
-                width: objectParams.width,
-                height: objectParams.height,
-                position: objectParams.position,
-                shift: objectParams.shift,
-                wholeSize: objectParams.wholeSize
-            }
-        );
-
-        const isAdded = this.addObject(pipe);
+    selector(objectParams) {
+        return {
+            id: objectParams.id,
+            x: objectParams.x,
+            y: objectParams.y,
+            width: objectParams.width,
+            height: objectParams.height,
+            position: objectParams.position,
+            shift: objectParams.shift,
+            wholeSize: objectParams.wholeSize
+        }
     }
 
     spawnPipes() {
-        const lastPosition = this.getLast() ? this.getLast().x : 0;
+        const lastPosition = this.objects.last ? this.objects.last.x : 0;
 
         const wholeSize = getRandomInt(130, 180);
         const shift = getRandomInt(-250, 250);
 
-        this.addPipe(this.getUniqueId(), {
+        this.addObject({
+            id: this.objects.uniqueId,
             x: lastPosition + this.gapDistance,
             position: 'top',
             shift: shift,
             wholeSize
         });
 
-        this.addPipe(this.getUniqueId(), {
+        this.addObject( {
+            id: this.objects.uniqueId,
             x: lastPosition + this.gapDistance,
             position: 'bottom',
             shift: shift,
             wholeSize
         });
-    }
-
-    connectManager(name, manager) {
-        super.connectManager(name, manager);
-    }
-
-    removePipe(id) {
-        const isRemoved = this.removeObject(id);
-    }
-
-    update(dt) {
-        super.update(dt);
     }
 }
 

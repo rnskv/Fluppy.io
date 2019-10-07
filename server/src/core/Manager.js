@@ -1,47 +1,45 @@
 import settings from "../configs/settings";
+import ObjectPool from 'shared/core/ObjectsPool';
 
 class Manager {
-    constructor({ network, entity }) {
+    constructor({ network, entity, emitRule }) {
         this.network = network;
         this.entity = entity;
+        this.emitRule = emitRule;
 
-        this.objects = new Map();
+        this.objects = new ObjectPool({ type: 'OBJECTS' });
         this.managers = {};
         this.controller = null;
         this.isEnvironment = false;
 
         this.subscribe();
 
-        this.lastGeneratedId = 0;
         this.update = this.update.bind(this);
     }
 
     init(controller) {
         this.connectController(controller);
-        console.log('Manager was inited', controller)
     }
 
-    getById(id) {
-        return this.objects.get(id);
+    selector(objectParams) {
+        return {
+            id: objectParams.id
+        }
     }
 
-    getLast() {
-        if (!this.objects.size) return null;
-        return Array.from(this.objects)[this.objects.size - 1][1]
-    }
+    addObject(objectParams) {
+        objectParams.id = objectParams.id || this.objects.uniqueId;
+        const object = new this.entity(this.selector(objectParams));
 
-    getUniqueId() {
-        return ++this.lastGeneratedId;
-    }
-
-    get list() {
-        return Array.from(this.objects.values())
+        if (this.objects.add(object.id, object)) {
+            object.init();
+        }
     }
 
     get dataset() {
         let result = {};
 
-        for (let entity of this.objects.values()) {
+        for (let entity of this.objects.values) {
             result[entity.id] = entity.clientData;
         }
 
@@ -51,7 +49,7 @@ class Manager {
     getDatasetInRadiusFromPoint(x, y) {
         let result = {};
 
-        for (let entity of this.objects.values()) {
+        for (let entity of this.objects.values) {
 
             const a = x - entity.x;
             const b = y - entity.y;
@@ -82,23 +80,8 @@ class Manager {
         this.managers[name] = manager;
     }
 
-    addObject(object) {
-        if (this.objects.has(object.id)) return false;
-
-        this.objects.set(object.id, object);
-        object.init();
-
-        return true;
-    }
-
-    removeObject(id) {
-        if (!this.objects.has(id)) return false;
-        this.objects.delete(id);
-        return true;
-    }
-
     update(dt) {
-        for (let object of this.objects.values()) {
+        for (let object of this.objects.values) {
             object.update(dt);
         }
     }

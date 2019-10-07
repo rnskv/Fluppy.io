@@ -69,8 +69,8 @@ class Collider {
 
     checkCollisionsBetween(manager1, manager2) {
         //Проверить потом переписать
-        const firstList = manager1.list;
-        const secondList = manager2.list;
+        const firstList = manager1.objects.values;
+        const secondList = manager2.objects.values;
 
         for (let object of firstList) {
             for (let enemyObject of secondList) {

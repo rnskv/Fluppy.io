@@ -22,11 +22,22 @@ class Controller {
         return this.managers[name]
     }
 
-    getStateForPlayerByRules(player, rules) {
+    getStateForPlayerByRules(player) {
         let result = {};
         if (player) {
             this.managersNames.forEach(managerName => {
-                result[managerName] = this.getManager(managerName).getDatasetInRadiusFromPoint(player.x, player.y)
+                const manager = this.getManager(managerName);
+
+                switch (manager.emitRule) {
+                    case 'RADIUS': {
+                        result[managerName] = manager.getDatasetInRadiusFromPoint(player.x, player.y);
+                        break;
+                    }
+
+                    default: {
+                        result[managerName] = manager.dataset
+                    }
+                }
             });
         }
         return result;

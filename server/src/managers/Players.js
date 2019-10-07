@@ -14,54 +14,52 @@ class PlayersManager extends Manager {
         controller.collider.addCollisionManager('players', this);
     }
 
-    addPlayer(id, isBot) {
-        const player = new this.entity({
-            id,
-            isBot,
+    selector(objectParams) {
+        return {
+            id: objectParams.id,
+            isBot: objectParams.isBot,
             x: 0,
             y: 0,
             methods: {
                 spawnPipe: this.spawnPipe
             },
             shapeType: SHAPES.CIRCLE
-        });
-
-        const isAdded = this.addObject(player);
-        if (isAdded) {
-            this.network.io.emit('game:player:join', player.clientData)
-        }
-    }
-
-    removePlayer(id) {
-        const isRemoved = this.removeObject(id);
-
-        if (isRemoved) {
-            this.network.io.emit('game:player:leave', id);
         }
     }
 
     onJoinHandler(socket) {
-        this.addPlayer.call(this, socket.id, socket.isBot || false);
+        if (
+            this.addObject({id: socket.id, isBot: false})
+        ) {
+            this.network.io.emit('game:player:join', this.objects.getById(socket.id).clientData)
+        }
     }
 
     onLeaveHandler(socket) {
-        this.removePlayer.call(this, socket.id);
+        if (
+            this.objects.remove(socket.id)
+        ) {
+            this.network.io.emit('game:player:leave', socket.id);
+        }
     }
 
     onDisconnectHandler(socket) {
-        this.removePlayer.call(this, socket.id);
+        if (
+            this.objects.remove(socket.id)
+        ) {
+            this.network.io.emit('game:player:leave', socket.id);
+        }
     }
 
     onClickHandler(socket) {
-        const player = this.getById(socket.id);
-        console.log('onClick')
+        const player = this.objects.getById(socket.id);
         if (player) {
             player.onClick()
         }
     }
 
     spawnPipe(x) {
-        const lastPipe = this.controller.managers.pipes.getLast();
+        const lastPipe = this.controller.managers.pipes.objects.last;
 
         if (lastPipe && lastPipe.x < x + settings.viewRadius) {
             this.controller.managers.pipes.spawnPipes();
