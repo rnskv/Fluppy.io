@@ -17,7 +17,7 @@ class Home extends Component {
   }
 
   join() {
-    EventEmitter.emit("game:join", {uid: 'itsmysuperidfrombd'});
+    EventEmitter.emit("game:join", {uid: 'test'});
   }
 
   leave() {

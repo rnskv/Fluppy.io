@@ -47,8 +47,17 @@ class Player extends GameObject {
     }
 
     createStaticObject() {
-        console.log(this)
-        const text = new PIXI.Text(`${this.name.toString().slice(0, 5)}`,{fontFamily : 'Roboto', fontSize: 16, fill : 0xffffff, align : 'center', stroke: 0x000000, strokeThickness: 3});
+        const text = new PIXI.Text(
+        `${this.name}`,
+          {
+            fontFamily : 'Roboto',
+            fontSize: 16,
+            fill : 0xffffff,
+            align : 'center',
+            stroke: 0x000000,
+            strokeThickness: 3
+          }
+        );
         text.position.y = this.radius + 10;
         text.position.x = 0;
         text.anchor = new PIXI.Point(0.5, 0);

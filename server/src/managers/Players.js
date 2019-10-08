@@ -45,18 +45,25 @@ class PlayersManager extends Manager {
         console.log('join', playerData);
         /**** ПРИМЕР *****/
         const players = {
-          'itsmysuperidfrombd': {
-            uid: 'itsmysuperidfrombd',
+          'rnskv': {
+            uid: 'rnskv',
+            x: 50,
+            y: 10,
+            name: 'Ромка'
+          },
+          'test': {
+            uid: 'test',
             x: 50,
             y: 600,
-            name: 'Ромка'
+            name: 'Тестовый пользователь'
           }
         };
 
         const player = players[playerData.uid];
 
         if (!player) return;
-        console.log('Игрок прошел валидацию')
+
+        console.log('Игрок прошел валидацию');
         /**** ПРИМЕР *****/
         if (
             this.addObject({
