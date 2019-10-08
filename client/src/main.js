@@ -29,7 +29,11 @@ import Conopy from "./entities/Conopy";
 import Proton from './Proton';
 
 const rootNode = document.querySelector('#root');
-const client = new Client(rootNode, { width: document.documentElement.clientWidth, height: document.documentElement.clientHeight });
+
+const client = new Client(rootNode, {
+    width: document.documentElement.clientWidth,
+    height: document.documentElement.clientHeight
+});
 
 client.createApp('game');
 
@@ -102,7 +106,6 @@ game.loader.addManifest({
 game.loader.load((loader, resources) => {
     //@todo Вынести эту логику в другое место.
     stores.main.set('resources', resources);
-    alert('Загрузка ресурсов завершена')
     game.start();
 });
 
