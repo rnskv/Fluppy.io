@@ -9,8 +9,10 @@ function getRandomInt(min, max) {
 }
 
 class Player extends CollisionGameObject {
-    constructor({isBot, ...params}) {
+    constructor({isBot, uid, name,...params}) {
         super({...params});
+        this.uid = uid;
+        this.name = name;
 
         this.speed = 1;
 
@@ -37,7 +39,9 @@ class Player extends CollisionGameObject {
             radius: this.radius,
             pivot: this.pivot,
             rotation: (Math.PI * this.rotation) / 180,
-            shape: this.shape.size
+            shape: this.shape.size,
+            uid: this.uid,
+            name: this.name
         }
     }
 

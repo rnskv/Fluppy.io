@@ -5,9 +5,10 @@ class EventEmitter {
     }
 
     emit(eventName, data) {
-      console.log(this.events)
         const event = this.events[eventName];
-        if (!event) {
+        console.log(eventName, data)
+
+      if (!event) {
             throw new Error(`Event ${eventName} hasn't subscribers`);
         } else {
             event.forEach(fn => {
@@ -17,10 +18,11 @@ class EventEmitter {
     }
 
     subscribe(eventName, callback) {
-        console.log('subscribe to', eventName);
         if(!this.events[eventName] ) {
             this.events[eventName] = [];
         }
+
+        console.log(eventName)
 
         this.events[eventName].push(callback)
         console.log(this.events)

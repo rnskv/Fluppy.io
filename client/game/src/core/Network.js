@@ -29,8 +29,8 @@ document.addEventListener('keypress', (e) => {
     }
 });
 
-EventEmitter.subscribe('game:join', () => {
-  socket.emit('game:join')
+EventEmitter.subscribe('game:join', (playerData) => {
+  socket.emit('game:join', playerData)
 });
 
 EventEmitter.subscribe('game:leave', () => {

@@ -15,11 +15,25 @@ class PlayersManager extends Manager {
     }
 
     selector(objectParams) {
+      console.log('Забрали данные из селектора', {
+        id: objectParams.id,
+        isBot: objectParams.isBot,
+        x: objectParams.x,
+        y: objectParams.y,
+        name: objectParams.name,
+        uid: objectParams.uid,
+        methods: {
+          spawnPipe: this.spawnPipe
+        },
+        shapeType: SHAPES.CIRCLE
+      })
         return {
             id: objectParams.id,
             isBot: objectParams.isBot,
-            x: 0,
-            y: 0,
+            x: objectParams.x,
+            y: objectParams.y,
+            name: objectParams.name,
+            uid: objectParams.uid,
             methods: {
                 spawnPipe: this.spawnPipe
             },
@@ -27,9 +41,29 @@ class PlayersManager extends Manager {
         }
     }
 
-    onJoinHandler(socket) {
+    onJoinHandler(socket, playerData) {
+        console.log('join', playerData);
+        /**** ПРИМЕР *****/
+        const players = {
+          'itsmysuperidfrombd': {
+            uid: 'itsmysuperidfrombd',
+            x: 50,
+            y: 600,
+            name: 'Ромка'
+          }
+        };
+
+        const player = players[playerData.uid];
+
+        if (!player) return;
+        console.log('Игрок прошел валидацию')
+        /**** ПРИМЕР *****/
         if (
-            this.addObject({id: socket.id, isBot: false})
+            this.addObject({
+              id: socket.id,
+              isBot: false,
+              ...player
+            })
         ) {
             this.network.io.emit('game:player:join', this.objects.getById(socket.id).clientData)
         }

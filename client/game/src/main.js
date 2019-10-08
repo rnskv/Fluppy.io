@@ -30,91 +30,100 @@ import Conopy from "./entities/Conopy";
 
 import Proton from './Proton';
 
+class Injector {
+  constructor() {
 
-const initGame = (rootNode) => {
-  console.log('initGame')
-  const client = new Client(rootNode, {
-    width: document.documentElement.clientWidth,
-    height: document.documentElement.clientHeight
-  });
+  }
+  createClient(node) {
+    this.client = new Client(node, {
+      width: node.clientWidth,
+      height: node.clientHeight
+    });
+  }
+  trashPipe() {
+    const { client } = this;
+    client.createApp('game');
 
-  client.createApp('game');
+    const app = client.getApp('game');
+    const stage = app.stage;
 
-  const app = client.getApp('game');
-  const stage = app.stage;
+    const managers = {
+      forest: new ForestManager({
+        entity: Forest
+      }),
+      thickets: new ThicketsManager({
+        entity: Thicket
+      }),
+      silhouette: new SilhouetteManager({
+        entity: Silhouette
+      }),
+      conopyes: new ConopyesManager({
+        entity: Conopy
+      }),
+      pipes: new PipesManager({
+        entity: Pipe
+      }),
+      floors: new FloorsManager({
+        entity: Floor
+      }),
+      players: new PlayersManager({
+        entity: Player
+      }),
+      leaves: new LeavesManager({
+        entity: Leave
+      })
+    };
 
-  const managers = {
-    forest: new ForestManager({
-      entity: Forest
-    }),
-    thickets: new ThicketsManager({
-      entity: Thicket
-    }),
-    silhouette: new SilhouetteManager({
-      entity: Silhouette
-    }),
-    conopyes: new ConopyesManager({
-      entity: Conopy
-    }),
-    pipes: new PipesManager({
-      entity: Pipe
-    }),
-    floors: new FloorsManager({
-      entity: Floor
-    }),
-    players: new PlayersManager({
-      entity: Player
-    }),
-    leaves: new LeavesManager({
-      entity: Leave
-    })
-  };
+    const stores = {
+      player: new PlayerStore({
+        id: null
+      }),
+      main: new MainStore({
+        settings: null,
+        resources: null
+      })
+    };
 
-  const stores = {
-    player: new PlayerStore({
-      id: null
-    }),
-    main: new MainStore({
-      settings: null,
-      resources: null
-    })
-  };
+    const camera = new Camera({ size: client.size });
 
-  const camera = new Camera({ size: client.size });
+    const controller = new Controller({
+      managers,
+      stores,
+      camera,
+      stage
+    });
 
-  const controller = new Controller({
-    managers,
-    stores,
-    camera,
-    stage
-  });
+    const game = new Proton({
+      app,
+      controller,
+      settings: {
+        interpolate: true,
+        renderDelay: 60
+      }
+    });
 
-  const game = new Proton({
-    app,
-    controller,
-    settings: {
-      interpolate: true,
-      renderDelay: 60
-    }
-  });
+    game.loader.addManifest({
+      'wordAssests': '/resources/jsons/wordassets.json',
+      'pipe': '/resources/jsons/pipe.png',
+      'viking': '/resources/jsons/viking.json',
+      'background': '/resources/images/background.png',
+      'player': '/resources/images/player.png'
+    });
 
-  game.loader.addManifest({
-    'wordAssests': '/resources/jsons/wordassets.json',
-    'pipe': '/resources/jsons/pipe.png',
-    'viking': '/resources/jsons/viking.json',
-    'background': '/resources/images/background.png',
-    'player': '/resources/images/player.png'
-  });
-
-  game.loader.load((loader, resources) => {
-    //@todo Вынести эту логику в другое место.
-    stores.main.set('resources', resources);
-    game.start();
-  });
+    game.loader.load((loader, resources) => {
+      //@todo Вынести эту логику в другое место.
+      stores.main.set('resources', resources);
+      game.start();
+    });
 
 
-  window.game = game;
+    window.game = game;
+  }
 
-};
+  inject(node) {
+    this.createClient(node);
+    this.trashPipe();
+  }
+}
 
-export default initGame;
+export default new Injector();

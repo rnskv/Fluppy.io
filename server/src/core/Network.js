@@ -13,8 +13,8 @@ class Network {
         this.io.on('connection', socket => {
             Object.keys(this.handlers).forEach(eventName => {
                 const callbacks = this.handlers[eventName];
-                socket.on(eventName, () => {
-                    callbacks.forEach(callback => callback(socket))
+                socket.on(eventName, (data) => {
+                    callbacks.forEach(callback => callback(socket, data))
                 })
             })
         })

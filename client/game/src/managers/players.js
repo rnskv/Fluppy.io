@@ -17,6 +17,8 @@ class PlayersManager extends Manager {
             x: objectData.x,
             y: objectData.y,
             radius: objectData.radius,
+            uid: objectData.uid,
+            name: objectData.name,
             isCurrentPlayer: this.isCurrentPlayer(objectData.id),
             viewRadius: this.controller.stores.main.get('settings').viewRadius,
             methods: {

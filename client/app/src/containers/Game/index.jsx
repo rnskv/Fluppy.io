@@ -1,5 +1,5 @@
 import EventEmitter from "shared/core/EventEmitter";
-import initGame from "game/src/main";
+import Injector from "game/src/main";
 
 import React, { Component } from "react";
 import { observer } from "mobx-react";
@@ -13,11 +13,11 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    initGame(this.gameRef.current);
+    Injector.inject(this.gameRef.current);
   }
 
   join() {
-    EventEmitter.emit("game:join");
+    EventEmitter.emit("game:join", {uid: 'itsmysuperidfrombd'});
   }
 
   leave() {
