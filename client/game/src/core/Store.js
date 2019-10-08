@@ -1,23 +1,23 @@
 class Store {
-    constructor(initState = {}) {
-        this.state = initState;
-    }
+  constructor(initState = {}) {
+    this.state = initState;
+  }
 
-    get(key) {
-        return this.state[key]
-    }
+  get(key) {
+    return this.state[key];
+  }
 
-    set(key, value) {
-        this.state[key] = value;
-    }
+  set(key, value) {
+    this.state[key] = value;
+  }
 
-    remove(key) {
-        delete this.state[key]
-    }
+  remove(key) {
+    delete this.state[key];
+  }
 
-    get data() {
-        return this.state;
-    }
+  get data() {
+    return this.state;
+  }
 }
 
 export default Store;

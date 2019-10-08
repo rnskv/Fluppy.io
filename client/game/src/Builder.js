@@ -1,23 +1,22 @@
-import EventEmitter from 'shared/core/EventEmitter';
+import EventEmitter from "shared/core/EventEmitter";
 
-import Client from './core/Client';
-import Network from './core/Network';
-import Camera from './core/Camera';
+import Client from "./core/Client";
+import Network from "./core/Network";
+import Camera from "./core/Camera";
 
+import PlayersManager from "./managers/players";
+import PipesManager from "./managers/pipes";
+import FloorsManager from "./managers/floors";
+import ForestManager from "./managers/forest";
+import SilhouetteManager from "./managers/silhoutte";
+import ThicketsManager from "./managers/thickets";
+import LeavesManager from "./managers/leaves";
+import ConopyesManager from "./managers/conopyes";
 
-import PlayersManager from './managers/players';
-import PipesManager from './managers/pipes';
-import FloorsManager from './managers/floors';
-import ForestManager from './managers/forest';
-import SilhouetteManager from './managers/silhoutte';
-import ThicketsManager from './managers/thickets';
-import LeavesManager from './managers/leaves';
-import ConopyesManager from './managers/conopyes';
+import PlayerStore from "./stores/PlayerStore";
+import MainStore from "./stores/MainStore";
 
-import PlayerStore from './stores/PlayerStore';
-import MainStore from './stores/MainStore';
-
-import Controller from './core/Controller';
+import Controller from "./core/Controller";
 
 import Player from "./entities/Player";
 import Pipe from "./entities/Pipe";
@@ -28,7 +27,7 @@ import Thicket from "./entities/Thicket";
 import Leave from "./entities/Leave";
 import Conopy from "./entities/Conopy";
 
-import Proton from './Proton';
+import Proton from "./Proton";
 
 const managers = {
   forest: new ForestManager({
@@ -67,14 +66,13 @@ const stores = {
   })
 };
 
-
 class Builder {
   constructor(client) {
     this.client = client;
   }
 
   get app() {
-    return this.client.getApp('game');
+    return this.client.getApp("game");
   }
 
   get stage() {
@@ -82,7 +80,7 @@ class Builder {
   }
 
   createApp() {
-    this.client.createApp('game')
+    this.client.createApp("game");
   }
 
   createCamera() {
@@ -111,16 +109,16 @@ class Builder {
 
   loadManifest() {
     this.game.loader.addManifest({
-      'wordAssests': '/resources/jsons/wordassets.json',
-      'pipe': '/resources/jsons/pipe.png',
-      'viking': '/resources/jsons/viking.json',
-      'background': '/resources/images/background.png',
-      'player': '/resources/images/player.png'
+      wordAssests: "/resources/jsons/wordassets.json",
+      pipe: "/resources/jsons/pipe.png",
+      viking: "/resources/jsons/viking.json",
+      background: "/resources/images/background.png",
+      player: "/resources/images/player.png"
     });
 
     this.game.loader.load((loader, resources) => {
       //@todo Вынести эту логику в другое место.
-      this.game.controller.stores.main.set('resources', resources);
+      this.game.controller.stores.main.set("resources", resources);
       this.game.start();
     });
   }
@@ -133,7 +131,6 @@ class Builder {
 
     this.loadManifest();
   }
-
 }
 
 export default Builder;

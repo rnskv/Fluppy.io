@@ -1,11 +1,10 @@
-import EventEmitter from 'shared/core/EventEmitter';
+import EventEmitter from "shared/core/EventEmitter";
 
-import Client from './core/Client';
-import Builder from './Builder';
+import Client from "./core/Client";
+import Builder from "./Builder";
 
 class Injector {
-  constructor() {
-  }
+  constructor() {}
 
   createClient(node) {
     this.client = new Client(node, {
