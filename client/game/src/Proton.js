@@ -1,6 +1,6 @@
 import Game from './core/Game';
 import Player from "./entities/Player";
-import EventEmitter from "./core/EventEmitter";
+import EventEmitter from "shared/core/EventEmitter";
 
 export default class Proton extends Game {
     constructor({...params}) {

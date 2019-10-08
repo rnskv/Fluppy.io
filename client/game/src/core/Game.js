@@ -1,5 +1,5 @@
 import Player from './GameObject';
-import EventEmitter from './EventEmitter';
+import EventEmitter from 'shared/core/EventEmitter';
 import Loader from './Loader';
 import Interpolator from '../utils/interpolator';
 

@@ -1,9 +1,11 @@
 class EventEmitter {
     constructor() {
         this.events = {};
+        console.log('EventEmitter init')
     }
 
     emit(eventName, data) {
+      console.log(this.events)
         const event = this.events[eventName];
         if (!event) {
             throw new Error(`Event ${eventName} hasn't subscribers`);
@@ -15,12 +17,13 @@ class EventEmitter {
     }
 
     subscribe(eventName, callback) {
-        if( !this.events[eventName] ) {
+        console.log('subscribe to', eventName);
+        if(!this.events[eventName] ) {
             this.events[eventName] = [];
         }
 
         this.events[eventName].push(callback)
+        console.log(this.events)
     }
 }
-
 export default new EventEmitter();
