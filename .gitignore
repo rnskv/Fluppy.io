@@ -1,6 +1,5 @@
 server/node_modules/
 server/dist/
 client/node_modules/
-front/node_modules/
-front/dist/
+production/
 .idea/
