@@ -1,43 +1,43 @@
-import Shape from './Shape';
-import * as SHAPES from '../types/shapes';
+import Shape from "./Shape";
+import * as SHAPES from "../types/shapes";
 
 class GameObject {
-    constructor({id, x, y, radius, width, height, methods}) {
-        this.id = id;
+  constructor({ id, x, y, radius, width, height, methods }) {
+    this.id = id;
 
-        this.x = x;
-        this.y = y;
+    this.x = x;
+    this.y = y;
 
-        this.width = width || 10;
-        this.height = height || 10;
+    this.width = width || 10;
+    this.height = height || 10;
 
-        this.dx = 1;
-        this.dy = 1;
+    this.dx = 1;
+    this.dy = 1;
 
-        this.speed = 1;
+    this.speed = 1;
 
-        this.rotation = 0;
+    this.rotation = 0;
 
-        this.radius = radius || null;
+    this.radius = radius || null;
 
-        this.methods = methods;
+    this.methods = methods;
 
-        this.update = this.update.bind(this)
-    }
+    this.update = this.update.bind(this);
+  }
 
-    init() {
-        /* */
-    }
+  init() {
+    /* */
+  }
 
-    get clientData() {
-        return {
-            id: this.id
-        }
-    }
+  get clientData() {
+    return {
+      id: this.id
+    };
+  }
 
-    update(dt) {
-        /* */
-    }
+  update(dt) {
+    /* */
+  }
 }
 
 export default GameObject;

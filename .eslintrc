@@ -1,0 +1,28 @@
+{
+    "parser": "babel-eslint",
+    "extends": [
+        "airbnb",
+        "prettier"
+    ],
+    "rules": {
+        "react/jsx-filename-extension": [0],
+        "import/extensions": "off",
+        "jsx-quotes": [
+            1,
+            "prefer-double"
+        ]
+    },
+    "plugins": [
+        "prettier"
+    ],
+    "settings": {
+        "import/resolver": {
+            "webpack": {
+                "config": "webpack.config.js"
+            }
+        },
+        "eslint.options": {
+            "experimentalDecorators": true
+        }
+    }
+}
