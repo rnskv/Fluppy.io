@@ -2,12 +2,6 @@ class EventEmitter {
   constructor() {
     this.events = {};
     console.log("EventEmitter init");
-
-    if (!window.EventEmitterInstanse) {
-      window.EventEmitterInstanse = this;
-    }
-
-    return window.EventEmitterInstanse;
   }
 
   emit(eventName, data) {
@@ -24,7 +18,6 @@ class EventEmitter {
   }
 
   subscribe(eventName, callback) {
-    console.log('EVENTS', this.events);
     if (!this.events[eventName]) {
       this.events[eventName] = [];
     }

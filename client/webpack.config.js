@@ -37,6 +37,19 @@ module.exports = {
       }
     ]
   },
+  optimization: {
+    runtimeChunk: true,
+    splitChunks: {
+      cacheGroups: {
+        game: {
+          chunks: 'initial',
+          name: 'game',
+          test: 'game',
+          enforce: true
+        }
+      }
+    }
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "app/src/index.html")
