@@ -2,12 +2,13 @@ import settings from "../configs/settings";
 import ObjectPool from 'shared/core/ObjectsPool';
 
 class Manager {
-    constructor({ network, entity, emitRule }) {
+    constructor({ network, entity, emitRule, type = 'OBJECTS' }) {
         this.network = network;
         this.entity = entity;
         this.emitRule = emitRule;
+        this.type = type;
 
-        this.objects = new ObjectPool({ type: 'OBJECTS' });
+        this.objects = new ObjectPool({ type: this.type });
         this.managers = {};
         this.controller = null;
         this.isEnvironment = false;

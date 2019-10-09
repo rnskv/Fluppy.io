@@ -63,6 +63,7 @@ class ObjectsPool {
     }
 
     cache() {
+        //Задел на будущее - добавить кэширование
         this.isCached = true;
         this.chached = {
             values: this.map.values(),
