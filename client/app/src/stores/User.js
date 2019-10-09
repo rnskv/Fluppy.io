@@ -1,6 +1,6 @@
 import { observable, action } from "mobx";
 
-class MainStore {
+class UserStore {
   @observable accessToken = null;
 
   constructor() {
@@ -18,7 +18,8 @@ class MainStore {
 
   @action
   logout = () => {
-    this.acessToken = null;
+    console.log('log out')
+    this.accessToken = null;
     localStorage.removeItem('accessToken');
   };
 
@@ -28,4 +29,4 @@ class MainStore {
   }
 }
 
-export default new MainStore();
+export default new UserStore();

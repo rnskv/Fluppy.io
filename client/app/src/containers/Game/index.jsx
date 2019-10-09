@@ -17,6 +17,7 @@ class Home extends Component {
 
   componentDidMount() {
     Injector.inject(this.gameRef.current);
+    this.join();
   }
 
   join() {
@@ -31,8 +32,8 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <button onClick={this.join}>Войті</button>
-        <button onClick={this.leave}>Вийті</button>
+        {/*<button onClick={this.join}>Войті</button>*/}
+        {/*<button onClick={this.leave}>Вийті</button>*/}
 
         <div ref={this.gameRef} id="game" />
       </div>

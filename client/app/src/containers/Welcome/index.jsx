@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+
 import { observer } from "mobx-react";
 import "./Welcome.css";
 
@@ -20,10 +22,13 @@ class Welcome extends Component {
               <hr/>
                 <p>Ваш токен - { UserStore.accessToken }</p>
                 <button onClick={UserStore.logout}>Выйти из этого дерьма</button>
+                <button><Link to={'/game'}>Войти в мир полный радости</Link></button>
               </div>
             : <div>
               Вам нужно авторизироваться :(
-              <a href={'http://127.0.0.1:800/auth/vk'}>Войти через вк</a>
+            <p>
+              <button><a href={'http://127.0.0.1:800/auth/vk'}>Войти через вк</a></button>
+            </p>
             </div>
         }
       </div>
