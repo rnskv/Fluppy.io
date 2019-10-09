@@ -41,6 +41,7 @@ class Server extends CC {
             }
 
             passport.serializeUser(function(user, done) {
+                console.log('serialize', user)
                 done(null, user);
             });
 

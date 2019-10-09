@@ -9,7 +9,8 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "../production"),
-    filename: "js/[name]-[hash].bundle.js"
+    filename: "js/[name]-[hash].bundle.js",
+    publicPath: '/'
   },
   resolve: {
     extensions: [".js", ".jsx"],

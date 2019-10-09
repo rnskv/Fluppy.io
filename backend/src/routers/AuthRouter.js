@@ -1,5 +1,6 @@
 import Router from '../core/Router';
 import passport from 'passport';
+import app from '../configs/app';
 
 import { Router as ERouter } from 'express'
 import actions from '../actions/auth';
@@ -16,8 +17,8 @@ class AuthRouter extends Router {
         router.get('/auth/vk/callback', passport.authenticate('vkontakte', { failureRedirect: '/auth' }),
           function(req, res) {
             // Successful authentication, redirect home.
-            console.log(req.user)
-            res.redirect('/');
+            console.log(req.user);
+            res.redirect(app.clientUrl + '/auth/' + req.user.accessToken);
           });
 
         return router;

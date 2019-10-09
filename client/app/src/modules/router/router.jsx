@@ -13,11 +13,17 @@ const Router = props => {
 
         return (
           <Route
+            exact={params.exact || false}
             key={index}
             path={route}
-            exact={params.exact || false}
             component={params.component}
-          />
+          >
+            {
+              params.routes ?
+                <Router routes={params.routes} />
+                : null
+            }
+          </Route>
         );
       })}
     </>

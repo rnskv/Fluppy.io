@@ -8,7 +8,12 @@ const PassportVkStrategy = new PassportVk.Strategy(
         callbackURL:  configs.vk.callbackURL
     },
     function myVerifyCallbackFn(accessToken, refreshToken, params, profile, done) {
-        done(null, profile)
+        const response = {
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          profile: profile
+        };
+        done(null, response)
     }
 );
 
