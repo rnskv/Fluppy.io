@@ -1,7 +1,14 @@
+let instanse = null;
 class EventEmitter {
   constructor() {
     this.events = {};
     console.log("EventEmitter init");
+
+    if (instanse === null) {
+      console.log('SINGLETON')
+      instanse = this;
+      return instanse;
+    };
   }
 
   emit(eventName, data) {
@@ -12,20 +19,18 @@ class EventEmitter {
       throw new Error(`Event ${eventName} hasn't subscribers`);
     } else {
       event.forEach(fn => {
-        fn.call(null, data);
+        fn.call(fn, data);
       });
     }
   }
 
   subscribe(eventName, callback) {
+    console.log('EVENTS', this.events);
     if (!this.events[eventName]) {
       this.events[eventName] = [];
     }
 
-    console.log(eventName);
-
     this.events[eventName].push(callback);
-    console.log(this.events);
   }
 }
 export default new EventEmitter();

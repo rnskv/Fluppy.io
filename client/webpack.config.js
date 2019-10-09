@@ -14,11 +14,12 @@ module.exports = {
   },
   resolve: {
     extensions: [".js", ".jsx"],
+    symlinks: false,
     alias: {
       src: path.resolve(__dirname, "./app/src"),
       app: path.resolve(__dirname, "./app"),
       game: path.resolve(__dirname, "./game"),
-      shared: path.resolve(__dirname, '../shared')
+      shared: path.join(__dirname, '../shared')
     }
   },
   module: {

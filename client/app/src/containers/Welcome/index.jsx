@@ -7,18 +7,18 @@ import UserStore from '../../stores/User';
 @observer
 class Welcome extends Component {
   componentDidMount() {
-    console.log('Ваш acessToken token', this.props.match)
+    console.log('Ваш accessToken token', this.props.match)
   }
 
   render() {
     return (
       <div>
         {
-          UserStore.acessToken
+          UserStore.accessToken
             ? <div>
                 <h1>Опача!</h1>
               <hr/>
-                <p>Ваш токен - { UserStore.acessToken }</p>
+                <p>Ваш токен - { UserStore.accessToken }</p>
                 <button onClick={UserStore.logout}>Выйти из этого дерьма</button>
               </div>
             : <div>

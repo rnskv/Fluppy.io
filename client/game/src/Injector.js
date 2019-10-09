@@ -1,5 +1,3 @@
-import EventEmitter from "shared/core/EventEmitter";
-
 import Client from "./core/Client";
 import Builder from "./Builder";
 

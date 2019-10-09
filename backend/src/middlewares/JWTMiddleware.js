@@ -10,7 +10,8 @@ class JWTMiddleware extends Middleware {
 
   handler() {
     return async (req, res, next) => {
-      let user = await UserModel.findOne({accessToken: req.headers.accessToken}).exec();
+      console.log(req.headers);
+      let user = await UserModel.findOne({accessToken: req.headers.authorization.split('Bearer: ')[1]}).exec();
       if (user) {
         req.user = user;
         next();

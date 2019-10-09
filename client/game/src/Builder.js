@@ -1,5 +1,3 @@
-import EventEmitter from "shared/core/EventEmitter";
-
 import Client from "./core/Client";
 import Network from "./core/Network";
 import Camera from "./core/Camera";

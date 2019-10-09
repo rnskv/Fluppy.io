@@ -1,6 +1,8 @@
 import EventEmitter from "shared/core/EventEmitter";
 import Injector from "game/src/main";
 
+import UserStore from 'app/src/stores/User'
+
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import "./Game.css";
@@ -10,6 +12,7 @@ class Home extends Component {
   constructor() {
     super();
     this.gameRef = React.createRef();
+
   }
 
   componentDidMount() {
@@ -17,7 +20,8 @@ class Home extends Component {
   }
 
   join() {
-    EventEmitter.emit("game:join", { uid: "test" });
+    console.log(window.localStorage.getItem('accessToken'))
+    EventEmitter.emit("game:join", { accessToken: window.localStorage.getItem('accessToken') });
   }
 
   leave() {

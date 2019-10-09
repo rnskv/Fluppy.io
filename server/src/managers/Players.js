@@ -1,6 +1,7 @@
 import Manager from "../core/Manager";
 import settings from "../configs/settings";
 import * as SHAPES from "../types/shapes";
+import request from 'request';
 
 class PlayersManager extends Manager {
   constructor({ ...params }) {
@@ -44,39 +45,43 @@ class PlayersManager extends Manager {
   onJoinHandler(socket, playerData) {
     console.log("join", playerData);
     /**** ПРИМЕР *****/
-    const players = {
-      rnskv: {
-        uid: "rnskv",
-        x: 50,
-        y: 10,
-        name: "Ромка"
-      },
-      test: {
-        uid: "test",
-        x: 50,
-        y: 600,
-        name: "Тестовый пользователь"
+
+    request('http://127.0.0.1:800/player', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer: ${playerData.accessToken}`
       }
-    };
+    }, (err, response) => {
+      const data = JSON.parse(response.body);
+      console.log('response: ', data.body);
+      const playerData = data.body;
 
-    const player = players[playerData.uid];
+      if (!playerData) return;
 
-    if (!player) return;
+      const player = {
+        uid: playerData.uid,
+        x: playerData.x,
+        y: playerData.y,
+        name: playerData.lastName
+      };
 
-    console.log("Игрок прошел валидацию");
-    /**** ПРИМЕР *****/
-    if (
-      this.addObject({
-        id: socket.id,
-        isBot: false,
-        ...player
-      })
-    ) {
-      this.network.io.emit(
-        "game:player:join",
-        this.objects.getById(socket.id).clientData
-      );
-    }
+
+      console.log("Игрок прошел валидацию");
+      /**** ПРИМЕР *****/
+      if (
+        this.addObject({
+          id: socket.id,
+          isBot: false,
+          ...player
+        })
+      ) {
+        this.network.io.emit(
+          "game:player:join",
+          this.objects.getById(socket.id).clientData
+        );
+      }
+    });
   }
 
   onLeaveHandler(socket) {

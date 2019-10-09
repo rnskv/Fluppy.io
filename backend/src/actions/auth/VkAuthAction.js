@@ -42,7 +42,7 @@ class VkAuthAction extends Action {
         };
 
         request.put(options, (err, data) => {
-          console.log('Update current user', data.body);
+          console.log('Update player user', data.body);
         });
 
         response = {

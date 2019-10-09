@@ -21,6 +21,8 @@ export default class Proton extends Game {
       console.log("Player join into game");
     });
 
+    console.log('Proton subscribe')
+
     EventEmitter.subscribe("game:player:leave", id => {
       players.removeObject(id);
       console.log("Player leave from game");

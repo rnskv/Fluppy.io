@@ -8,7 +8,7 @@ import UserStore from '../../stores/User';;
 @observer
 class Auth extends Component {
   componentDidMount() {
-    console.log('Ваш acessToken token', this.props.match);
+    console.log('Ваш accessToken token', this.props.match);
     UserStore.login(this.props.match.params.accessToken);
   }
 

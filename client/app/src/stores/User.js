@@ -1,25 +1,25 @@
 import { observable, action } from "mobx";
 
 class MainStore {
-  @observable acessToken = null;
+  @observable accessToken = null;
 
   constructor() {
-    const accessToken = localStorage.getItem('acessToken');
+    const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       this.login(accessToken)
     }
   }
 
   @action
-  login = (acessToken) => {
-    this.acessToken = acessToken;
-    localStorage.setItem('acessToken', acessToken);
+  login = (accessToken) => {
+    this.accessToken = accessToken;
+    localStorage.setItem('accessToken', accessToken);
   };
 
   @action
   logout = () => {
     this.acessToken = null;
-    localStorage.removeItem('acessToken');
+    localStorage.removeItem('accessToken');
   };
 
   @action
