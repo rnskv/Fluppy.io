@@ -13,10 +13,12 @@ class AuthRouter extends Router {
 
         router.get('/auth/vk', passport.authenticate('vkontakte'));
 
-        router.get('/auth/vk/callback', passport.authenticate('vkontakte', {
-            successRedirect: '/auth',
-            failureRedirect: '/auth/vk'
-        }));
+        router.get('/auth/vk/callback', passport.authenticate('vkontakte', { failureRedirect: '/auth' }),
+          function(req, res) {
+            // Successful authentication, redirect home.
+            console.log(req.user)
+            res.redirect('/');
+          });
 
         return router;
     }

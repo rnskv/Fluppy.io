@@ -8,8 +8,8 @@ const PassportVkStrategy = new PassportVk.Strategy(
         callbackURL:  configs.vk.callbackURL
     },
     function myVerifyCallbackFn(accessToken, refreshToken, params, profile, done) {
-        console.log('vk auth cb', accessToken, profile);
+        done(null, profile)
     }
-)
+);
 
 export default PassportVkStrategy;
