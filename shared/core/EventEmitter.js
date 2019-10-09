@@ -1,14 +1,13 @@
-let instanse = null;
 class EventEmitter {
   constructor() {
     this.events = {};
     console.log("EventEmitter init");
 
-    if (instanse === null) {
-      console.log('SINGLETON')
-      instanse = this;
-      return instanse;
-    };
+    if (!window.EventEmitterInstanse) {
+      window.EventEmitterInstanse = this;
+    }
+
+    return window.EventEmitterInstanse;
   }
 
   emit(eventName, data) {
