@@ -1,5 +1,7 @@
 import PassportVk from 'passport-vkontakte';
 import configs from '../../../configs'
+import request from 'request';
+import UserModel from '../../../models/UserModel';
 
 const PassportVkStrategy = new PassportVk.Strategy(
     {
@@ -7,13 +9,22 @@ const PassportVkStrategy = new PassportVk.Strategy(
         clientSecret: configs.vk.clientSecret,
         callbackURL:  configs.vk.callbackURL
     },
-    function myVerifyCallbackFn(accessToken, refreshToken, params, profile, done) {
-        const response = {
-          accessToken: accessToken,
-          refreshToken: refreshToken,
-          profile: profile
-        };
-        done(null, response)
+    async (accessToken, refreshToken, params, profile, done) => {
+      const options = {
+        url: configs.app.backendUrl + '/auth/vk',
+        method: 'POST',
+        json: {
+          accessToken,
+          refreshToken,
+          params,
+          profile
+        }
+      };
+
+      request.post(options, (err, data) => {
+        const response = data.body;
+        done(null, response.body);
+      });
     }
 );
 

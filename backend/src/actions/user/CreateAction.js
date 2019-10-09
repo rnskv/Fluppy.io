@@ -5,10 +5,14 @@ import configs from '../../configs';
 
 class CreateAction extends Action {
     static async run (req, res, next) {
-        const user = new UserModel({ name: 'Roma' });
-        await user.save();
-        throw new VError(configs.errors.DB);
-        res.send({text: 'user save'})
+      const profileData = req.body.profileData;
+        const user = new UserModel(profileData);
+
+        if (await user.save()) {
+          res.json({profile: user})
+        } else {
+          throw new VError(configs.errors.DB);
+        }
     }
 }
 

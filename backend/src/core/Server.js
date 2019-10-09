@@ -41,7 +41,6 @@ class Server extends CC {
             }
 
             passport.serializeUser(function(user, done) {
-                console.log('serialize', user)
                 done(null, user);
             });
 
@@ -49,13 +48,15 @@ class Server extends CC {
                 done(null, user)
             });
 
+          for (const middleware of middlewares) {
+            console.log('Add middleware', middleware.handler)
+            app.use(middleware.handler())
+          }
+
             for (const item of routers) {
                 app.use(item.router)
             }
 
-            for (const middleware of middlewares) {
-                app.use(middleware.handler())
-            }
 
             return app.listen(port, host, () => res({port, host}))
         })

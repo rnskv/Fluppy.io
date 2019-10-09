@@ -19,6 +19,11 @@ class MainStore {
   @action
   logout = () => {
     this.acessToken = null;
+  };
+
+  @action
+  getUserData = () => {
+
   }
 }
 

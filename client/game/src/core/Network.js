@@ -3,7 +3,7 @@
 import io from "socket.io-client";
 import EventEmitter from "shared/core/EventEmitter";
 
-const socket = io.connect("http://192.168.0.13:3000");
+const socket = io.connect("http://127.0.0.1:3000");
 
 //test
 const joinButton = document.querySelector("#join");
@@ -39,6 +39,7 @@ EventEmitter.subscribe("game:leave", () => {
 
 socket.on("connect", () => {
   socket.on("game:update", data => {
+    console.log(data)
     EventEmitter.emit("server:updates", data);
   });
 

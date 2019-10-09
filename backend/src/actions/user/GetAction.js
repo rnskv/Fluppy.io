@@ -5,7 +5,16 @@ import configs from '../../configs';
 
 class GetAction extends Action {
     static async run (req, res, next) {
-        res.send({text: 'get action'})
+        const uid = req.params.id;
+        const user = await UserModel.findOne({uid: uid});
+        if (user) {
+          res.json({
+            body: user,
+            meta: { ok: true }
+          })
+        } else {
+          throw new VError(configs.errors.DB);
+        }
     }
 }
 

@@ -2,10 +2,48 @@ import Action from '../../core/Action';
 import UserModel from '../../models/UserModel';
 import VError from '../../core/VError';
 import configs from '../../configs';
+import request from "request";
 
 class VkAuthAction extends Action {
     static async run (req, res, next) {
-        res.send({text: `vk auth action with code: ${req.query.code}`})
+      const{ accessToken, profile } = req.body;
+
+      let user = await UserModel.findOne({uid: profile.id}).exec();
+      let response;
+
+      if (!user) {
+        const profileData = {
+          uid: profile._json.id,
+          accessToken: accessToken,
+          avatar: profile._json.photo,
+          name: profile._json.first_name,
+          lastName: profile._json.last_name
+        };
+
+        const options = {
+          url: configs.app.backendUrl + '/users',
+          method: 'POST',
+          json: { profileData: profileData }
+        };
+
+        request.post(options, (err, data) => {
+          console.log('Create new user', data.body);
+        });
+
+        response = {
+          accessToken: accessToken,
+          user: data.body
+        };
+      } else {
+        response = {
+          accessToken: accessToken,
+          user
+        };
+      }
+
+      res.json({
+        body: response
+      })
     }
 }
 

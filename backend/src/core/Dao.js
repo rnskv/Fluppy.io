@@ -8,12 +8,10 @@ class Dao extends CC {
         this.params = params;
     }
 
-    async connect() {
-        try {
-            await mongoose.connect(configs.db.connectUrl, { useNewUrlParser: true, useCreateIndex: true })
-        } catch (err) {
-            console.log('Mongoose database can`t connect');
-        }
+    connect() {
+        mongoose.connect(configs.db.connectUrl, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
+          .then(this.successCb)
+          .catch(this.errorCb)
     }
 
     successCb(params) {
@@ -21,7 +19,7 @@ class Dao extends CC {
     }
 
     errorCb(error) {
-        console.log('Mongoose is not ready.');
+        console.log('Mongoose is not ready.', error);
     }
 }
 
