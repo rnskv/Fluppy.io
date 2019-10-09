@@ -35,6 +35,16 @@ class VkAuthAction extends Action {
           user: data.body
         };
       } else {
+        const options = {
+          url: configs.app.backendUrl + '/users/' + user._id,
+          method: 'PUT',
+          json: { set: {accessToken} }
+        };
+
+        request.put(options, (err, data) => {
+          console.log('Update current user', data.body);
+        });
+
         response = {
           accessToken: accessToken,
           user

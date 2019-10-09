@@ -1,7 +1,6 @@
 import PassportVk from 'passport-vkontakte';
 import configs from '../../../configs'
 import request from 'request';
-import UserModel from '../../../models/UserModel';
 
 const PassportVkStrategy = new PassportVk.Strategy(
     {

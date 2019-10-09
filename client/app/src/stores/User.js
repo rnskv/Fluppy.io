@@ -19,6 +19,7 @@ class MainStore {
   @action
   logout = () => {
     this.acessToken = null;
+    localStorage.removeItem('acessToken');
   };
 
   @action
