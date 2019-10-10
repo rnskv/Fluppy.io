@@ -6,6 +6,8 @@ import "./Welcome.css";
 
 import UserStore from '../../stores/User';
 
+import globalConfig from 'shared/configs/servers';
+
 @observer
 class Welcome extends Component {
   componentDidMount() {
@@ -27,7 +29,7 @@ class Welcome extends Component {
             : <div>
               Вам нужно авторизироваться :(
             <p>
-              <button><a href={'http://127.0.0.1:800/auth/vk'}>Войти через вк</a></button>
+              <button><a href={globalConfig.urls.backend.url() + '/auth/vk'}>Войти через вк</a></button>
             </p>
             </div>
         }

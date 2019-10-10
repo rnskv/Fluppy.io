@@ -65,7 +65,7 @@ module.exports = {
     contentBase: path.resolve(__dirname, "../production"),
     compress: true,
     historyApiFallback: true,
-    port: 9000,
-    host: '0.0.0.0'
+    port: 3001,
+    host: '192.168.0.11'
   }
 };

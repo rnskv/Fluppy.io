@@ -2,6 +2,7 @@ import Manager from "../core/Manager";
 import settings from "../configs/settings";
 import * as SHAPES from "../types/shapes";
 import request from 'request';
+import globalConfig from '../configs/global';
 
 class PlayersManager extends Manager {
   constructor({ ...params }) {
@@ -46,7 +47,7 @@ class PlayersManager extends Manager {
     console.log("join", playerData);
     /**** ПРИМЕР *****/
 
-    request('http://127.0.0.1:800/player', {
+    request(globalConfig.urls.backend.url() + '/player', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

@@ -3,14 +3,19 @@ import passport from 'passport';
 
 import bodyParser from 'body-parser';
 import CC from './CommonClass';
+import configs from "../configs";
+import request from "request";
 
 class Server extends CC {
     constructor(params) {
         super();
         this.params = params;
+        this.successCb = this.successCb.bind(this);
     }
 
     start(params) {
+
+
         const {
             port = 9000,
             host = 'localhost',
@@ -63,11 +68,32 @@ class Server extends CC {
     }
 
     successCb(params) {
-        console.log(`Server successful start at ${params.host}:${params.port}`)
+      // const options = {
+      //   url: configs.app.backendUrl + '/servers',
+      //   method: 'POST',
+      //   json: {
+      //     data: {
+      //       "isActive": true,
+      //       "protocol": configs.app.protocol,
+      //       "ip": configs.app.ip,
+      //       "port": configs.app.port,
+      //       "type": 1
+      //     }
+      //   }
+      // };
+      //
+      // request.post(options, (err, data) => {
+      //   const response = data.body;
+      //   console.log('server inited in databse', response)
+      // });
+
+      console.log(
+        `******************************************\n****Бэкэнд сервер - ${this.params.host}:${this.params.port}****\n******************************************`
+      )
     }
 
     errorCb(err) {
-        console.log(`Server can't start at with error ${err}`)
+      console.log(`Server can't start at with error ${err}`)
     }
 }
 

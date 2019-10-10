@@ -2,8 +2,9 @@
 
 import io from "socket.io-client";
 import EventEmitter from "shared/core/EventEmitter";
+import globalConfig from "shared/configs/servers";
 
-const socket = io.connect("http://127.0.0.1:3000");
+const socket = io.connect(`${globalConfig.urls.server.url()}`);
 
 //test
 const joinButton = document.querySelector("#join");

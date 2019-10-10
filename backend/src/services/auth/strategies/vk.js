@@ -1,6 +1,7 @@
 import PassportVk from 'passport-vkontakte';
 import configs from '../../../configs'
 import request from 'request';
+import globalConfig from '../../../configs/global';
 
 const PassportVkStrategy = new PassportVk.Strategy(
     {
@@ -10,7 +11,7 @@ const PassportVkStrategy = new PassportVk.Strategy(
     },
     async (accessToken, refreshToken, params, profile, done) => {
       const options = {
-        url: configs.app.backendUrl + '/auth/vk',
+        url: globalConfig.urls.backend.url() + '/auth/vk',
         method: 'POST',
         json: {
           accessToken,
