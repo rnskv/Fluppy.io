@@ -4,7 +4,7 @@ import app from '../configs/app';
 
 import { Router as ERouter } from 'express'
 import actions from '../actions/auth';
-import globalConfig from '../configs/global';
+import servers from 'shared/configs/servers';
 
 const router = ERouter();
 
@@ -19,7 +19,7 @@ class AuthRouter extends Router {
         router.get('/auth/vk/callback', passport.authenticate('vkontakte', { failureRedirect: '/auth' }),
           function(req, res) {
             // Successful authentication, redirect home.
-            res.redirect(globalConfig.urls.client.url() + '/auth/' + req.user.accessToken);
+            res.redirect(servers.urls.client.url() + '/auth/' + req.user.accessToken);
           });
 
         return router;

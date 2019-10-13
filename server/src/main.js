@@ -2,7 +2,7 @@ const app = require("express")();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 
-import globalConfig from './configs/global';
+import servers from 'shared/configs/servers';
 
 import Server from "./core/Server";
 import Controller from "./core/Controller";
@@ -34,8 +34,8 @@ const application = new Server({
 
 application.start();
 
-server.listen(globalConfig.urls.server.port, globalConfig.urls.server.ip, () => {
+server.listen(servers.urls.server.port, servers.urls.server.ip, () => {
   console.log(
-    `******************************************\n****Игровой сервер - ${globalConfig.urls.server.ip}:${globalConfig.urls.server.port}****\n******************************************`
+    `******************************************\n****Игровой сервер - ${servers.urls.server.ip}:${servers.urls.server.port}****\n******************************************`
   )
 });

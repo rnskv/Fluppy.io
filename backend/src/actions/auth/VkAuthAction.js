@@ -3,7 +3,7 @@ import UserModel from '../../models/UserModel';
 import VError from '../../core/VError';
 import configs from '../../configs';
 import request from "request";
-import globalConfig from "../../configs/global";
+import servers from "shared/configs/servers";
 
 class VkAuthAction extends Action {
     static async run (req, res, next) {
@@ -22,7 +22,7 @@ class VkAuthAction extends Action {
         };
 
         const options = {
-          url: globalConfig.urls.backend.url() + '/users',
+          url: servers.urls.backend.url() + '/users',
           method: 'POST',
           json: { profileData: profileData }
         };
@@ -37,7 +37,7 @@ class VkAuthAction extends Action {
         };
       } else {
         const options = {
-          url: globalConfig.urls.backend.url() + '/users/' + user._id,
+          url: servers.urls.backend.url() + '/users/' + user._id,
           method: 'PUT',
           json: { set: {accessToken} }
         };

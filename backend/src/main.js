@@ -5,15 +5,15 @@ import middlewares from './middlewares';
 import strategies from './services/auth/strategies';
 
 import configs from './configs';
-import globalConfig from './configs/global';
+import servers from 'shared/configs/servers';
 
 
 const dao = new Dao();
 dao.connect();
 
 const main = new Server({
-   port: globalConfig.urls.backend.port,
-   host: globalConfig.urls.backend.ip,
+   port: servers.urls.backend.port,
+   host: servers.urls.backend.ip,
    routers,
    middlewares: Object.values(middlewares),
    strategies

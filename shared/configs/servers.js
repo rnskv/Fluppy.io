@@ -2,7 +2,7 @@ export default {
   urls: {
     client: {
       port: 3001,
-      ip: 'localhost',
+      ip: '192.168.0.101',
       protocol: 'http',
       url: function() { return `${this.protocol}://${this.ip}:${this.port}` }
     },

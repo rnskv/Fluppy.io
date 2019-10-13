@@ -5,8 +5,7 @@ import { observer } from "mobx-react";
 import "./Welcome.css";
 
 import UserStore from '../../stores/User';
-
-import globalConfig from 'shared/configs/servers';
+import servers from "shared/configs/servers";
 
 @observer
 class Welcome extends Component {
@@ -29,7 +28,7 @@ class Welcome extends Component {
             : <div>
               Вам нужно авторизироваться :(
             <p>
-              <button><a href={globalConfig.urls.backend.url() + '/auth/vk'}>Войти через вк</a></button>
+              <button><a href={servers.urls.backend.url() + '/auth/vk'}>Войти через вк</a></button>
             </p>
             </div>
         }
