@@ -11,7 +11,7 @@ import globalConfig from './configs/global';
 const dao = new Dao();
 dao.connect();
 
-const app = new Server({
+const main = new Server({
    port: globalConfig.urls.backend.port,
    host: globalConfig.urls.backend.ip,
    routers,
@@ -19,4 +19,4 @@ const app = new Server({
    strategies
 });
 
-app.start().then(app.successCb).catch(app.errorCb);
+main.start().then(main.successCb).catch(main.errorCb);

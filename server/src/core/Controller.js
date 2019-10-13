@@ -60,14 +60,14 @@ class Controller {
   }
 
   update(dt) {
+    this.managersList.forEach(manager => {
+      manager.update(dt);
+    });
+
     this.collider.checkCollisionsBetween(
       this.getManager("players"),
       this.getManager("pipes")
     );
-
-    this.managersList.forEach(manager => {
-      manager.update(dt);
-    });
   }
 }
 

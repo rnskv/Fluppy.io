@@ -4,7 +4,7 @@
   "description": "Simple boilerplate for nodejs api server",
   "main": "src/App.js",
   "scripts": {
-    "start": "nodemon --exec babel-node src/App.js",
+    "start": "webpack --watch",
     "build": "babel src --out-dir build/",
     "server": "node dist/App.js"
   },
@@ -22,12 +22,20 @@
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",
     "@babel/node": "^7.2.2",
+    "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-env": "^7.4.4",
+    "@babel/runtime": "^7.6.3",
+    "babel-loader": "^8.0.6",
+    "babel-preset-latest": "^6.24.1",
     "body-parser": "^1.19.0",
     "express": "^4.16.4",
     "mongoose": "^5.5.5",
+    "nodemon-webpack-plugin": "^4.1.1",
     "passport": "^0.4.0",
     "passport-vkontakte": "^0.3.2",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "webpack": "^4.41.0",
+    "webpack-cli": "^3.3.9",
+    "webpack-node-externals": "^1.7.2"
   }
 }

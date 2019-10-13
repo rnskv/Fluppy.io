@@ -23,8 +23,8 @@ class Welcome extends Component {
                 <h1>Опача!</h1>
               <hr/>
                 <p>Ваш токен - { UserStore.accessToken }</p>
-                <button onClick={UserStore.logout}>Выйти из этого дерьма</button>
-                <button><Link to={'/game'}>Войти в мир полный радости</Link></button>
+                <button onClick={UserStore.logout}>Выйти</button>
+                <button><Link to={'/game'}>Войти в мир</Link></button>
               </div>
             : <div>
               Вам нужно авторизироваться :(
