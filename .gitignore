@@ -1,4 +1,5 @@
 backend/node_modules
+backend/dist
 server/node_modules/
 server/dist/
 client/node_modules/

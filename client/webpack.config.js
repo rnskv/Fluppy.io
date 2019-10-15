@@ -66,6 +66,6 @@ module.exports = {
     compress: true,
     historyApiFallback: true,
     port: 3001,
-    host: '192.168.0.101'
+    host: '0.0.0.0'
   }
 };
