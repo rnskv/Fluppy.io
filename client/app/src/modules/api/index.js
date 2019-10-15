@@ -1,31 +1,15 @@
+import Request from './Request';
+
 class Api {
   constructor() {
-
+    this.requests = [];
   }
 
   request(url, options) {
-    new Request(url , options).execute();
+    const request = new Request(url, options);
+    this.requests.push(request);
+    request.execute()
   }
 }
 
-class Request {
-  constructor(url, options) {
-    this.accessToken = window.localStorage.getItem('accessToken');
-    this.options = options;
-    this.url = url;
-  }
-
-  execute() {
-    window.fetch(this.url, {
-      ...this.options,
-      headers: new Headers({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer: ${this.accessToken}`
-      })
-    })
-    .then((data) => console.log('All ok', data))
-    .catch((err) => console.log('All bad', err))
-  }
-
-}
-
+export default Api;
