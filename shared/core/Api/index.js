@@ -1,20 +1,14 @@
-const methods = {
-  'players.get': {
-    method: 'GET',
-    url: '/players',
-  }
-};
-
 class Api {
   constructor({ url, methods, request }) {
     this.url = url;
     this.methods = methods;
-    this.headers = new Headers();
+    this.headers = {};
     this.request = request;
   }
 
   setToken(token) {
-    this.headers.append('Authorization', `Bearer: ${token}`);
+    console.log('set token', token);
+    this.headers['Authorization'] = `Bearer: ${token}`;
   }
 
   getMethod(methodName) {
@@ -25,7 +19,6 @@ class Api {
     options.uri = url;
 
     return new Promise((resolve, reject) => {
-      console.log(url)
       this.request(options, (err, response) => {
         if (err) {
           reject(err);
@@ -36,14 +29,50 @@ class Api {
     })
   }
 
+  processFetchedData(data) {
+    const json = JSON.parse(data.body);
+
+    return {
+      isError: data.status > 300 || data.status < 200,
+      json
+    }
+  }
+
+  processFetchedError(error) {
+    //тут подбираем подходящую пользовательскую ошибку
+    return {
+      error: {
+        code: "UNEXPECTED_ERROR",
+        message: "Unexpected error",
+        status: 500,
+      }
+    }
+  }
+
   execute(methodName, options) {
     return new Promise((resolve, reject) => {
       const method = this.getMethod(methodName);
       const url = this.url + method.action;
+      const params = {
+        headers: this.headers,
+        ...options
+      };
 
-      this.fetch(url, options)
-        .then(data => resolve(JSON.parse(data.response)))
-        .catch(err => reject(err))
+      this.fetch(url, params)
+        .then(data => {
+          const result = this.processFetchedData(data);
+
+          if (result.isError) {
+            reject(result.json)
+          } else {
+            resolve(result.json)
+          }
+
+        })
+        .catch(err => {
+          const error = this.processFetchedError(err);
+          reject(error)
+        })
     })
   }
 }

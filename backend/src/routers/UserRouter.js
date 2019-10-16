@@ -10,7 +10,7 @@ class UserRouter extends Router {
         const { executeAction } = this;
 
         router.post('/users', executeAction(actions.CreateAction));
-        router.get('/users', executeAction(actions.GetListAction));
+        router.get('/users', JWTMiddleware.handler(), executeAction(actions.GetListAction));
         router.get('/users/:id', executeAction(actions.GetAction));
         router.delete('/users/:id', executeAction(actions.DeleteAction));
         router.put('/users/:id', executeAction(actions.UpdateAction));

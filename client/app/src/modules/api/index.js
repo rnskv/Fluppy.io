@@ -1,15 +1,12 @@
-import Request from './Request';
+import Api from 'shared/core/Api/index';
+import bRequest from "browser-request";
 
-class Api {
-  constructor() {
-    this.requests = [];
-  }
+import methods from './methods';
 
-  request(url, options) {
-    const request = new Request(url, options);
-    this.requests.push(request);
-    request.execute()
-  }
-}
+const api = new Api({
+  url: 'http://192.168.101.155:3003',
+  methods,
+  request: bRequest
+});
 
-export default Api;
+export default api;
