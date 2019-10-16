@@ -6,10 +6,6 @@ import { routes } from "src/modules/router";
 
 import "src/styles/App.css";
 
-import api from 'app/src/modules/api';
-
-import bRequest from 'browser-request';
-
 class App extends PureComponent {
   render() {
     return (

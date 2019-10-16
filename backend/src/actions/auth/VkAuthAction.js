@@ -8,10 +8,10 @@ import servers from "shared/configs/servers";
 class VkAuthAction extends Action {
     static async run (req, res, next) {
       const{ accessToken, profile } = req.body;
-
+      console.log('HELLOOO')
       let user = await UserModel.findOne({uid: profile.id}).exec();
       let response;
-
+      console.log('HELLOOO')
       if (!user) {
         const profileData = {
           uid: profile._json.id,
@@ -26,7 +26,7 @@ class VkAuthAction extends Action {
           method: 'POST',
           json: { profileData: profileData }
         };
-
+//ИЗМЕНИТЬ
         request.post(options, (err, data) => {
           console.log('Create new user', data.body);
         });
@@ -41,7 +41,7 @@ class VkAuthAction extends Action {
           method: 'PUT',
           json: { set: {accessToken} }
         };
-
+//ИЗМЕНИТЬ
         request.put(options, (err, data) => {
           console.log('Update player user', data.body);
         });
@@ -51,7 +51,7 @@ class VkAuthAction extends Action {
           user
         };
       }
-
+      console.log(response)
       res.json({
         body: response
       })

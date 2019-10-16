@@ -1,8 +1,8 @@
 class Api {
-  constructor({ url, methods, request }) {
+  constructor({ url, methods, request, defaultHeaders = {} }) {
     this.url = url;
     this.methods = methods;
-    this.headers = {};
+    this.headers = defaultHeaders;
     this.request = request;
   }
 
@@ -19,22 +19,22 @@ class Api {
     options.uri = url;
 
     return new Promise((resolve, reject) => {
-      this.request(options, (err, response) => {
+      this.request(options, (err, response, body) => {
         if (err) {
           reject(err);
         } else {
-          resolve(response)
+          resolve({
+            response, body
+          })
         }
       })
     })
   }
 
   processFetchedData(data) {
-    const json = JSON.parse(data.body);
-
     return {
-      isError: data.status > 300 || data.status < 200,
-      json
+      isError: data.response.status > 300 || data.response.status < 200,
+      body: data.body
     }
   }
 
@@ -45,27 +45,37 @@ class Api {
         code: "UNEXPECTED_ERROR",
         message: "Unexpected error",
         status: 500,
+        default: error
       }
     }
   }
 
-  execute(methodName, options) {
+  execute(methodName, options = {
+    headers: {}
+  }) {
     return new Promise((resolve, reject) => {
       const method = this.getMethod(methodName);
       const url = this.url + method.action;
       const params = {
-        headers: this.headers,
-        ...options
+        ...options,
+        method: method.method || 'GET',
+        json: options.body,
+        headers: {
+          ...this.headers,
+          ...options.headers
+        },
       };
+
+      console.log('fetch params', params);
 
       this.fetch(url, params)
         .then(data => {
           const result = this.processFetchedData(data);
 
           if (result.isError) {
-            reject(result.json)
+            reject(result.body)
           } else {
-            resolve(result.json)
+            resolve(result.body)
           }
 
         })

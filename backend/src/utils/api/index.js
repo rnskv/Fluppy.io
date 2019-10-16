@@ -1,15 +1,12 @@
 import Api from 'shared/core/Api/index';
-import bRequest from "browser-request";
+import request from "request";
 
 import methods from './methods';
 
 const api = new Api({
   url: 'http://192.168.101.155:3003',
   methods,
-  request: bRequest,
-  defaultHeaders: {
-    'content-type': 'application/json'
-  }
+  request
 });
 
 export default api;

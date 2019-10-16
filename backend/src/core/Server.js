@@ -29,8 +29,6 @@ class Server extends CC {
     }
 
     start(params) {
-
-
         const {
             port = 9000,
             host = 'localhost',

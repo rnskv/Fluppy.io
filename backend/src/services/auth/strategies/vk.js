@@ -3,6 +3,8 @@ import configs from '../../../configs'
 import request from 'request';
 import servers from 'shared/configs/servers';
 
+import api from 'src/utils/api';
+
 const PassportVkStrategy = new PassportVk.Strategy(
     {
         clientID:     configs.vk.clientID,
@@ -10,10 +12,9 @@ const PassportVkStrategy = new PassportVk.Strategy(
         callbackURL:  configs.vk.callbackURL
     },
     async (accessToken, refreshToken, params, profile, done) => {
+
       const options = {
-        url: servers.urls.backend.url() + '/auth/vk',
-        method: 'POST',
-        json: {
+        body: {
           accessToken,
           refreshToken,
           params,
@@ -21,10 +22,14 @@ const PassportVkStrategy = new PassportVk.Strategy(
         }
       };
 
-      request.post(options, (err, data) => {
-        const response = data.body;
-        done(null, response.body);
-      });
+      //ИЗМЕНИТЬ
+
+      api.execute('auth.vk', options)
+        .then((data) => {
+          console.log('wtf')
+          done(null, data.body)
+        })
+        .catch((err) => console.log('Err in auth.vk', err));
     }
 );
 
