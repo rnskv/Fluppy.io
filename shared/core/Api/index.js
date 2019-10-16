@@ -1,18 +1,18 @@
 class Api {
-  constructor({ url, methods, request, defaultHeaders = {} }) {
+  constructor({ url, queries, request, defaultOprions = { headers: {} } }) {
     this.url = url;
-    this.methods = methods;
-    this.headers = defaultHeaders;
+    this.queries = queries;
+    this.options = defaultOprions;
     this.request = request;
   }
 
   setToken(token) {
     console.log('set token', token);
-    this.headers['Authorization'] = `Bearer: ${token}`;
+    this.options.headers['Authorization'] = `Bearer: ${token}`;
   }
 
-  getMethod(methodName) {
-    return this.methods[methodName]
+  getQuery(queryName) {
+    return this.queries[queryName]
   }
 
   fetch(url, options = {}) {
@@ -50,20 +50,15 @@ class Api {
     }
   }
 
-  execute(methodName, options = {
-    headers: {}
-  }) {
+  execute(queryData = { name: 'test.test', params: {}}, options = {}) {
     return new Promise((resolve, reject) => {
-      const method = this.getMethod(methodName);
-      const url = this.url + method.action;
+      const query = this.getQuery(queryData.name);
+      const url = this.url + query.action(queryData.params);
+
       const params = {
-        ...options,
-        method: method.method || 'GET',
-        json: options.body,
-        headers: {
-          ...this.headers,
-          ...options.headers
-        },
+        method: query.method,
+        ...this.options,
+        ...options
       };
 
       console.log('fetch params', params);

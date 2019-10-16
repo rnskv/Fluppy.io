@@ -14,7 +14,7 @@ const PassportVkStrategy = new PassportVk.Strategy(
     async (accessToken, refreshToken, params, profile, done) => {
 
       const options = {
-        body: {
+        json: {
           accessToken,
           refreshToken,
           params,
@@ -22,11 +22,8 @@ const PassportVkStrategy = new PassportVk.Strategy(
         }
       };
 
-      //ИЗМЕНИТЬ
-
-      api.execute('auth.vk', options)
+      api.execute({ name: 'auth.vk' }, options)
         .then((data) => {
-          console.log('wtf')
           done(null, data.body)
         })
         .catch((err) => console.log('Err in auth.vk', err));

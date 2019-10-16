@@ -4,6 +4,7 @@ import VError from '../../core/VError';
 import configs from '../../configs';
 import request from "request";
 import servers from "shared/configs/servers";
+import api from 'src/utils/api';
 
 class VkAuthAction extends Action {
     static async run (req, res, next) {
@@ -27,6 +28,7 @@ class VkAuthAction extends Action {
           json: { profileData: profileData }
         };
 //ИЗМЕНИТЬ
+
         request.post(options, (err, data) => {
           console.log('Create new user', data.body);
         });
@@ -42,6 +44,9 @@ class VkAuthAction extends Action {
           json: { set: {accessToken} }
         };
 //ИЗМЕНИТЬ
+
+        api.execute({name: 'users.update', params: { id: user._id } }, options, );
+
         request.put(options, (err, data) => {
           console.log('Update player user', data.body);
         });

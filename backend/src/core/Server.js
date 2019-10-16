@@ -11,14 +11,15 @@ import request from "request";
 const whitelist = [undefined, 'http://192.168.101.155:3002', 'http://192.168.101.155:3001', 'http://192.168.101.155:3003']
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      console.log('Oooops for', origin)
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
+  origin: '*',
+  // function (origin, callback) {
+  //   if (whitelist.indexOf(origin) !== -1) {
+  //     callback(null, true)
+  //   } else {
+  //     console.log('Oooops for', origin)
+  //     callback(new Error('Not allowed by CORS'))
+  //   }
+  // }
 };
 
 class Server extends CC {
