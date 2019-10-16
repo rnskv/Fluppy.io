@@ -6,12 +6,15 @@ class Request {
     }
 
     execute() {
+        const headers = new Headers();
+        headers.append({
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer: ${this.accessToken}`
+        });
+
         window.fetch(this.url, {
-        ...this.options,
-        headers: new Headers({
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer: ${this.accessToken}`
-        })
+          ...this.options,
+          headers
         })
         .then((data) => console.log('All ok', data))
         .catch((err) => console.log('All bad', err))

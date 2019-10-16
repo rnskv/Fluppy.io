@@ -2,9 +2,23 @@ import express from 'express';
 import passport from 'passport';
 
 import bodyParser from 'body-parser';
+import cors from 'cors';
+
 import CC from './CommonClass';
 import configs from "../configs";
 import request from "request";
+
+const whitelist = ['http://192.168.101.155:3001', 'http://example2.com']
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+};
 
 class Server extends CC {
     constructor(params) {
@@ -36,6 +50,7 @@ class Server extends CC {
 
             const app = express();
 
+            app.use(cors(corsOptions));
             app.use(bodyParser.json());
             app.use(bodyParser.urlencoded({ extended: false }));
             app.use(passport.initialize());
