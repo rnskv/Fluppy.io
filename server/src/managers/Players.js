@@ -44,18 +44,12 @@ class PlayersManager extends Manager {
   }
 
   onJoinHandler(socket, playerData) {
-    console.log("join", playerData);
     /**** ПРИМЕР *****/
-
-    request(servers.urls.backend.url() + '/player', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer: ${playerData.accessToken}`
-      }
-    }, (err, response) => {
-      const data = JSON.parse(response.body);
-      console.log('response: ', data.body);
+    this.controller.api.setToken(playerData.accessToken);
+    this.controller.api.execute({
+      name: 'player.get'
+    }).then((body) => {
+      const data = JSON.parse(body);
       const playerData = data.body;
 
       if (!playerData) return;

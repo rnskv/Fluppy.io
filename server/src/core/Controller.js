@@ -1,7 +1,8 @@
 class Controller {
-  constructor({ managers, collider }) {
+  constructor({ managers, collider, api }) {
     this.managers = managers;
     this.collider = collider;
+    this.api = api;
 
     this.setControllerToManagers.call(this);
   }

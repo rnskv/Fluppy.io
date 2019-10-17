@@ -11,6 +11,10 @@ export default {
     method: 'PUT',
     action: ({id}) => `/users/${id}`
   },
+  'player.get': {
+    method: 'GET',
+    action: () => '/player'
+  },
   'auth.vk': {
     method: 'POST',
     action: () => '/auth/vk'
