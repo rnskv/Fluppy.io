@@ -49,9 +49,7 @@ class PlayersManager extends Manager {
     this.controller.api.execute({
       name: 'player.get'
     }).then((body) => {
-      const data = JSON.parse(body);
-      const playerData = data.body;
-
+      const playerData = JSON.parse(body).body;
       if (!playerData) return;
 
       const player = {
@@ -61,9 +59,8 @@ class PlayersManager extends Manager {
         name: playerData.lastName
       };
 
-
       console.log("Игрок прошел валидацию");
-      /**** ПРИМЕР *****/
+
       if (
         this.addObject({
           id: socket.id,
