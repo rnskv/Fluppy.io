@@ -1,6 +1,6 @@
 export default {
   'users.get': {
     method: 'GET',
-    action: '/users'
+    action: () => '/users'
   }
 }

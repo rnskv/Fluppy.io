@@ -17,25 +17,14 @@ class PlayersManager extends Manager {
   }
 
   selector(objectParams) {
-    console.log("Забрали данные из селектора", {
-      id: objectParams.id,
-      isBot: objectParams.isBot,
-      x: objectParams.x,
-      y: objectParams.y,
-      name: objectParams.name,
-      uid: objectParams.uid,
-      methods: {
-        spawnPipe: this.spawnPipe
-      },
-      shapeType: SHAPES.CIRCLE
-    });
     return {
       id: objectParams.id,
+      _id: objectParams._id,
+      uid: objectParams.uid,
       isBot: objectParams.isBot,
       x: objectParams.x,
       y: objectParams.y,
       name: objectParams.name,
-      uid: objectParams.uid,
       methods: {
         spawnPipe: this.spawnPipe
       },
@@ -45,53 +34,62 @@ class PlayersManager extends Manager {
 
   onJoinHandler(socket, playerData) {
     /**** ПРИМЕР *****/
+    console.log('ON JOIN', playerData.accessToken)
     this.controller.api.setToken(playerData.accessToken);
     this.controller.api.execute({
       name: 'player.get'
     }).then((body) => {
       const playerData = JSON.parse(body).body;
+      console.log('THEN', playerData)
       if (!playerData) return;
 
+      //Посмотреть _id если шо использовать вместо сокета.
       const player = {
+        _id: playerData._id,
         uid: playerData.uid,
         x: playerData.x,
         y: playerData.y,
         name: playerData.lastName
       };
 
-      console.log("Игрок прошел валидацию");
+      socket.player = this.addObject({
+        id: playerData._id,
+        isBot: false,
+        ...player
+      });
 
-      if (
-        this.addObject({
-          id: socket.id,
-          isBot: false,
-          ...player
-        })
-      ) {
-        this.network.io.emit(
-          "game:player:join",
-          this.objects.getById(socket.id).clientData
-        );
-      }
+      socket.emit("me:init", { id: socket.player._id, settings });
     });
   }
 
   onLeaveHandler(socket) {
-    if (this.objects.remove(socket.id)) {
-      this.network.io.emit("game:player:leave", socket.id);
+    if (this.objects.remove(socket.player._id)) {
+      this.network.io.emit("game:player:leave", socket.player._id);
     }
   }
 
   onDisconnectHandler(socket) {
-    if (this.objects.remove(socket.id)) {
-      this.network.io.emit("game:player:leave", socket.id);
+    if (!socket.player) return;
+    if (this.objects.remove(socket.player._id)) {
+      console.log(socket.player)
+      this.controller.api.execute(
+        {name: 'users.update', params: { id: socket.player._id } },
+        {
+          json: { set: {
+              x: socket.player.x,
+              y: socket.player.y,
+          }}
+        }
+      ).then(() => {
+        console.log('Update player user');
+      });
+      this.network.io.emit("game:player:leave", socket.player._id);
     }
   }
 
   onClickHandler(socket) {
-    const player = this.objects.getById(socket.id);
-    if (player) {
-      player.onClick();
+    if (socket.player) {
+      socket.player.onClick();
     }
   }
 

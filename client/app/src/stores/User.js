@@ -17,8 +17,8 @@ class UserStore {
     localStorage.setItem('accessToken', accessToken);
 
     api.setToken(this.accessToken);
-    api.execute('users.get')
-      .then((data) => { console.log('Все ок', data)})
+    api.execute({name: 'users.get'})
+      .then((data) => { console.log('Все ок', this.accessToken)})
       .catch((err) => { console.log('Все не ок', err)});
   };
 

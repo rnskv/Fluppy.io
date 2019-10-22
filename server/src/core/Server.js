@@ -8,10 +8,6 @@ export default class Server {
 
     this.lastUpdate = Date.now();
     this.tickerId = null;
-
-    this.network.subscribe("game:join", socket => {
-      socket.emit("me:init", { id: socket.id, settings: settings });
-    });
   }
 
   start() {
@@ -37,9 +33,10 @@ export default class Server {
   }
 
   emitStateToPlayer(socket) {
+    if (!socket.player) return;
     const player = this.controller
       .getManager("players")
-      .objects.getById(socket.id);
+      .objects.getById(socket.player._id);
 
     if (player) {
       socket.emit("game:update", {
