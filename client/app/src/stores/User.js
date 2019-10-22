@@ -1,4 +1,5 @@
 import { observable, action } from "mobx";
+import api from 'app/src/modules/api';
 
 class UserStore {
   @observable accessToken = null;
@@ -14,6 +15,11 @@ class UserStore {
   login = (accessToken) => {
     this.accessToken = accessToken;
     localStorage.setItem('accessToken', accessToken);
+
+    api.setToken(this.accessToken);
+    api.execute({name: 'users.get'})
+      .then((data) => { console.log('Все ок', this.accessToken)})
+      .catch((err) => { console.log('Все не ок', err)});
   };
 
   @action

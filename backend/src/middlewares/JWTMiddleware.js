@@ -5,21 +5,43 @@ import VError from "../core/VError";
 
 class JWTMiddleware extends Middleware {
   init() {
-    console.log(`jwt middleware ${this.constructor.name}`)
+    console.log(`jwt middleware ${this.constructor.name}`);
+  }
+
+  logError(json) {
+    console.log(json);
+  }
+
+  errorHandler(req, res) {
+    const response = {
+      error: configs.errors.ACCESS
+    };
+
+    this.logError(response);
+
+    res.status(403).json(response);
   }
 
   handler() {
     return async (req, res, next) => {
-      console.log(req.headers);
-      let user = await UserModel.findOne({accessToken: req.headers.authorization.split('Bearer: ')[1]}).exec();
-      if (user) {
-        req.user = user;
-        next();
-      } else {
-        res.json({
-          error: configs.errors.ACCESS
-        });
+      let headers = req.headers;
+
+      if (!headers.authorization) {
+        this.errorHandler(req, res, next);
+        return;
       }
+
+      const token = headers.authorization.split('Bearer: ')[1];
+
+      UserModel.findOne({accessToken: token}).exec()
+        .then((user) => {
+          req.user = user;
+          next();
+        })
+        .catch(() => {
+          this.errorHandler(req, res, next)
+        });
+
     }
   }
 }

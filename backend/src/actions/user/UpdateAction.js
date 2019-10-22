@@ -8,12 +8,15 @@ class UpdateAction extends Action {
     const { set } = req.body;
     const { id } = req.params;
 
-    //
     UserModel.updateOne({ _id: id }, { $set: set })
-      .then(() => { res.send({text: 'update action'}) })
-      .catch(e => { res.send(e)});
-
-    // res.json({hello: 'world'})
+      .then(() => {
+        console.log('update player')
+        res.send({text: 'update action'})
+      })
+      .catch(e => {
+        console.log(e)
+        res.send(e)
+      });
   }
 }
 

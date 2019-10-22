@@ -3,12 +3,12 @@ import UserModel from '../../models/UserModel';
 import VError from '../../core/VError';
 import configs from '../../configs';
 import request from "request";
-import globalConfig from "../../configs/global";
+import servers from "shared/configs/servers";
+import api from 'src/utils/api';
 
 class VkAuthAction extends Action {
     static async run (req, res, next) {
       const{ accessToken, profile } = req.body;
-
       let user = await UserModel.findOne({uid: profile.id}).exec();
       let response;
 
@@ -21,14 +21,13 @@ class VkAuthAction extends Action {
           lastName: profile._json.last_name
         };
 
-        const options = {
-          url: globalConfig.urls.backend.url() + '/users',
-          method: 'POST',
-          json: { profileData: profileData }
-        };
-
-        request.post(options, (err, data) => {
-          console.log('Create new user', data.body);
+        api.execute(
+          { name: 'users.create' },
+          {
+            json: { profileData }
+          }
+        ).then(() => {
+          console.log('Create new user');
         });
 
         response = {
@@ -36,14 +35,13 @@ class VkAuthAction extends Action {
           user: data.body
         };
       } else {
-        const options = {
-          url: globalConfig.urls.backend.url() + '/users/' + user._id,
-          method: 'PUT',
-          json: { set: {accessToken} }
-        };
-
-        request.put(options, (err, data) => {
-          console.log('Update player user', data.body);
+        api.execute(
+          {name: 'users.update', params: { id: user._id } },
+          {
+            json: { set: {accessToken} }
+          }
+        ).then(() => {
+          console.log('Update player user');
         });
 
         response = {

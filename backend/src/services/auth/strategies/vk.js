@@ -1,7 +1,9 @@
 import PassportVk from 'passport-vkontakte';
 import configs from '../../../configs'
 import request from 'request';
-import globalConfig from '../../../configs/global';
+import servers from 'shared/configs/servers';
+
+import api from 'src/utils/api';
 
 const PassportVkStrategy = new PassportVk.Strategy(
     {
@@ -10,9 +12,8 @@ const PassportVkStrategy = new PassportVk.Strategy(
         callbackURL:  configs.vk.callbackURL
     },
     async (accessToken, refreshToken, params, profile, done) => {
+
       const options = {
-        url: globalConfig.urls.backend.url() + '/auth/vk',
-        method: 'POST',
         json: {
           accessToken,
           refreshToken,
@@ -21,10 +22,11 @@ const PassportVkStrategy = new PassportVk.Strategy(
         }
       };
 
-      request.post(options, (err, data) => {
-        const response = data.body;
-        done(null, response.body);
-      });
+      api.execute({ name: 'auth.vk' }, options)
+        .then((data) => {
+          done(null, data.body)
+        })
+        .catch((err) => console.log('Err in auth.vk', err));
     }
 );
 

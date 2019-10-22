@@ -2,7 +2,7 @@ const app = require("express")();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 
-import globalConfig from './configs/global';
+import servers from 'shared/configs/servers';
 
 import Server from "./core/Server";
 import Controller from "./core/Controller";
@@ -18,9 +18,11 @@ import Pipe from "./entities/Pipe";
 import Collider from "./core/Collider";
 
 import settings from "./configs/settings";
+import api from 'src/utils/api';
 
 const network = new Network(io);
 network.init();
+
 const managers = {
     'players': new PlayersManager({network, entity: Player, emitRule: 'RADIUS', type: 'PLAYERS'}),
     'pipes': new PipesManager({network, entity: Pipe, emitRule: 'RADIUS', type: 'PIPES'}),
@@ -29,13 +31,13 @@ const managers = {
 const application = new Server({
   network,
   settings,
-  controller: new Controller({ managers, collider: new Collider() })
+  controller: new Controller({ api, managers, collider: new Collider() })
 });
 
 application.start();
 
-server.listen(globalConfig.urls.server.port, globalConfig.urls.server.ip, () => {
+server.listen(servers.urls.server.port, servers.urls.server.ip, () => {
   console.log(
-    `******************************************\n****Игровой сервер - ${globalConfig.urls.server.ip}:${globalConfig.urls.server.port}****\n******************************************`
+    `******************************************\n****Игровой сервер - ${servers.urls.server.ip}:${servers.urls.server.port}****\n******************************************`
   )
 });

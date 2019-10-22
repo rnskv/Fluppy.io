@@ -35,6 +35,7 @@ class Manager {
     if (this.objects.add(object.id, object)) {
       object.init();
     }
+    return object;
   }
 
   get dataset() {

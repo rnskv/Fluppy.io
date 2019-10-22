@@ -1,7 +1,8 @@
 class Controller {
-  constructor({ managers, collider }) {
+  constructor({ managers, collider, api }) {
     this.managers = managers;
     this.collider = collider;
+    this.api = api;
 
     this.setControllerToManagers.call(this);
   }
@@ -60,14 +61,14 @@ class Controller {
   }
 
   update(dt) {
+    this.managersList.forEach(manager => {
+      manager.update(dt);
+    });
+
     this.collider.checkCollisionsBetween(
       this.getManager("players"),
       this.getManager("pipes")
     );
-
-    this.managersList.forEach(manager => {
-      manager.update(dt);
-    });
   }
 }
 

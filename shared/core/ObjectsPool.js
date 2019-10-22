@@ -68,15 +68,15 @@ class ObjectsPool {
     return !!this.map.get(id);
   }
 
-    cache() {
-        //Задел на будущее - добавить кэширование
-        this.isCached = true;
-        this.chached = {
-            values: this.map.values(),
-            keys: this.map.keys(),
-            entries: this.map.entries()
-        }
-    }
+  cache() {
+      //Задел на будущее - добавить кэширование
+      this.isCached = true;
+      this.chached = {
+          values: this.map.values(),
+          keys: this.map.keys(),
+          entries: this.map.entries()
+      }
+  }
 
   unCache() {
     this.isCached = false;

@@ -5,8 +5,7 @@ import { observer } from "mobx-react";
 import "./Welcome.css";
 
 import UserStore from '../../stores/User';
-
-import globalConfig from 'shared/configs/servers';
+import servers from "shared/configs/servers";
 
 @observer
 class Welcome extends Component {
@@ -23,13 +22,13 @@ class Welcome extends Component {
                 <h1>Опача!</h1>
               <hr/>
                 <p>Ваш токен - { UserStore.accessToken }</p>
-                <button onClick={UserStore.logout}>Выйти из этого дерьма</button>
-                <button><Link to={'/game'}>Войти в мир полный радости</Link></button>
+                <button onClick={UserStore.logout}>Выйти</button>
+                <button><Link to={'/game'}>Войти в мир</Link></button>
               </div>
             : <div>
               Вам нужно авторизироваться :(
             <p>
-              <button><a href={globalConfig.urls.backend.url() + '/auth/vk'}>Войти через вк</a></button>
+              <button><a href={servers.urls.backend.url() + '/auth/vk'}>Войти через вк</a></button>
             </p>
             </div>
         }
