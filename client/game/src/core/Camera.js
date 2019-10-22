@@ -40,7 +40,7 @@ class Camera {
       const y = (this.target.y * this.zoom - this.size.height / 2);
 
       return {
-        x,
+        x: x < this.settings.max.left ? this.settings.max.left : x,
         y
       };
     }
