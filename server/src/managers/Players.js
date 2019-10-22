@@ -42,7 +42,7 @@ class PlayersManager extends Manager {
       const playerData = JSON.parse(body).body;
       console.log('THEN', playerData)
       if (!playerData) return;
-
+      if (this.objects.getById(playerData._id)) return;
       //Посмотреть _id если шо использовать вместо сокета.
       const player = {
         _id: playerData._id,
