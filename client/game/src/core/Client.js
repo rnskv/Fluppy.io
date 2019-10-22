@@ -18,6 +18,7 @@ export default class Client {
     const { width, height } = this.params;
 
     this.apps[id] = new PIXI.Application({
+      transparent: true,
       width,
       height
     });

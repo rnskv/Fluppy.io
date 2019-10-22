@@ -4,7 +4,6 @@ class ParalaxManager extends Manager {
   constructor({ ...params }) {
     super(params);
     this.paralaxFactor = 1;
-    this.gluingOffset = 0;
   }
 
   getActiveObjects(updates) {
@@ -37,14 +36,13 @@ class ParalaxManager extends Manager {
 
   addPart() {
     const settings = this.controller.stores.main.get("settings");
-    const { controller, gluingOffset, paralaxFactor, isFirstPart } = this;
-    console.log(controller.stores.main.get('settings'))
+    const { controller, isFirstPart } = this;
     if (!controller.stores.main.get('settings')) return;
-    const leftViewportPoint =
-      controller.camera.position.x + controller.camera.size.width / 2 + controller.stores.main.get('settings').viewRadius;
+    const leftViewportPoint = controller.camera.position.x + controller.camera.size.width / 2 + controller.stores.main.get('settings').viewRadius;
+
     const leftPartPoint = this.objects.last
       ? this.objects.last.x
-      : 0 - gluingOffset * paralaxFactor;
+      : 0 ;
 
     const isNeedAddNewPart = leftViewportPoint > leftPartPoint;
 

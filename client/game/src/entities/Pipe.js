@@ -5,9 +5,7 @@ class Pipe extends GameObject {
   createObject() {
     const container = new PIXI.Container();
     const graphics = new PIXI.Graphics();
-    const colors = [0xff0000, 0x00ff00, 0xffffff];
-    graphics.beginFill(colors[Math.floor(Math.random() * colors.length)]);
-    graphics.lineStyle(4, 0x000000);
+    graphics.beginFill(0x000000);
     graphics.drawRect(0, 0, this.width, this.height);
 
     container.addChild(graphics);

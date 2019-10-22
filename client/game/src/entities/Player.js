@@ -18,17 +18,17 @@ class Player extends GameObject {
     const container = new PIXI.Container();
     const graphics = new PIXI.Graphics();
 
-    graphics.beginFill(0x00ff00, 1);
+    graphics.beginFill(0x000000, 1);
     graphics.lineStyle(3, 0x000000);
     graphics.drawCircle(0, 0, this.radius);
 
     graphics.beginFill(0x000000, 1);
     graphics.lineStyle(1, 0x000000);
-    graphics.drawCircle(this.radius * 0.5, this.radius * 0.05, 5);
+    graphics.drawCircle(this.radius * 0.5, this.radius * 0.05, 6);
 
     graphics.beginFill(0xffffff, 1);
-    graphics.lineStyle(1, 0x000000);
-    graphics.drawCircle(this.radius * 0.5, this.radius * 0.05, 3);
+    graphics.lineStyle(2, 0xFF0000);
+    graphics.drawCircle(this.radius * 0.5, this.radius * 0.05, 4);
 
     // if (this.isCurrentPlayer && this.x < 500) {
     //     graphics.beginFill(0x000000, 0.0);
@@ -47,15 +47,17 @@ class Player extends GameObject {
 
   createStaticObject() {
     const text = new PIXI.Text(`${this.name}`, {
-      fontFamily: "Roboto",
-      fontSize: 16,
-      fill: 0xffffff,
+      fontFamily: "Arial",
+      fontSize: 17,
+      fontWeight: 'bold',
+      fill: 0x000000,
       align: "center",
-      stroke: 0x000000,
+      stroke: 0xffffff,
       strokeThickness: 3
     });
     text.position.y = this.radius + 10;
     text.position.x = 0;
+    text.resolution = 2;
     text.anchor = new PIXI.Point(0.5, 0);
 
     return text;

@@ -8,7 +8,7 @@ class Pipe extends CollisionGameObject {
     this.dx = 0;
     this.dy = 1;
 
-    this.width = 80;
+    this.width = 100;
     this.height =
       Math.abs(settings.map.border.top) + Math.abs(settings.map.border.bottom);
     this.position = position;
