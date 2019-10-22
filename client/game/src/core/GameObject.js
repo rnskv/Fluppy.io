@@ -104,11 +104,20 @@ export default class GameObject {
   }
 
   runUpdates() {
+    const { camera } = this.controller;
+
     this.objectContainer.transform.position.x =
-      this.x + this.offsets.x - this.controller.camera.position.x;
+      (this.x + this.offsets.x) * camera.zoom - camera.position.x;
     this.objectContainer.transform.position.y =
-      this.y + this.offsets.y - this.controller.camera.position.y;
+      (this.y + this.offsets.y) * camera.zoom - camera.position.y;
+
     this.objectContainer.pivot = this.pivot;
+
+    this.objectContainer.scale = new PIXI.Point(
+      camera.zoom,
+      camera.zoom
+    );
+
 
     this.activeObject.transform.rotation = this.rotation;
   }

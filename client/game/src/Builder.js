@@ -5,11 +5,7 @@ import Camera from "./core/Camera";
 import PlayersManager from "./managers/players";
 import PipesManager from "./managers/pipes";
 import FloorsManager from "./managers/floors";
-import ForestManager from "./managers/forest";
-import SilhouetteManager from "./managers/silhoutte";
-import ThicketsManager from "./managers/thickets";
-import LeavesManager from "./managers/leaves";
-import ConopyesManager from "./managers/conopyes";
+
 
 import PlayerStore from "./stores/PlayerStore";
 import MainStore from "./stores/MainStore";
@@ -19,27 +15,11 @@ import Controller from "./core/Controller";
 import Player from "./entities/Player";
 import Pipe from "./entities/Pipe";
 import Floor from "./entities/Floor";
-import Forest from "./entities/Forest";
-import Silhouette from "./entities/Silhouette";
-import Thicket from "./entities/Thicket";
-import Leave from "./entities/Leave";
-import Conopy from "./entities/Conopy";
+
 
 import Proton from "./Proton";
 
 const managers = {
-  forest: new ForestManager({
-    entity: Forest
-  }),
-  thickets: new ThicketsManager({
-    entity: Thicket
-  }),
-  silhouette: new SilhouetteManager({
-    entity: Silhouette
-  }),
-  conopyes: new ConopyesManager({
-    entity: Conopy
-  }),
   pipes: new PipesManager({
     entity: Pipe
   }),
@@ -48,9 +28,6 @@ const managers = {
   }),
   players: new PlayersManager({
     entity: Player
-  }),
-  leaves: new LeavesManager({
-    entity: Leave
   })
 };
 

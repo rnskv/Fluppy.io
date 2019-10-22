@@ -2,25 +2,23 @@ import EnvironmentObject from "../core/EnvironmentObject";
 import * as PIXI from "pixi.js";
 
 class Floor extends EnvironmentObject {
-  constructor(params) {
-    super(params);
-    this.width = 800;
-    this.height = 160;
-    this.offsets = {
-      x: 0,
-      y: -40
-    };
+  constructor(props) {
+    super(props);
+    this.width = 400;
+    this.height = 800;
   }
 
   createObject() {
-    const textures = [PIXI.Texture.from("00_forest_floor.png")];
+    const container = new PIXI.Container();
+    const graphics = new PIXI.Graphics();
+    const colors = [0xff0000, 0x00ff00, 0xffffff];
+    graphics.beginFill(colors[Math.floor(Math.random() * colors.length)]);
+    graphics.lineStyle(4, 0x000000);
+    graphics.drawRect(0, 0, this.width, this.height);
 
-    const sprite = new PIXI.Sprite(textures[0]);
+    container.addChild(graphics);
 
-    sprite.width = this.width;
-    sprite.height = this.height;
-
-    return sprite;
+    return container;
   }
 }
 

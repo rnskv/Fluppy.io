@@ -38,9 +38,10 @@ class ParalaxManager extends Manager {
   addPart() {
     const settings = this.controller.stores.main.get("settings");
     const { controller, gluingOffset, paralaxFactor, isFirstPart } = this;
-
+    console.log(controller.stores.main.get('settings'))
+    if (!controller.stores.main.get('settings')) return;
     const leftViewportPoint =
-      controller.camera.position.x + controller.camera.size.width;
+      controller.camera.position.x + controller.camera.size.width / 2 + controller.stores.main.get('settings').viewRadius;
     const leftPartPoint = this.objects.last
       ? this.objects.last.x
       : 0 - gluingOffset * paralaxFactor;

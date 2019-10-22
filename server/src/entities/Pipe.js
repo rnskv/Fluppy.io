@@ -11,21 +11,17 @@ class Pipe extends CollisionGameObject {
     this.width = 80;
     this.height =
       Math.abs(settings.map.border.top) + Math.abs(settings.map.border.bottom);
-    this.distance = 1;
     this.position = position;
 
     if (position === "top") {
-      this.y = settings.map.border.top + 20 + shift - this.height / 2;
+      this.y = settings.map.border.top - this.height / 2 - wholeSize;
+      this.height = this.height + shift + wholeSize;
     }
 
     if (position === "bottom") {
-      this.y =
-        settings.map.border.bottom -
-        this.height +
-        20 +
-        shift +
-        wholeSize +
-        this.height / 2;
+      this.y = settings.map.border.bottom - this.height / 2+ shift + wholeSize;
+      this.height = this.height - shift - wholeSize
+
     }
   }
 

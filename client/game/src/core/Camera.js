@@ -4,37 +4,50 @@ class Camera {
     this.y = 0;
     this.target = null;
     this.size = size;
+    this.zoom = 1;
+
     this.settings = settings || {
       max: {
-        top: -300,
-        bottom: 600,
+        top: -300 * this.zoom,
+        bottom: 600 * this.zoom,
         left: 0
       }
     };
 
+    window.document.addEventListener('mousewheel', (e) => {
+      console.log(e)
+      if (e.deltaY >= 0) {
+        // up
+        this.changeZoom(-0.1)
+      } else {
+        // down
+        this.changeZoom(0.1)
+      }
+
+    })
     //Сюда добавить отсутпы (120)
+  }
+
+  changeZoom(coef) {
+    if (this.zoom + coef > 0.5 && this.zoom + coef < 3) {
+      this.zoom += coef;
+    }
   }
 
   get position() {
     if (this.target) {
-      const x = this.target.x - this.size.width / 2;
-      const y = this.target.y - this.size.height / 2;
+      const x = (this.target.x * this.zoom - this.size.width / 2);
+      const y = (this.target.y * this.zoom - this.size.height / 2);
 
       return {
-        x: x > this.settings.max.left ? x : this.settings.max.left,
-
-        y:
-          y > this.settings.max.top
-            ? y + this.size.height < this.settings.max.bottom + 120
-              ? y
-              : this.settings.max.bottom - this.size.height + 120
-            : this.settings.max.top
+        x,
+        y
       };
     }
 
     return {
-      x: this.x,
-      y: this.y
+      x: this.x * this.zoom,
+      y: this.y * this.zoom
     };
   }
 

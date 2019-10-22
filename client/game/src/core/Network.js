@@ -40,7 +40,6 @@ EventEmitter.subscribe("game:leave", () => {
 
 socket.on("connect", () => {
   socket.on("game:update", data => {
-    console.log(data)
     EventEmitter.emit("server:updates", data);
   });
 

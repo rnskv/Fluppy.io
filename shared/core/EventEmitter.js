@@ -6,7 +6,6 @@ class EventEmitter {
 
   emit(eventName, data) {
     const event = this.events[eventName];
-    console.log(eventName, data);
 
     if (!event) {
       throw new Error(`Event ${eventName} hasn't subscribers`);
