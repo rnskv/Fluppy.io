@@ -12,8 +12,8 @@ module.exports = {
     },
     resolve: {
         alias: {
-            shared: path.resolve(__dirname, '../shared'),
-            Templates: path.resolve(__dirname, 'src/templates/')
+          src:  path.resolve(__dirname, './src'),
+          shared: path.resolve(__dirname, '../shared')
         }
     },
     module: {

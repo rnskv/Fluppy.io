@@ -1,58 +1,75 @@
 class Controller {
-    constructor({ managers, collider }) {
-        this.managers = managers;
-        this.collider = collider;
+  constructor({ managers, collider, api }) {
+    this.managers = managers;
+    this.collider = collider;
+    this.api = api;
 
-        this.setControllerToManagers.call(this);
-    }
+    this.setControllerToManagers.call(this);
+  }
 
-    get managersList() {
-        return Object.values(this.managers);
-    }
+  get managersList() {
+    return Object.values(this.managers);
+  }
 
-    get managersNames() {
-        return Object.keys(this.managers);
-    }
+  get managersNames() {
+    return Object.keys(this.managers);
+  }
 
-    get managersEntries() {
-        return Object.entries(this.managers);
-    }
+  get managersEntries() {
+    return Object.entries(this.managers);
+  }
 
-    getManager(name) {
-        return this.managers[name]
-    }
+  getManager(name) {
+    return this.managers[name];
+  }
 
-    getStateForPlayerByRules(player, rules) {
-        let result = {};
-        if (player) {
-            this.managersNames.forEach(managerName => {
-                result[managerName] = this.getManager(managerName).getDatasetInRadiusFromPoint(player.x, player.y)
-            });
+  getStateForPlayerByRules(player) {
+    let result = {};
+    if (player) {
+      this.managersNames.forEach(managerName => {
+        const manager = this.getManager(managerName);
+
+        switch (manager.emitRule) {
+          case "RADIUS": {
+            result[managerName] = manager.getDatasetInRadiusFromPoint(
+              player.x,
+              player.y
+            );
+            break;
+          }
+
+          default: {
+            result[managerName] = manager.dataset;
+          }
         }
-        return result;
+      });
     }
+    return result;
+  }
 
-    initGraph() {
-        const players = this.getManager('players');
-        const pipes =  this.getManager('pipes');
+  initGraph() {
+    const players = this.getManager("players");
+    const pipes = this.getManager("pipes");
 
-        players.connectManager('pipes', pipes)
-    }
+    players.connectManager("pipes", pipes);
+  }
 
-    setControllerToManagers() {
-        this.managersList.forEach(manager => {
-            manager.init(this);
-        })
-    }
+  setControllerToManagers() {
+    this.managersList.forEach(manager => {
+      manager.init(this);
+    });
+  }
 
-    update(dt) {
+  update(dt) {
+    this.managersList.forEach(manager => {
+      manager.update(dt);
+    });
 
-        this.collider.checkCollisionsBetween(this.getManager('players'), this.getManager('pipes'));
-
-        this.managersList.forEach(manager => {
-            manager.update(dt)
-        })
-    }
+    this.collider.checkCollisionsBetween(
+      this.getManager("players"),
+      this.getManager("pipes")
+    );
+  }
 }
 
 export default Controller;

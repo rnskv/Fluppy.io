@@ -1,36 +1,43 @@
-const app = require('express')();
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+const app = require("express")();
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
 
-import Server from './core/Server';
-import Controller from './core/Controller';
+import servers from 'shared/configs/servers';
 
-import Network from './core/Network';
+import Server from "./core/Server";
+import Controller from "./core/Controller";
 
-import PlayersManager from './managers/Players';
-import PipesManager from './managers/Pipes';
+import Network from "./core/Network";
 
-import Player from './entities/Player';
-import Pipe from './entities/Pipe';
+import PlayersManager from "./managers/Players";
+import PipesManager from "./managers/Pipes";
 
-import Collider from './core/Collider';
+import Player from "./entities/Player";
+import Pipe from "./entities/Pipe";
+
+import Collider from "./core/Collider";
 
 import settings from "./configs/settings";
+import api from 'src/utils/api';
 
 const network = new Network(io);
 network.init();
+
 const managers = {
-    'players': new PlayersManager({network, entity: Player}),
-    'pipes': new PipesManager({network, entity: Pipe}),
+    'players': new PlayersManager({network, entity: Player, emitRule: 'RADIUS', type: 'PLAYERS'}),
+    'pipes': new PipesManager({network, entity: Pipe, emitRule: 'RADIUS', type: 'PIPES'}),
 };
 
 const application = new Server({
-    network,
-    settings,
-    controller: new Controller({managers, collider: new Collider()})
+  network,
+  settings,
+  controller: new Controller({ api, managers, collider: new Collider() })
 });
 
 application.start();
 
-
-server.listen(3000);
+server.listen(servers.urls.server.port, servers.urls.server.ip, () => {
+  console.log(
+    `******************************************\n****Игровой сервер - ${servers.urls.server.ip}:${servers.urls.server.port}****\n******************************************`
+  )
+});
