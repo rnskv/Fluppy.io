@@ -122,9 +122,9 @@ export default class GameObject {
     this.activeObject.transform.rotation = this.rotation;
   }
 
-  update(dt, updates) {
+  update(dt, updates, syncCamera) {
     if (!updates) return;
     this.setUpdates(updates);
-    this.runUpdates();
+    this.runUpdates(syncCamera);
   }
 }

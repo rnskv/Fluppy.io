@@ -11,7 +11,6 @@ class PlayersManager extends Manager {
   }
 
   selector(objectData) {
-    console.log(objectData)
     return {
       controller: this.controller,
       id: objectData.id,

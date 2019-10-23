@@ -4,7 +4,6 @@ import ObjectPool from "shared/core/ObjectsPool";
 class Manager {
   constructor({ entity }) {
     this.objects = new ObjectPool({ type: "OBJECTS" });
-
     this.actives = new ObjectPool({ type: "ACTIVES" });
     this.isEnvironment = false;
     this.entity = entity;
@@ -75,14 +74,14 @@ class Manager {
     return Object.values(updates);
   }
 
-  update(dt, updates) {
+  update(dt, updates, syncCamera) {
     this.clearActives();
     this.getActiveObjects(updates).forEach(data => {
       this.moveToActives(data.id);
       if (this.objects.isExist(data.id)) {
-        this.objects.getById(data.id).update(dt, data);
+        this.objects.getById(data.id).update(dt, data, syncCamera);
       } else {
-        this.addObject(data).update(dt, data);
+        this.addObject(data).update(dt, data, syncCamera);
       }
     });
   }

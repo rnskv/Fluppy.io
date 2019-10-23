@@ -1,3 +1,5 @@
+import Interpolator from "../utils/interpolator";
+
 class Camera {
   constructor({ size, settings }) {
     this.x = 0;
@@ -5,6 +7,11 @@ class Camera {
     this.target = null;
     this.size = size;
     this.zoom = 1;
+
+    this.destination = {
+      x: 0,
+      y: 0
+    };
 
     this.settings = settings || {
       max: {
@@ -15,7 +22,6 @@ class Camera {
     };
 
     window.document.addEventListener('mousewheel', (e) => {
-      console.log(e)
       if (e.deltaY >= 0) {
         // up
         this.changeZoom(-0.1)
@@ -36,8 +42,8 @@ class Camera {
 
   get position() {
     if (this.target) {
-      const x = (this.target.x * this.zoom - this.size.width / 2);
-      const y = (this.target.y * this.zoom - this.size.height / 2);
+      const x = (this.x * this.zoom - this.size.width / 2);
+      const y = (this.y * this.zoom - this.size.height / 2);
 
       return {
         x: x < this.settings.max.left ? this.settings.max.left : x,
@@ -62,6 +68,35 @@ class Camera {
 
   setTarget(target) {
     this.target = target;
+  }
+
+  update(dt) {
+    const speed = Math.abs(this.destination.y - this.y) / 30;
+
+
+    if (this.destination.y + speed < this.y) {
+      this.y -= speed
+    } else if (this.destination.y - speed > this.y){
+      this.y += speed;
+    } else {
+      this.y = this.destination.y;
+    }
+
+    if (this.destination.x + speed < this.x) {
+      this.x -= speed
+    } else if (this.destination.x - speed > this.x){
+      this.x += speed;
+    } else {
+      this.x = this.destination.x;
+    }
+
+  }
+
+  setCameraPosition() {
+    if (!this.target) return;
+    this.x = this.target.x;
+    this.destination.y = this.target.y;
+    // this.y = this.target.y;
   }
 }
 

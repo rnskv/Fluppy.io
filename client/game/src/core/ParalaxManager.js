@@ -8,7 +8,7 @@ class ParalaxManager extends Manager {
 
   getActiveObjects(updates) {
     return this.objects.values.filter(
-      object => object.x + object.width > this.controller.camera.x
+      object => object.x + object.width > this.controller.camera.x - this.controller.camera.size.width
     );
   }
 

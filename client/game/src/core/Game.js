@@ -76,9 +76,27 @@ export default class Game {
     }
   }
 
+  get ratio() {
+    const baseUpdateIndex = this.baseUpdateIndex;
+    const serverTime = this.currentServerTime;
+
+    const isInitUpdate = baseUpdateIndex < 0;
+    const isNotIterpolatedUpdate = baseUpdateIndex === this.updates.length - 1;
+
+    if (isInitUpdate || isNotIterpolatedUpdate) return 1;
+
+    const baseUpdate = this.updates[baseUpdateIndex];
+    const next = this.updates[baseUpdateIndex + 1];
+    return (serverTime - baseUpdate.timestamp) /
+      (next.timestamp - baseUpdate.timestamp);
+  }
+
   getCurrentUpdate() {
     if (!this.firstServerTimestamp) {
-      return this.initState;
+      return {
+        managers: this.initState,
+        timestamp: 0
+      };
     }
 
     const baseUpdateIndex = this.baseUpdateIndex;
@@ -89,11 +107,17 @@ export default class Game {
 
     switch (true) {
       case isInitUpdate: {
-        return this.updates[this.updates.length - 1].state;
+        return {
+          managers: this.updates[this.updates.length - 1].state,
+          timestamp: 0,
+        };
       }
 
       case isNotIterpolatedUpdate: {
-        return this.updates[baseUpdateIndex].state;
+        return {
+          managers: this.updates[baseUpdateIndex].state,
+          timestamp: 0
+        };
       }
 
       default: {
@@ -105,19 +129,33 @@ export default class Game {
 
         if (this.settings.interpolate) {
           return {
-            players: Interpolator.interpolateObjectsMap(
-              baseUpdate.state.players,
-              next.state.players,
-              ratio
-            ),
-            pipes: next.state.pipes,
-            checkpoints: next.state.checkpoints
+            managers: {
+              checkpoints: Interpolator.interpolateObjectsMap(
+                baseUpdate.state.checkpoints,
+                next.state.checkpoints,
+                ratio
+              ),
+              players: Interpolator.interpolateObjectsMap(
+                baseUpdate.state.players,
+                next.state.players,
+                ratio
+              ),
+              pipes: Interpolator.interpolateObjectsMap(
+                baseUpdate.state.pipes,
+                next.state.pipes,
+                ratio
+              )
+            },
+            timestamp: baseUpdate.timestamp,
           };
         } else {
           return {
-            players: next.state.players,
-            pipes: next.state.pipes,
-            checkpoints: next.state.checkpoints
+            managers: {
+              players: next.state.players,
+              pipes: next.state.pipes,
+              checkpoints: next.state.checkpoints,
+            },
+            timestamp: next.timestamp
           };
         }
       }
@@ -125,14 +163,16 @@ export default class Game {
   }
 
   update(dt) {
+    const currentUpdate = this.getCurrentUpdate();
+    this.controller.camera.setCameraPosition();
+    this.controller.camera.update();
     for (let [managerName, manager] of this.controller.managersEntries) {
       if (!manager.isEnvironment) {
-        if (!this.getCurrentUpdate()[managerName]) {
-          console.log(this.getCurrentUpdate())
+        if (!currentUpdate.managers[managerName]) {
           console.error(`Hasn't state for manager: ${managerName}`);
           return;
         }
-        manager.update(dt, this.getCurrentUpdate()[managerName]);
+        manager.update(dt, currentUpdate.managers[managerName]);
       } else {
         manager.update(dt);
       }

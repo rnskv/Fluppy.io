@@ -30,12 +30,18 @@ class Player extends CollisionGameObject {
     this.isBot = isBot;
 
     this.maxDX = 1.5;
+    this.maxDY = {
+      default: 6,
+      die: 10
+    };
+
     this.isDie = false;
 
     this.localScores = 0;
     this.lastCheckPointId = null;
     this.maxScores = 0;
-    this.currentCheckPoint = null;
+
+    this.safeZoneWidth = 500;
   }
 
   get clientData() {
@@ -89,7 +95,6 @@ class Player extends CollisionGameObject {
     this.rotation = 90;
     this.isDie = true;
     this.dy = -10;
-    this.localScores = 0;
   }
 
   spawn() {
@@ -98,11 +103,12 @@ class Player extends CollisionGameObject {
     this.x = 0;
     this.rotation = 0;
     this.isDie = false;
+    this.localScores = 0;
   }
 
   update(dt) {
     this.methods.spawnPipe(this.x, 0);
-    if (this.dy < 6 || (this.isDie && this.dy < 10)) {
+    if (this.dy < this.maxDY.default || (this.isDie && this.dy < this.maxDY.die)) {
       this.dy += 0.5 * dt;
     }
 
@@ -122,7 +128,7 @@ class Player extends CollisionGameObject {
       this.x += this.dx * this.speed * dt;
       this.y += this.dy * this.speed * dt;
     } else {
-      if (this.x > 500) {
+      if (this.x > this.safeZoneWidth) {
         this.spawn();
       } else {
         if (this.isDie) {
