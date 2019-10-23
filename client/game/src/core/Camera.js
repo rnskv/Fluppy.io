@@ -1,13 +1,15 @@
+import * as PIXI from 'pixi.js';
 import Interpolator from "../utils/interpolator";
 
 class Camera {
   constructor({ size, settings }) {
+    this.originWidth = PIXI.utils.isMobile.phone ? 512 : 1512;
     this.x = 0;
     this.y = 0;
     this.target = null;
     this.size = size;
-    this.zoom = 1;
-
+    this.zoom = size.width / this.originWidth;
+    console.log(PIXI.utils.isMobile)
     this.destination = {
       x: 0,
       y: 0
