@@ -110,16 +110,8 @@ export default class Game {
               next.state.players,
               ratio
             ),
-            pipes: Interpolator.interpolateObjectsMap(
-              baseUpdate.state.pipes,
-              next.state.pipes,
-              ratio
-            ),
-            checkpoints: Interpolator.interpolateObjectsMap(
-              baseUpdate.state.checkpoints,
-              next.state.checkpoints,
-              ratio
-            )
+            pipes: next.state.pipes,
+            checkpoints: next.state.checkpoints
           };
         } else {
           return {
