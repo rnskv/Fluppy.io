@@ -34,16 +34,14 @@ class PlayersManager extends Manager {
 
   onJoinHandler(socket, playerData) {
     /**** ПРИМЕР *****/
-    console.log('ON JOIN', playerData.accessToken)
     this.controller.api.setToken(playerData.accessToken);
     this.controller.api.execute({
       name: 'player.get'
     }).then((body) => {
       const playerData = JSON.parse(body).body;
-      console.log('THEN', playerData)
       if (!playerData) return;
       if (this.objects.getById(playerData._id)) return;
-      //Посмотреть _id если шо использовать вместо сокета.
+
       const player = {
         _id: playerData._id,
         uid: playerData.uid,
@@ -71,7 +69,6 @@ class PlayersManager extends Manager {
   onDisconnectHandler(socket) {
     if (!socket.player) return;
     if (this.objects.remove(socket.player._id)) {
-      console.log(socket.player)
       this.controller.api.execute(
         {name: 'users.update', params: { id: socket.player._id } },
         {

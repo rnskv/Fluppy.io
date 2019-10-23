@@ -2,16 +2,21 @@ import GameObject from "../core/GameObject";
 import * as PIXI from "pixi.js";
 
 class Player extends GameObject {
-  constructor({ isCurrentPlayer, viewRadius, uid, name, ...params }) {
+  constructor({ localScores, isCurrentPlayer, viewRadius, uid, name, ...params }) {
     super({ ...params });
     this.uid = uid;
     this.name = name;
     this.isCurrentPlayer = isCurrentPlayer;
     this.viewRadius = viewRadius;
+    this.localScores = localScores;
 
     if (this.isCurrentPlayer) {
       this.controller.camera.setTarget(this);
     }
+  }
+
+  get title() {
+    return `${this.name} - ${this.localScores}`;
   }
 
   createObject() {
@@ -46,7 +51,7 @@ class Player extends GameObject {
   }
 
   createStaticObject() {
-    const text = new PIXI.Text(`${this.name}`, {
+    const text = new PIXI.Text(this.title, {
       fontFamily: "Arial",
       fontSize: 17,
       fontWeight: 'bold',
@@ -61,6 +66,12 @@ class Player extends GameObject {
     text.anchor = new PIXI.Point(0.5, 0);
 
     return text;
+  }
+
+
+  update(dt, updates) {
+    super.update(dt, updates);
+    this.staticObject.text = this.title
   }
 }
 

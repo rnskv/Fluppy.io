@@ -11,6 +11,7 @@ class PlayersManager extends Manager {
   }
 
   selector(objectData) {
+    console.log(objectData)
     return {
       controller: this.controller,
       id: objectData.id,
@@ -24,7 +25,8 @@ class PlayersManager extends Manager {
       methods: {
         generateNewFloor: this.generateNewFloor.bind(this)
       },
-      shape: objectData.shape
+      shape: objectData.shape,
+      localScores: objectData.localScores
     };
   }
 

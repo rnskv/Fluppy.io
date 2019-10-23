@@ -5,6 +5,7 @@ import Camera from "./core/Camera";
 import PlayersManager from "./managers/players";
 import PipesManager from "./managers/pipes";
 import FloorsManager from "./managers/floors";
+import CheckPointsManager from "./managers/checkpoints";
 
 
 import PlayerStore from "./stores/PlayerStore";
@@ -15,6 +16,7 @@ import Controller from "./core/Controller";
 import Player from "./entities/Player";
 import Pipe from "./entities/Pipe";
 import Floor from "./entities/Floor";
+import CheckPoint from "./entities/CheckPoint";
 
 
 import Proton from "./Proton";
@@ -28,6 +30,9 @@ const managers = {
   }),
   players: new PlayersManager({
     entity: Player
+  }),
+  checkpoints: new CheckPointsManager({
+    entity: CheckPoint
   })
 };
 

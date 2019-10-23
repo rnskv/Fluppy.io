@@ -6,7 +6,7 @@ class EventEmitter {
 
   emit(eventName, data) {
     const event = this.events[eventName];
-
+    console.log(data)
     if (!event) {
       throw new Error(`Event ${eventName} hasn't subscribers`);
     } else {
@@ -20,7 +20,6 @@ class EventEmitter {
     if (!this.events[eventName]) {
       this.events[eventName] = [];
     }
-
     this.events[eventName].push(callback);
   }
 }

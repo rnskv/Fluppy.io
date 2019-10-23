@@ -2,8 +2,9 @@ import Shape from "./Shape";
 import * as SHAPES from "../types/shapes";
 
 class GameObject {
-  constructor({ id, x, y, radius, width, height, methods }) {
+  constructor({ id, x, y, radius, width, height, methods, type = 'OBJECT'}) {
     this.id = id;
+    this.type = type;
 
     this.x = x;
     this.y = y;

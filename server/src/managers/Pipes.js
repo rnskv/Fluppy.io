@@ -42,7 +42,7 @@ class PipesManager extends Manager {
     const wholeSize = getRandomInt(130, 180);
     const shift = getRandomInt(-250, 250);
 
-    this.addObject({
+    const topPipe = this.addObject({
       id: this.objects.uniqueId,
       x: lastPosition + this.gapDistance,
       position: "top",
@@ -57,6 +57,12 @@ class PipesManager extends Manager {
       shift: shift,
       wholeSize
     });
+
+    this.controller.managers.checkpoints.spawnCheckPoint(
+      lastPosition + this.gapDistance + topPipe.width / 2 - 10,
+      topPipe.y + topPipe.height,
+      wholeSize
+    );
   }
 }
 

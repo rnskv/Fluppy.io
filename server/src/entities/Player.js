@@ -10,6 +10,7 @@ function getRandomInt(min, max) {
 class Player extends CollisionGameObject {
   constructor({ isBot, uid, _id, name, ...params }) {
     super({ ...params });
+    this.type = 'PLAYER';
     this.uid = uid;
     this._id = _id;
 
@@ -30,6 +31,11 @@ class Player extends CollisionGameObject {
 
     this.maxDX = 1.5;
     this.isDie = false;
+
+    this.localScores = 0;
+    this.lastCheckPointId = null;
+    this.maxScores = 0;
+    this.currentCheckPoint = null;
   }
 
   get clientData() {
@@ -43,8 +49,16 @@ class Player extends CollisionGameObject {
       rotation: (Math.PI * this.rotation) / 180,
       shape: this.shape.size,
       uid: this.uid,
-      name: this.name
+      name: this.name,
+      localScores: this.localScores
     };
+  }
+
+  increaseLocalScores(id) {
+    if (this.lastCheckPointId !== id) {
+      this.lastCheckPointId = id;
+      this.localScores += 1;
+    }
   }
 
   onClick() {
@@ -55,8 +69,18 @@ class Player extends CollisionGameObject {
   }
 
   onCollide(object) {
+    console.log(object.type)
+    switch (object.type) {
+      case 'PIPE': {
+        this.kill();
+        break;
+      }
+      case 'CHECKPOINT': {
+        this.increaseLocalScores(object.id)
+      }
+    }
     // this.x = object.x - this.width;
-    this.kill();
+
   }
 
   kill() {
@@ -65,6 +89,7 @@ class Player extends CollisionGameObject {
     this.rotation = 90;
     this.isDie = true;
     this.dy = -10;
+    this.localScores = 0;
   }
 
   spawn() {

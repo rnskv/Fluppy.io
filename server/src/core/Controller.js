@@ -69,6 +69,12 @@ class Controller {
       this.getManager("players"),
       this.getManager("pipes")
     );
+
+    this.collider.checkCollisionsBetween(
+      this.getManager("players"),
+      this.getManager("checkpoints")
+    );
+
   }
 }
 

@@ -114,12 +114,18 @@ export default class Game {
               baseUpdate.state.pipes,
               next.state.pipes,
               ratio
+            ),
+            checkpoints: Interpolator.interpolateObjectsMap(
+              baseUpdate.state.checkpoints,
+              next.state.checkpoints,
+              ratio
             )
           };
         } else {
           return {
             players: next.state.players,
-            pipes: next.state.pipes
+            pipes: next.state.pipes,
+            checkpoints: next.state.checkpoints
           };
         }
       }
@@ -130,6 +136,7 @@ export default class Game {
     for (let [managerName, manager] of this.controller.managersEntries) {
       if (!manager.isEnvironment) {
         if (!this.getCurrentUpdate()[managerName]) {
+          console.log(this.getCurrentUpdate())
           console.error(`Hasn't state for manager: ${managerName}`);
           return;
         }
