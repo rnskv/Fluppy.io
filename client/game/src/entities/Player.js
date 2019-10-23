@@ -23,17 +23,21 @@ class Player extends GameObject {
     const container = new PIXI.Container();
     const graphics = new PIXI.Graphics();
 
-    graphics.beginFill(0x000000, 1);
-    graphics.lineStyle(3, 0x000000);
-    graphics.drawCircle(0, 0, this.radius);
+    let sprite = PIXI.Sprite.from('/resources/images/player.png');
+    sprite.width = this.radius * 2;
+    sprite.height = this.radius * 2;
+    sprite.anchor.set(0.5);
+
+    // graphics.beginFill(0x000000, 1);
+    // graphics.lineStyle(3, 0x000000);
+    // graphics.drawCircle(0, 0, this.radius);
 
     graphics.beginFill(0x000000, 1);
-    graphics.lineStyle(1, 0x000000);
-    graphics.drawCircle(this.radius * 0.5, this.radius * 0.05, 6);
+    graphics.drawCircle(this.radius * 0.5, this.radius * 0.05, 2);
 
     graphics.beginFill(0xffffff, 1);
-    graphics.lineStyle(2, 0xFF0000);
-    graphics.drawCircle(this.radius * 0.5, this.radius * 0.05, 4);
+    graphics.lineStyle(1, 0x000000);
+    graphics.drawCircle(this.radius * 0.55, this.radius * 0.03, 3);
 
     // if (this.isCurrentPlayer && this.x < 500) {
     //     graphics.beginFill(0x000000, 0.0);
@@ -45,8 +49,10 @@ class Player extends GameObject {
     //     graphics.drawCircle(0, 0, 70);
     // }
 
-    container.addChild(graphics);
 
+
+    container.addChild(sprite);
+    container.addChild(graphics);
     return container;
   }
 
