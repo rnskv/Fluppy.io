@@ -27,5 +27,13 @@ export default class Proton extends Game {
       players.removeObject(id);
       console.log("Player leave from game");
     });
+
+    EventEmitter.subscribe("me:alreadyInGame", id => {
+      alert('Вы уже в игре с другого устройства')
+    });
+
+    EventEmitter.subscribe("me:wrongToken", id => {
+      alert('Ваша авторизация устралеа, переавторизиуйретсь')
+    });
   }
 }

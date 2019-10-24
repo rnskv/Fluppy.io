@@ -39,8 +39,17 @@ class PlayersManager extends Manager {
       name: 'player.get'
     }).then((body) => {
       const playerData = JSON.parse(body).body;
-      if (!playerData) return;
-      if (this.objects.getById(playerData._id)) return;
+      if (!playerData) {
+        //Не верный токен
+        socket.emit("me:wrongToken")
+        return;
+      }
+
+      if (this.objects.getById(playerData._id)) {
+        //Уже в игре
+        socket.emit("me:alreadyInGame")
+        return;
+      }
 
       const player = {
         _id: playerData._id,

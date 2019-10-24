@@ -104,6 +104,7 @@ class Player extends CollisionGameObject {
     this.rotation = 0;
     this.isDie = false;
     this.localScores = 0;
+    this.lastCheckPointId = null;
   }
 
   update(dt) {

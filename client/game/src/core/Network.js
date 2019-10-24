@@ -54,4 +54,12 @@ socket.on("connect", () => {
   socket.on("me:init", data => {
     EventEmitter.emit("me:init", data);
   });
+
+  socket.on("me:alreadyInGame", data => {
+    EventEmitter.emit("me:alreadyInGame", data);
+  });
+
+  socket.on("me:wrongToken", data => {
+    EventEmitter.emit("me:wrongToken", data);
+  })
 });
