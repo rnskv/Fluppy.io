@@ -1,5 +1,9 @@
 import * as PIXI from "pixi.js";
 
+PIXI.settings.ANISOTROPIC_LEVEL = 16;
+PIXI.settings.RESOLUTION = 1;
+PIXI.settings.ROUND_PIXELS = true;
+
 export default class Client {
   constructor(root, params) {
     this.root = root;
@@ -18,9 +22,13 @@ export default class Client {
     const { width, height } = this.params;
 
     this.apps[id] = new PIXI.Application({
-      transparent: true,
+      transparent: false,
       width,
-      height
+      height,
+      antialias: true,
+      forceFXAA: true,
+      powerPreference: 'high-performance',
+      autoDensity: true
     });
 
     const currentView = this.apps[id].view;
