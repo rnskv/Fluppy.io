@@ -7,6 +7,7 @@ import PipesManager from "./managers/pipes";
 import FloorsManager from "./managers/floors";
 import CheckPointsManager from "./managers/checkpoints";
 import RoofsManager from "./managers/roofs";
+import BackgroundsManager from "./managers/backgrounds";
 
 
 import PlayerStore from "./stores/PlayerStore";
@@ -19,6 +20,7 @@ import Pipe from "./entities/Pipe";
 import Floor from "./entities/Floor";
 import CheckPoint from "./entities/CheckPoint";
 import Roof from "./entities/Roof";
+import Background from "./entities/Background";
 
 import EventEmitter from "shared/core/EventEmitter";
 
@@ -47,6 +49,9 @@ class Builder {
 
   createController() {
     const managers = {
+      backgrounds: new BackgroundsManager({
+        entity: Background
+      }),
       pipes: new PipesManager({
         entity: Pipe
       }),
@@ -100,7 +105,8 @@ class Builder {
       pipe: "/resources/jsons/pipe.png",
       viking: "/resources/jsons/viking.json",
       background: "/resources/images/background.png",
-      player: "/resources/images/player.png"
+      player: "/resources/images/player.png",
+      background1: "/resources/images/background_1.png"
     });
 
     this.game.loader.load((loader, resources) => {

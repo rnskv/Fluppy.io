@@ -9,7 +9,7 @@ class Camera {
     this.target = null;
     this.size = size;
     this.zoom = size.width / this.originWidth;
-    console.log(PIXI.utils.isMobile)
+    this.zoomSpeed = 100;
     this.destination = {
       x: 0,
       y: 0
@@ -26,10 +26,10 @@ class Camera {
     window.document.addEventListener('mousewheel', (e) => {
       if (e.deltaY >= 0) {
         // up
-        this.changeZoom(-0.02)
+        this.changeZoom(-e.deltaY / 512)
       } else {
         // down
-        this.changeZoom(0.02)
+        this.changeZoom( -e.deltaY / 512)
       }
 
     })
@@ -37,7 +37,7 @@ class Camera {
   }
 
   changeZoom(coef) {
-    if (this.zoom + coef > 0.02 && this.zoom + coef < 6) {
+    if (this.zoom + coef > 0.5 && this.zoom + coef < 10) {
       this.zoom += coef;
     }
   }
