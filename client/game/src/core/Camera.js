@@ -37,7 +37,7 @@ class Camera {
   }
 
   changeZoom(coef) {
-    if (this.zoom + coef > 0.5 && this.zoom + coef < 10) {
+    if (this.zoom + coef > 0.7 && this.zoom + coef < 2) {
       this.zoom += coef;
     }
   }

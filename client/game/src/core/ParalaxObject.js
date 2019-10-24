@@ -7,12 +7,12 @@ class ParalaxObject extends EvironmentObject {
   }
 
   update(dt) {
-    this.objectContainer.transform.position.x = Math.floor(
-      this.x + this.controller.camera.position.x * this.paralaxFactors.x
-    );
-    this.objectContainer.transform.position.y = Math.floor(
-      this.y + this.controller.camera.position.y * this.paralaxFactors.y
-    );
+    const { camera } = this.controller;
+
+    this.objectContainer.transform.position.x =
+      ((this.x + this.offsets.x) - camera.position.x * this.paralaxFactors.x / camera.zoom);
+    this.objectContainer.transform.position.y =
+      ((this.y + this.offsets.y) - camera.position.y * this.paralaxFactors.y / camera.zoom);
   }
 }
 
