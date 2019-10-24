@@ -9,7 +9,7 @@ function getRandomInt(min, max) {
 class PipesManager extends Manager {
   constructor({ ...params }) {
     super({ ...params });
-    this.preset = [{ x: 0, y: -99999 }, { x: 0, y: 99999 }];
+    this.preset = [{ x: 400, y: -99999 }, { x: 400, y: 99999 }];
     this.gapDistance = 400;
   }
 

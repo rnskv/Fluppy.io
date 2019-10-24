@@ -10,10 +10,10 @@ class CheckPoint extends GameObject {
   createObject() {
     const container = new PIXI.Container();
     const graphics = new PIXI.Graphics();
-    graphics.beginFill(0x00ff00);
-    graphics.drawRect(0, this.padding / 2, this.width, this.height - this.padding);
-
-    container.addChild(graphics);
+    // graphics.beginFill(0x00ff00);
+    // graphics.drawRect(0, this.padding / 2, this.width, this.height - this.padding);
+    //
+    // container.addChild(graphics);
 
     return container;
   }

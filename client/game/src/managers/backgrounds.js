@@ -4,6 +4,10 @@ class BackgroundsManager extends ParalaxManager {
   constructor({ ...params }) {
     super({ ...params });
     this.isEnvironment = true;
+    this.paralaxFactors = {
+      x: 0.3,
+      y: 0.9
+    }
   }
 
   getNewPartPosition() {

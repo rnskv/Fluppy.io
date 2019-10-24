@@ -3,7 +3,6 @@ class Controller {
     this.managers = managers;
     this.collider = collider;
     this.api = api;
-
     this.setControllerToManagers.call(this);
   }
 

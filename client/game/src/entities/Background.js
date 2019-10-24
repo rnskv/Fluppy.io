@@ -4,14 +4,14 @@ import * as PIXI from "pixi.js";
 class Roof extends ParalaxObject {
   constructor(props) {
     super(props);
-    this.width = 1778;
-    this.height = 1600;
+    this.width = 2489;
+    this.height = 1400;
     this.paralaxFactors = {
       x: 0.3,
-      y: 1
+      y: 0.9
     };
     this.offsets = {
-      y: -100,
+      y: -50,
       x: 0
     }
   }

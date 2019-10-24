@@ -20,7 +20,6 @@ class CheckPointsManager extends Manager {
   }
 
   spawnCheckPoint(x, y, height) {
-    console.log('try spawn', x, y, height);
     this.addObject({
       id: this.objects.uniqueId,
       x,

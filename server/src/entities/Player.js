@@ -20,6 +20,7 @@ class Player extends CollisionGameObject {
 
     this.dx = 0;
     this.dy = 10;
+    this.rx = 0;
 
     this.radius = 15;
 
@@ -29,7 +30,11 @@ class Player extends CollisionGameObject {
 
     this.isBot = isBot;
 
-    this.maxDX = 1.5;
+    this.maxDX = {
+      default: 1.5,
+      die: 1
+    };
+
     this.maxDY = {
       default: 6,
       die: 10
@@ -42,6 +47,8 @@ class Player extends CollisionGameObject {
     this.maxScores = 0;
 
     this.safeZoneWidth = 500;
+
+    this.isImmortal = false;
   }
 
   get clientData() {
@@ -75,7 +82,6 @@ class Player extends CollisionGameObject {
   }
 
   onCollide(object) {
-    console.log(object.type)
     switch (object.type) {
       case 'PIPE': {
         this.kill();
@@ -90,17 +96,20 @@ class Player extends CollisionGameObject {
   }
 
   kill() {
-    if (this.isDie) return;
-    this.dx = 0;
+    if (this.isDie || this.isImmortal) return;
+    this.dx = -1;
     this.rotation = 90;
     this.isDie = true;
     this.dy = -10;
+    this.rx = 20;
   }
 
   spawn() {
     this.dy = 0;
+    this.dx = 0;
     this.y = 20;
     this.x = 20;
+    this.rx = 0;
     this.rotation = 0;
     this.isDie = false;
     this.localScores = 0;
@@ -108,12 +117,13 @@ class Player extends CollisionGameObject {
   }
 
   update(dt) {
+    this.rotation += this.rx;
     this.methods.spawnPipe(this.x, 0);
     if (this.dy < this.maxDY.default || (this.isDie && this.dy < this.maxDY.die)) {
       this.dy += 0.5 * dt;
     }
 
-    if (this.dx < this.maxDX && !this.isDie) {
+    if (this.dx < this.maxDX.default && !this.isDie) {
       this.dx += 0.5 * dt;
     }
 
@@ -122,7 +132,7 @@ class Player extends CollisionGameObject {
     }
 
     if (this.y <= settings.map.border.top) {
-      this.kill();
+      this.dy = 10
     }
 
     if (this.y + this.dy * this.speed * dt < settings.map.border.bottom) {

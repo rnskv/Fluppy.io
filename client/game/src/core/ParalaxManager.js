@@ -3,12 +3,15 @@ import Manager from "./Manager";
 class ParalaxManager extends Manager {
   constructor({ ...params }) {
     super(params);
-    this.paralaxFactor = 1;
+    this.paralaxFactors = {
+      x: 1,
+      y: 1
+    }
   }
 
   getActiveObjects(updates) {
     return this.objects.values.filter(
-      object => object.x + object.width > this.controller.camera.x - this.controller.camera.size.width
+      object => object.x + object.width > this.controller.camera.x * this.paralaxFactors.x - this.controller.camera.size.width
     );
   }
 

@@ -76,7 +76,6 @@ class Manager {
   }
 
   clearContainer() {
-    console.log('clear')
     // this.container = null;
     this.container.parent.removeChild(this.container);
 

@@ -84,7 +84,8 @@ class Builder {
       stores,
       camera: this.camera,
       stage: this.stage,
-      emitter: EventEmitter
+      emitter: EventEmitter,
+      app: this.app
     });
   }
 
@@ -102,11 +103,11 @@ class Builder {
   loadManifest() {
     this.game.loader.addManifest({
       wordAssests: "/resources/jsons/wordassets.json",
-      pipe: "/resources/jsons/pipe.png",
       viking: "/resources/jsons/viking.json",
       background: "/resources/images/background.png",
       player: "/resources/images/player.png",
-      background1: "/resources/images/background_1.png"
+      pipeEnd: "/resources/images/pipe_end.png",
+      pipe: "/resources/images/pipe.png",
     });
 
     this.game.loader.load((loader, resources) => {
@@ -117,13 +118,10 @@ class Builder {
   }
 
   build() {
-
-    console.log('create build')
     this.createApp();
     this.createCamera();
     this.createController();
     this.createGame();
-    console.log('create build', this.game)
     this.loadManifest();
   }
 }

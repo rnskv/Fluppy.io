@@ -9,9 +9,7 @@ class Player extends GameObject {
     this.isCurrentPlayer = isCurrentPlayer;
     this.viewRadius = viewRadius;
     this.localScores = localScores;
-    console.log('player consturctor');
     if (this.isCurrentPlayer) {
-      console.log('setTarget');
       // this.controller.camera.setTarget(this);
     }
   }

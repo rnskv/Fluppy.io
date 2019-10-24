@@ -3,12 +3,12 @@ import Interpolator from "../utils/interpolator";
 
 class Camera {
   constructor({ size, settings }) {
-    this.originWidth = PIXI.utils.isMobile.phone ? 512 : 1512;
+    this.originWidth = size.width;
     this.x = 0;
     this.y = 0;
     this.target = null;
     this.size = size;
-    this.zoom = size.width / this.originWidth;
+    this.zoom = 1;
     this.zoomSpeed = 100;
     this.destination = {
       x: 0,
@@ -17,8 +17,8 @@ class Camera {
 
     this.settings = settings || {
       max: {
-        top: -300 * this.zoom,
-        bottom: 600 * this.zoom,
+        top: 0,
+        bottom: 1000 * this.zoom,
         left: 0
       }
     };
@@ -31,7 +31,6 @@ class Camera {
         // down
         this.changeZoom( -e.deltaY / 512)
       }
-
     })
     //Сюда добавить отсутпы (120)
   }

@@ -12,7 +12,6 @@ export default class Proton extends Game {
     const players = this.controller.getManager("players");
 
     EventEmitter.subscribe("me:init", data => {
-      console.log("Init player", data);
       this.controller.stores.player.set("id", data.id);
       this.controller.stores.main.set("settings", data.settings);
     });
@@ -20,8 +19,6 @@ export default class Proton extends Game {
     EventEmitter.subscribe("game:player:join", player => {
       console.log("Player join into game");
     });
-
-    console.log('Proton subscribe')
 
     EventEmitter.subscribe("game:player:leave", id => {
       players.removeObject(id);
