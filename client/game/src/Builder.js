@@ -18,33 +18,9 @@ import Pipe from "./entities/Pipe";
 import Floor from "./entities/Floor";
 import CheckPoint from "./entities/CheckPoint";
 
+import EventEmitter from "shared/core/EventEmitter";
 
 import Proton from "./Proton";
-
-const managers = {
-  pipes: new PipesManager({
-    entity: Pipe
-  }),
-  floors: new FloorsManager({
-    entity: Floor
-  }),
-  players: new PlayersManager({
-    entity: Player
-  }),
-  checkpoints: new CheckPointsManager({
-    entity: CheckPoint
-  })
-};
-
-const stores = {
-  player: new PlayerStore({
-    id: null
-  }),
-  main: new MainStore({
-    settings: null,
-    resources: null
-  })
-};
 
 class Builder {
   constructor(client) {
@@ -68,11 +44,37 @@ class Builder {
   }
 
   createController() {
+    const managers = {
+      pipes: new PipesManager({
+        entity: Pipe
+      }),
+      floors: new FloorsManager({
+        entity: Floor
+      }),
+      players: new PlayersManager({
+        entity: Player
+      }),
+      checkpoints: new CheckPointsManager({
+        entity: CheckPoint
+      })
+    };
+
+    const stores = {
+      player: new PlayerStore({
+        id: null
+      }),
+      main: new MainStore({
+        settings: null,
+        resources: null
+      })
+    };
+
     this.controller = new Controller({
       managers,
       stores,
       camera: this.camera,
-      stage: this.stage
+      stage: this.stage,
+      emitter: EventEmitter
     });
   }
 
@@ -104,11 +106,13 @@ class Builder {
   }
 
   build() {
+
+    console.log('create build')
     this.createApp();
     this.createCamera();
     this.createController();
     this.createGame();
-
+    console.log('create build', this.game)
     this.loadManifest();
   }
 }

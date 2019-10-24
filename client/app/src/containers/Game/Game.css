@@ -8,3 +8,7 @@ body {
   height: 100vh;
   background: #ffffff;
 }
+
+button {
+  position: absolute;
+}

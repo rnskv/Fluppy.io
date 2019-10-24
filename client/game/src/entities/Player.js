@@ -9,9 +9,10 @@ class Player extends GameObject {
     this.isCurrentPlayer = isCurrentPlayer;
     this.viewRadius = viewRadius;
     this.localScores = localScores;
-
+    console.log('player consturctor');
     if (this.isCurrentPlayer) {
-      this.controller.camera.setTarget(this);
+      console.log('setTarget');
+      // this.controller.camera.setTarget(this);
     }
   }
 
@@ -49,7 +50,9 @@ class Player extends GameObject {
     //     graphics.drawCircle(0, 0, 70);
     // }
 
-
+    if (this.isCurrentPlayer) {
+      this.controller.camera.setTarget(this);
+    }
 
     container.addChild(sprite);
     container.addChild(graphics);

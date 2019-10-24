@@ -10,6 +10,7 @@ class Manager {
     this.controller = null;
     this.container = new PIXI.Container();
     this.update = this.update.bind(this);
+    window.test = this;
   }
 
   init() {
@@ -72,6 +73,14 @@ class Manager {
 
   getActiveObjects(updates) {
     return Object.values(updates);
+  }
+
+  clearContainer() {
+    console.log('clear')
+    // this.container = null;
+    this.container.parent.removeChild(this.container);
+
+    // this.container.destroy({children:true, texture:true, baseTexture:true});
   }
 
   update(dt, updates, syncCamera) {

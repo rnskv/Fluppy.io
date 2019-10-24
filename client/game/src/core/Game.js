@@ -15,7 +15,7 @@ export default class Game {
     this.startGameTimestamp = 0;
 
     this.settings = settings;
-
+    window.game = this;
     this.subscribe.call(this, null);
   }
 
@@ -182,5 +182,17 @@ export default class Game {
   start() {
     this.ticker.add(this.update.bind(this));
     this.ticker.start();
+  }
+
+  stop() {
+    this.ticker.stop();
+  }
+
+  unmount() {
+    const stage = this.stage;
+    // this.controller.managersList.forEach(manager => manager.clearContainer())
+    for (var i = stage.children.length - 1; i >= 0; i--) {
+      stage.removeChild(stage.children[i]);
+    }
   }
 }

@@ -35,5 +35,7 @@ export default class Proton extends Game {
     EventEmitter.subscribe("me:wrongToken", id => {
       alert('Ваша авторизация устралеа, переавторизиуйретсь')
     });
+
+    this.controller.emitter.subscribe('game:unmount', this.unmount.bind(this))
   }
 }

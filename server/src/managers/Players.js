@@ -69,13 +69,7 @@ class PlayersManager extends Manager {
     });
   }
 
-  onLeaveHandler(socket) {
-    if (this.objects.remove(socket.player._id)) {
-      this.network.io.emit("game:player:leave", socket.player._id);
-    }
-  }
-
-  onDisconnectHandler(socket) {
+  exitHandler(socket) {
     if (!socket.player) return;
     if (this.objects.remove(socket.player._id)) {
       this.controller.api.execute(
@@ -84,13 +78,21 @@ class PlayersManager extends Manager {
           json: { set: {
               x: socket.player.x,
               y: socket.player.y,
-          }}
+            }}
         }
       ).then(() => {
         console.log('Update player user');
       });
       this.network.io.emit("game:player:leave", socket.player._id);
     }
+  }
+
+  onLeaveHandler(socket) {
+    this.exitHandler(socket);
+  }
+
+  onDisconnectHandler(socket) {
+    this.exitHandler(socket);
   }
 
   onClickHandler(socket) {

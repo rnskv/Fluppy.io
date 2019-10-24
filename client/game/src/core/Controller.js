@@ -1,9 +1,11 @@
 export default class Controller {
-  constructor({ managers, stores, camera, stage }) {
+  constructor({ emitter, managers, stores, camera, stage }) {
     this.managers = managers || {};
     this.stores = stores || {};
     this.camera = camera;
     this.stage = stage;
+    this.emitter = emitter;
+
     this.setControllerToManagers();
   }
 
