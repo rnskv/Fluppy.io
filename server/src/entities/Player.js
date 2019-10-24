@@ -99,8 +99,8 @@ class Player extends CollisionGameObject {
 
   spawn() {
     this.dy = 0;
-    this.y = 0;
-    this.x = 0;
+    this.y = 20;
+    this.x = 20;
     this.rotation = 0;
     this.isDie = false;
     this.localScores = 0;
@@ -121,7 +121,7 @@ class Player extends CollisionGameObject {
       this.rotation += (Math.abs(this.dy) / 2) * dt;
     }
 
-    if (this.y < settings.map.border.top) {
+    if (this.y <= settings.map.border.top) {
       this.kill();
     }
 

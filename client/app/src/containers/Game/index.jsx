@@ -54,7 +54,7 @@ class Home extends Component {
         }
 
         {/*<button onClick={this.join}>Войті</button>*/}
-        <button onClick={this.leave}>Вийті</button>
+        <button id="leave" onClick={this.leave}>Вийті</button>
 
         <div ref={this.gameRef} id="game" />
       </div>

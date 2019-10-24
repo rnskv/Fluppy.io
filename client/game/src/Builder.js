@@ -6,6 +6,7 @@ import PlayersManager from "./managers/players";
 import PipesManager from "./managers/pipes";
 import FloorsManager from "./managers/floors";
 import CheckPointsManager from "./managers/checkpoints";
+import RoofsManager from "./managers/roofs";
 
 
 import PlayerStore from "./stores/PlayerStore";
@@ -17,6 +18,7 @@ import Player from "./entities/Player";
 import Pipe from "./entities/Pipe";
 import Floor from "./entities/Floor";
 import CheckPoint from "./entities/CheckPoint";
+import Roof from "./entities/Roof";
 
 import EventEmitter from "shared/core/EventEmitter";
 
@@ -50,6 +52,9 @@ class Builder {
       }),
       floors: new FloorsManager({
         entity: Floor
+      }),
+      roofs: new RoofsManager({
+        entity: Roof
       }),
       players: new PlayersManager({
         entity: Player

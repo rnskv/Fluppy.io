@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+PIXI.settings.RESOLUTION = window.devicePixelRatio;
 
 export default class Client {
   constructor(root, params) {

@@ -8,7 +8,7 @@ import CC from './CommonClass';
 import configs from "../configs";
 import request from "request";
 
-const whitelist = [undefined, 'http://192.168.101.155:3002', 'http://192.168.101.155:3001', 'http://192.168.101.155:3003']
+const whitelist = [undefined, 'http://192.168.0.155:3002', 'http://192.168.101.155:3001', 'http://192.168.101.155:3003']
 
 const corsOptions = {
   origin: '*',

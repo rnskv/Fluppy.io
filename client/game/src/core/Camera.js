@@ -26,10 +26,10 @@ class Camera {
     window.document.addEventListener('mousewheel', (e) => {
       if (e.deltaY >= 0) {
         // up
-        this.changeZoom(-0.1)
+        this.changeZoom(-0.02)
       } else {
         // down
-        this.changeZoom(0.1)
+        this.changeZoom(0.02)
       }
 
     })
@@ -37,7 +37,7 @@ class Camera {
   }
 
   changeZoom(coef) {
-    if (this.zoom + coef > 0.5 && this.zoom + coef < 3) {
+    if (this.zoom + coef > 0.02 && this.zoom + coef < 6) {
       this.zoom += coef;
     }
   }
