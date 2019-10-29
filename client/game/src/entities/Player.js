@@ -2,13 +2,17 @@ import GameObject from "../core/GameObject";
 import * as PIXI from "pixi.js";
 
 class Player extends GameObject {
-  constructor({ localScores, isCurrentPlayer, viewRadius, uid, name, ...params }) {
+  constructor({ totalScores, localScores, isCurrentPlayer, viewRadius, uid, name, ...params }) {
     super({ ...params });
     this.uid = uid;
     this.name = name;
     this.isCurrentPlayer = isCurrentPlayer;
     this.viewRadius = viewRadius;
     this.localScores = localScores;
+    this.totalScores = totalScores;
+
+    this.totalScoresNode = {};
+    this.titleNode = {};
     if (this.isCurrentPlayer) {
       // this.controller.camera.setTarget(this);
     }
@@ -58,7 +62,9 @@ class Player extends GameObject {
   }
 
   createStaticObject() {
-    const text = new PIXI.Text(this.title, {
+    const container = new PIXI.Container();
+
+    const title = new PIXI.Text(this.title, {
       fontFamily: "Arial",
       fontSize: 17,
       fontWeight: 'bold',
@@ -67,18 +73,43 @@ class Player extends GameObject {
       stroke: 0xffffff,
       strokeThickness: 3
     });
-    text.position.y = this.radius + 10;
-    text.position.x = 0;
-    text.resolution = 2;
-    text.anchor = new PIXI.Point(0.5, 0);
+    title.position.y = this.radius + 10;
+    title.position.x = 0;
+    title.resolution = 2;
+    title.anchor = new PIXI.Point(0.5, 0);
 
-    return text;
+    container.addChild(title);
+
+    const totalScores = new PIXI.Text(this.totalScores, {
+      fontFamily: "Arial",
+      fontSize: 17,
+      fontWeight: 'bold',
+      fill: 0x000000,
+      align: "center",
+      stroke: 0xffffff,
+      strokeThickness: 3
+    });
+
+    totalScores.position.y = -this.radius - 15 ;
+    totalScores.position.x = 0;
+    totalScores.resolution = 2;
+    totalScores.anchor = new PIXI.Point(0.5, 0.5);
+
+    this.totalScoresNode = totalScores;
+    this.titleNode = title;
+
+    container.addChild(totalScores);
+
+    return container;
   }
 
 
   update(dt, updates) {
+    console.log(this)
     super.update(dt, updates);
-    this.staticObject.text = this.title
+
+    this.totalScoresNode.text = this.totalScores;
+    this.titleNode.text = this.title;
   }
 }
 

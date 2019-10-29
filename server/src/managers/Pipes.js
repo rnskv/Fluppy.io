@@ -39,8 +39,40 @@ class PipesManager extends Manager {
   spawnPipes() {
     const lastPosition = this.objects.last ? this.objects.last.x : 0;
 
-    const wholeSize = getRandomInt(130, 180);
-    const shift = getRandomInt(-250, 250);
+    let wholeSize = getRandomInt(130, 180);
+    let shift = getRandomInt(-250, 250);
+
+    switch (true) {
+      case lastPosition < 1500: {
+        wholeSize *= 1.7;
+        break;
+      }
+
+      case lastPosition < 2000: {
+        wholeSize *= 1.5;
+        break;
+      }
+
+      case lastPosition < 3000: {
+        wholeSize *= 1.2;
+        break;
+      }
+
+      case lastPosition < 5000: {
+        wholeSize *= 1;
+        break;
+      }
+
+      case lastPosition < 7000: {
+        wholeSize *= 0.9;
+        break;
+      }
+
+      case lastPosition < 12000: {
+        wholeSize *= 0.8;
+        break;
+      }
+    }
 
     const topPipe = this.addObject({
       id: this.objects.uniqueId,

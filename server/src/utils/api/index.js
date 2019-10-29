@@ -4,7 +4,7 @@ import request from "request";
 import queries from './queries';
 
 const api = new Api({
-  url: 'http://192.168.0.11:3003',
+  url: 'http://192.168.101.155:3003',
   queries,
   request
 });

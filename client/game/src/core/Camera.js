@@ -83,19 +83,24 @@ class Camera {
       this.y = this.destination.y;
     }
 
-    if (this.destination.x + speed < this.x) {
-      this.x -= speed
-    } else if (this.destination.x - speed > this.x){
-      this.x += speed;
+    const speedX = 25;
+    if (Math.abs(this.destination.x - this.x) > 2500 ) {
+      this.x = this.destination.x;
+      return;
+    }
+
+    if (this.destination.x + speedX < this.x) {
+      this.x -= speedX
+    } else if (this.destination.x - speedX> this.x){
+      this.x += speedX;
     } else {
       this.x = this.destination.x;
     }
-
   }
 
   setCameraPosition() {
     if (!this.target) return;
-    this.x = this.target.x;
+    this.destination.x = this.target.x;
     this.destination.y = this.target.y;
     // this.y = this.target.y;
   }

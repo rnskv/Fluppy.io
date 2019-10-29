@@ -10,7 +10,7 @@ class PlayerRouter extends Router {
     const { executeAction } = this;
 
     router.get('/player', JWTMiddleware.handler(), executeAction(actions.GetAction));
-
+    router.put('/player/totalScores', JWTMiddleware.handler(), executeAction(actions.SetTotalScores));
 
     return router;
   }

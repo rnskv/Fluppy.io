@@ -25,7 +25,8 @@ class PlayersManager extends Manager {
         generateNewFloor: this.generateNewFloor.bind(this)
       },
       shape: objectData.shape,
-      localScores: objectData.localScores
+      localScores: objectData.localScores,
+      totalScores: objectData.totalScores
     };
   }
 

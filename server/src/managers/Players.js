@@ -17,7 +17,9 @@ class PlayersManager extends Manager {
   }
 
   selector(objectParams) {
+    console.log(objectParams)
     return {
+      controller: this.controller,
       id: objectParams.id,
       _id: objectParams._id,
       uid: objectParams.uid,
@@ -28,7 +30,8 @@ class PlayersManager extends Manager {
       methods: {
         spawnPipe: this.spawnPipe
       },
-      shapeType: SHAPES.CIRCLE
+      shapeType: SHAPES.CIRCLE,
+      totalScores: objectParams.totalScores
     };
   }
 
@@ -56,9 +59,11 @@ class PlayersManager extends Manager {
         uid: playerData.uid,
         x: playerData.x,
         y: playerData.y,
-        name: playerData.lastName
+        name: playerData.lastName,
+        totalScores: playerData.totalScores
       };
 
+      console.log(playerData)
       socket.player = this.addObject({
         id: playerData._id,
         isBot: false,
@@ -66,7 +71,7 @@ class PlayersManager extends Manager {
       });
 
       socket.emit("me:init", { id: socket.player._id, settings });
-    });
+    }).catch((e) => { console.log('handle players error', e)});
   }
 
   exitHandler(socket) {

@@ -8,7 +8,7 @@ function getRandomInt(min, max) {
 }
 
 class Player extends CollisionGameObject {
-  constructor({ isBot, uid, _id, name, ...params }) {
+  constructor({ totalScores, isBot, uid, _id, name, ...params }) {
     super({ ...params });
     this.type = 'PLAYER';
     this.uid = uid;
@@ -44,7 +44,7 @@ class Player extends CollisionGameObject {
 
     this.localScores = 0;
     this.lastCheckPointId = null;
-    this.maxScores = 0;
+    this.totalScores = totalScores;
 
     this.safeZoneWidth = 500;
 
@@ -63,7 +63,8 @@ class Player extends CollisionGameObject {
       shape: this.shape.size,
       uid: this.uid,
       name: this.name,
-      localScores: this.localScores
+      localScores: this.localScores,
+      totalScores: this.totalScores,
     };
   }
 
@@ -71,6 +72,7 @@ class Player extends CollisionGameObject {
     if (this.lastCheckPointId !== id) {
       this.lastCheckPointId = id;
       this.localScores += 1;
+      this.updateTotalScores();
     }
   }
 
@@ -104,6 +106,23 @@ class Player extends CollisionGameObject {
     this.rx = 20;
   }
 
+  updateTotalScores() {
+    if (this.localScores > this.totalScores) {
+      this.totalScores = this.localScores;
+
+      this.controller.api.execute(
+        {
+          name: 'player.setTotalScores'
+        },
+        {
+          json: { totalScores: this.totalScores }
+        }
+      ).then(() => {
+        console.log('Total scores was changed');
+      });
+    }
+  }
+
   spawn() {
     this.dy = 0;
     this.dx = 0;
@@ -112,6 +131,7 @@ class Player extends CollisionGameObject {
     this.rx = 0;
     this.rotation = 0;
     this.isDie = false;
+
     this.localScores = 0;
     this.lastCheckPointId = null;
   }
