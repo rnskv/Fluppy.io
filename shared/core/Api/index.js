@@ -13,7 +13,7 @@ class Api {
   }
 
   getQuery(queryName) {
-    console.log(this.queries, queryName, this)
+    console.log(this.queries, queryName, this);
     return this.queries[queryName]
   }
 
@@ -52,7 +52,7 @@ class Api {
     }
   }
 
-  execute(queryData = { name: 'test.test', params: {}}, options = {}) {
+  execute(queryData = { name: 'test.test', params: {}, accessToken: null}, options = {}) {
     return new Promise((resolve, reject) => {
       const query = this.getQuery(queryData.name);
       const url = this.url + query.action(queryData.params);
@@ -63,7 +63,10 @@ class Api {
         ...options
       };
 
-      console.log('fetch params', params);
+      if (queryData.accessToken) {
+        this.setToken(queryData.accessToken);
+      }
+
 
       this.fetch(url, params)
         .then(data => {

@@ -105,7 +105,6 @@ class Player extends GameObject {
 
 
   update(dt, updates) {
-    console.log(this)
     super.update(dt, updates);
 
     this.totalScoresNode.text = this.totalScores;

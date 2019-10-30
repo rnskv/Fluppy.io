@@ -56,8 +56,6 @@ class Pipe extends GameObject {
     }
 
     const canvas  = this.controller.app.renderer.plugins.extract.canvas(container);
-    console.log(canvas);
-
     const sprite =  PIXI.Sprite.from(canvas);
     // sprite.x = this.x;
     // sprite.y = this.y;

@@ -52,6 +52,7 @@ socket.on("connect", () => {
   });
 
   socket.on("me:init", data => {
+    
     EventEmitter.emit("me:init", data);
   });
 

@@ -1,8 +1,8 @@
+import request from 'request';
+import servers from 'shared/configs/servers';
 import Manager from "../core/Manager";
 import settings from "../configs/settings";
 import * as SHAPES from "../types/shapes";
-import request from 'request';
-import servers from 'shared/configs/servers';
 
 class PlayersManager extends Manager {
   constructor({ ...params }) {
@@ -17,9 +17,7 @@ class PlayersManager extends Manager {
   }
 
   selector(objectParams) {
-    console.log(objectParams)
     return {
-      controller: this.controller,
       id: objectParams.id,
       _id: objectParams._id,
       uid: objectParams.uid,
@@ -27,6 +25,7 @@ class PlayersManager extends Manager {
       x: objectParams.x,
       y: objectParams.y,
       name: objectParams.name,
+      socket: objectParams.socket,
       methods: {
         spawnPipe: this.spawnPipe
       },
@@ -36,20 +35,21 @@ class PlayersManager extends Manager {
   }
 
   onJoinHandler(socket, playerData) {
-    /**** ПРИМЕР *****/
-    this.controller.api.setToken(playerData.accessToken);
+    socket.playerData = {
+      accessToken: playerData.accessToken
+    };
+
     this.controller.api.execute({
-      name: 'player.get'
+      name: 'player.get',
+      accessToken: playerData.accessToken
     }).then((body) => {
       const playerData = JSON.parse(body).body;
       if (!playerData) {
-        //Не верный токен
         socket.emit("me:wrongToken")
         return;
       }
 
       if (this.objects.getById(playerData._id)) {
-        //Уже в игре
         socket.emit("me:alreadyInGame")
         return;
       }
@@ -60,10 +60,10 @@ class PlayersManager extends Manager {
         x: playerData.x,
         y: playerData.y,
         name: playerData.lastName,
-        totalScores: playerData.totalScores
+        totalScores: playerData.totalScores,
+        socket
       };
 
-      console.log(playerData)
       socket.player = this.addObject({
         id: playerData._id,
         isBot: false,
@@ -78,7 +78,7 @@ class PlayersManager extends Manager {
     if (!socket.player) return;
     if (this.objects.remove(socket.player._id)) {
       this.controller.api.execute(
-        {name: 'users.update', params: { id: socket.player._id } },
+        {name: 'users.update', params: { id: socket.player._id }, accessToken: socket.playerData.accessToken },
         {
           json: { set: {
               x: socket.player.x,

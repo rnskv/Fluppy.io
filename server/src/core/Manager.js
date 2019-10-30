@@ -1,5 +1,5 @@
-import settings from "../configs/settings";
 import ObjectPool from "shared/core/ObjectsPool";
+import settings from "../configs/settings";
 
 class Manager {
     constructor({ network, entity, emitRule, type = 'OBJECTS' }) {
@@ -28,9 +28,18 @@ class Manager {
     };
   }
 
+  rootSelector(selectorParams) {
+      return {
+        controller: this.controller,
+        network: this.network,
+        ...selectorParams
+      }
+  }
+
   addObject(objectParams) {
     objectParams.id = objectParams.id || this.objects.uniqueId;
-    const object = new this.entity(this.selector(objectParams));
+    console.log('Add object', this.rootSelector(this.selector(objectParams)))
+    const object = new this.entity(this.rootSelector(this.selector(objectParams)));
 
     if (this.objects.add(object.id, object)) {
       object.init();
@@ -39,9 +48,9 @@ class Manager {
   }
 
   get dataset() {
-    let result = {};
+    const result = {};
 
-    for (let entity of this.objects.values) {
+    for (const entity of this.objects.values) {
       result[entity.id] = entity.clientData;
     }
 
@@ -49,9 +58,9 @@ class Manager {
   }
 
   getDatasetInRadiusFromPoint(x, y) {
-    let result = {};
+    const result = {};
 
-    for (let entity of this.objects.values) {
+    for (const entity of this.objects.values) {
       const a = x - entity.x;
       const b = y - entity.y;
 
@@ -82,7 +91,7 @@ class Manager {
   }
 
   update(dt) {
-    for (let object of this.objects.values) {
+    for (const object of this.objects.values) {
       object.update(dt);
     }
   }

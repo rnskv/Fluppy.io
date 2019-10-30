@@ -8,7 +8,7 @@ function getRandomInt(min, max) {
 }
 
 class Player extends CollisionGameObject {
-  constructor({ totalScores, isBot, uid, _id, name, ...params }) {
+  constructor({ totalScores, isBot, uid, _id, name, socket, ...params }) {
     super({ ...params });
     this.type = 'PLAYER';
     this.uid = uid;
@@ -49,6 +49,8 @@ class Player extends CollisionGameObject {
     this.safeZoneWidth = 500;
 
     this.isImmortal = false;
+
+    this.socket = socket;
   }
 
   get clientData() {
@@ -112,7 +114,8 @@ class Player extends CollisionGameObject {
 
       this.controller.api.execute(
         {
-          name: 'player.setTotalScores'
+          name: 'player.setTotalScores',
+          accessToken: this.socket.playerData.accessToken
         },
         {
           json: { totalScores: this.totalScores }

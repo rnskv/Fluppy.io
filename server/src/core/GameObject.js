@@ -2,7 +2,7 @@ import Shape from "./Shape";
 import * as SHAPES from "../types/shapes";
 
 class GameObject {
-  constructor({ id, x, y, radius, width, height, methods, type = 'OBJECT', controller}) {
+  constructor({ id, x, y, radius, width, height, methods, type = 'OBJECT', controller, network}) {
     this.id = id;
     this.type = type;
 
@@ -23,6 +23,7 @@ class GameObject {
 
     this.methods = methods;
     this.controller = controller;
+    this.network = network;
 
     this.update = this.update.bind(this);
   }

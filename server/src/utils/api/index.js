@@ -2,9 +2,10 @@ import Api from 'shared/core/Api/index';
 import request from "request";
 
 import queries from './queries';
+import servers from 'shared/configs/servers';
 
 const api = new Api({
-  url: 'http://192.168.101.155:3003',
+  url: servers.urls.backend.url(),
   queries,
   request
 });
