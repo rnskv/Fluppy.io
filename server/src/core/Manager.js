@@ -38,7 +38,6 @@ class Manager {
 
   addObject(objectParams) {
     objectParams.id = objectParams.id || this.objects.uniqueId;
-    console.log('Add object', this.rootSelector(this.selector(objectParams)))
     const object = new this.entity(this.rootSelector(this.selector(objectParams)));
 
     if (this.objects.add(object.id, object)) {

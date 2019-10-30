@@ -10,7 +10,6 @@ class Manager {
     this.controller = null;
     this.container = new PIXI.Container();
     this.update = this.update.bind(this);
-    window.test = this;
   }
 
   init() {

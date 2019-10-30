@@ -45,7 +45,9 @@ class ObjectsPool {
   add(id, value) {
     const identificator = id === null ? this.uniqueId : id;
     if (!this.isExist(identificator)) {
+      this.unCache();
       this.map.set(identificator, value);
+      this.cache();
       return true;
     }
     return false;
@@ -53,7 +55,9 @@ class ObjectsPool {
 
   remove(id) {
     if (this.isExist(id)) {
+      this.unCache();
       this.map.delete(id);
+      this.cache();
       return true;
     }
 
@@ -69,16 +73,19 @@ class ObjectsPool {
   }
 
   cache() {
+    console.log('Кэшируем')
       //Задел на будущее - добавить кэширование
-      this.isCached = true;
       this.chached = {
-          values: this.map.values(),
-          keys: this.map.keys(),
-          entries: this.map.entries()
-      }
+          values: Array.from(this.map.values()),
+          keys: Array.from(this.map.keys()),
+          entries: Array.from(this.map.entries())
+      };
+    this.isCached = true;
   }
 
   unCache() {
+    console.log('Очищаем кэш')
+
     this.isCached = false;
     this.chached = {
       values: [],
