@@ -1,5 +1,5 @@
 export default {
-  serverFrameRate: 1000 / 60,
+  serverFrameRate: 1000 / 30,
   clientFrameRate: 1000 / 60,
   viewRadius: 5000,
   map: {

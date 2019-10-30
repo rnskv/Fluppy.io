@@ -31,13 +31,13 @@ class Player extends CollisionGameObject {
     this.isBot = isBot;
 
     this.maxDX = {
-      default: 1.5,
-      die: 1
+      default: 3,
+      die: 2
     };
 
     this.maxDY = {
-      default: 6,
-      die: 10
+      default: 12,
+      die: 20
     };
 
     this.isDie = false;
@@ -80,7 +80,7 @@ class Player extends CollisionGameObject {
 
   onClick() {
     if (this.isDie) return;
-    this.dy = -7;
+    this.dy = -14;
     this.rotation = -40;
     this.y -= 1;
   }
@@ -101,11 +101,11 @@ class Player extends CollisionGameObject {
 
   kill() {
     if (this.isDie || this.isImmortal) return;
-    this.dx = -1;
+    this.dx = -2;
     this.rotation = 90;
     this.isDie = true;
-    this.dy = -10;
-    this.rx = 20;
+    this.dy = -20;
+    this.rx = 40;
   }
 
   updateTotalScores() {
@@ -140,14 +140,14 @@ class Player extends CollisionGameObject {
   }
 
   update(dt) {
-    this.rotation += this.rx;
+    this.rotation += this.rx * dt;
     this.methods.spawnPipe(this.x, 0);
     if (this.dy < this.maxDY.default || (this.isDie && this.dy < this.maxDY.die)) {
-      this.dy += 0.5 * dt;
+      this.dy += 2 * dt;
     }
 
     if (this.dx < this.maxDX.default && !this.isDie) {
-      this.dx += 0.5 * dt;
+      this.dx += 1 * dt;
     }
 
     if (this.rotation < this.moveUpRotation) {
@@ -155,7 +155,7 @@ class Player extends CollisionGameObject {
     }
 
     if (this.y <= settings.map.border.top) {
-      this.dy = 10
+      this.dy = 20
     }
 
     if (this.y + this.dy * this.speed * dt < settings.map.border.bottom) {

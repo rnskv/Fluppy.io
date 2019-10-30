@@ -95,7 +95,7 @@ class Builder {
       controller: this.controller,
       settings: {
         interpolate: true,
-        renderDelay: 60
+        renderDelay: 100
       }
     });
   }
