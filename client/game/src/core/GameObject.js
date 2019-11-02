@@ -82,6 +82,8 @@ export default class GameObject {
     }
 
     this.container.addChild(this.objectContainer);
+
+    this.runUpdates();
   }
 
   removeFromStage() {
@@ -116,7 +118,6 @@ export default class GameObject {
       camera.zoom,
       camera.zoom
     );
-
 
     this.activeObject.transform.rotation = this.rotation;
   }

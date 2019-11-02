@@ -41,7 +41,11 @@ class Manager {
   }
 
   clearActives() {
-    this.actives.values.forEach(object => object.hide());
+    if (!this.objects.size) return;
+    this.objects.values.forEach(object => {
+      object.hide()
+    });
+
     this.actives.reset();
   }
 
@@ -97,8 +101,8 @@ class Manager {
     this.clearActives();
     this.getActiveObjects(updates).forEach(data => {
       this.moveToActives(data.id);
-      if (this.actives.isExist(data.id)) {
-        this.actives.getById(data.id).update(dt, data, syncCamera);
+      if (this.objects.isExist(data.id)) {
+        this.objects.getById(data.id).update(dt, data, syncCamera);
       } else {
         this.addObject(data).update(dt, data, syncCamera);
       }

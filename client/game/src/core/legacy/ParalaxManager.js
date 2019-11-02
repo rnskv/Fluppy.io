@@ -4,14 +4,21 @@ class ParalaxManager extends Manager {
   constructor({ startPosition, paralaxFactors, ...params }) {
     super(params);
     this.isEnvironment = true;
-    this.startPosition = startPosition;
-    this.paralaxFactors = paralaxFactors
+    this.startPosition = startPosition || {x: 0, y: 0};
+    this.paralaxFactors = paralaxFactors || {x: 1, y: 1}
   }
 
   getActiveObjects() {
     return this.objects.values.filter(
-      object => true
+      object =>
+        (object.x * this.paralaxFactors.x + object.width) * this.controller.camera.zoom > this.controller.camera.position.x  &&
+        object.x * this.paralaxFactors.x * this.controller.camera.zoom < this.controller.camera.position.x + this.controller.camera.size.width
     );
+  }
+
+  objectIsActive(object) {
+    return (object.x * this.paralaxFactors.x + object.width) * this.controller.camera.zoom > this.controller.camera.position.x  &&
+      object.x * this.paralaxFactors.x * this.controller.camera.zoom < this.controller.camera.position.x + this.controller.camera.size.width
   }
 
   getNewPartPosition() {
@@ -40,7 +47,6 @@ class ParalaxManager extends Manager {
     const { controller, isFirstPart } = this;
     if (!controller.stores.main.get('settings')) return;
     const leftViewportPoint = controller.camera.position.x + controller.camera.size.width / 2 + controller.stores.main.get('settings').viewRadius;
-
     const leftPartPoint = this.objects.last
       ? this.objects.last.x
       : 0 ;
@@ -58,9 +64,11 @@ class ParalaxManager extends Manager {
     }
   }
 
-  update(dt, updates) {
+  update(dt, updates, syncCamera) {
     this.addPart();
-    super.update(dt, updates);
+    this.objects.values.forEach(object => {
+      object.update(dt, {}, syncCamera);
+    });
   }
 
   selector(objectData) {

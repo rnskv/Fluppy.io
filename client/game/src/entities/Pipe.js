@@ -15,7 +15,7 @@ class Pipe extends GameObject {
     if (this.position !== 'bottom') {
       let currentY = 0;
       while (currentY < this.height - 368 * koef) {
-        const newPipe = PIXI.Sprite.from('/resources/images/pipe.png')
+        let newPipe = new PIXI.Sprite(this.controller.stores.main.get('resources').pipe.texture);
         newPipe.y = currentY;
         newPipe.width = this.width;
         newPipe.height = 1 * koef;
@@ -24,7 +24,7 @@ class Pipe extends GameObject {
         currentY += 1 * koef;
       }
 
-      const pipeTop = PIXI.Sprite.from('/resources/images/pipe_end.png')
+      let pipeTop = new PIXI.Sprite(this.controller.stores.main.get('resources').pipeEnd.texture);
       pipeTop.y = currentY;
       pipeTop.x = this.width;
       pipeTop.width = this.width;
@@ -35,7 +35,7 @@ class Pipe extends GameObject {
       container.addChild(pipeTop);
     } else {
       let currentY = 0;
-      const pipeTop = PIXI.Sprite.from('/resources/images/pipe_end.png')
+      let pipeTop = new PIXI.Sprite(this.controller.stores.main.get('resources').pipeEnd.texture);
       pipeTop.y = currentY;
       pipeTop.x = 0;
       pipeTop.width = this.width;
@@ -45,7 +45,7 @@ class Pipe extends GameObject {
       container.addChild(pipeTop);
       currentY = 368 * koef;
       while (currentY < this.height) {
-        const newPipe = PIXI.Sprite.from('/resources/images/pipe.png')
+        let newPipe = new PIXI.Sprite(this.controller.stores.main.get('resources').pipe.texture);
         newPipe.y = currentY;
         newPipe.width = this.width;
         newPipe.height = 1 * koef;

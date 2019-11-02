@@ -1,18 +1,23 @@
 import ParalaxManager from "./legacy/ParalaxManager";
-import Background from "../entities/legacy/Background";
 import Floor from "../entities/legacy/Floor";
-
 import Roof from "../entities/legacy/Roof";
+
+import BgLayer1 from "../entities/BgLayer1";
+import BgLayer2 from "../entities/BgLayer2";
+import BgLayer3 from "../entities/BgLayer3";
+import BgLayer4 from "../entities/BgLayer4";
+import BgLayer5 from "../entities/BgLayer5";
+
 
 class Paralaxer {
   constructor({ layers = []}) {
     this.controller = null;
     this.layers = layers;
+    window.paralaxer = this;
   }
 
   connectController(controller) {
     this.controller = controller;
-    console.log('Init paralaxer with controller', controller);
     this.init();
   }
 
@@ -54,33 +59,79 @@ class Paralaxer {
     });
 
     this.addLayer({
-        name: 'backgrounds',
+        name: 'bgLayers1',
         manager: new ParalaxManager({
-          entity: Background,
+          entity: BgLayer1,
           zIndex: -1,
           startPosition: {
             x: 0,
             y: 0
           },
           paralaxFactors: {
-            x: 0.9,
-            y: 0.9,
+            x: 0.3,
+            y: 0.5,
           }
         })
       }
-    )
+    );
+
+    this.addLayer({
+        name: 'bgLayers2',
+        manager: new ParalaxManager({
+          entity: BgLayer2,
+          zIndex: -1,
+          startPosition: {
+            x: 0,
+            y: 0
+          },
+          paralaxFactors: {
+            x: 0.3,
+            y: 0.6,
+          }
+        })
+      }
+    );
+
+    this.addLayer({
+        name: 'bgLayers3',
+        manager: new ParalaxManager({
+          entity: BgLayer3,
+          zIndex: -1,
+          startPosition: {
+            x: 0,
+            y: 0
+          },
+          paralaxFactors: {
+            x: 0.7,
+            y: 0.7,
+          }
+        })
+      }
+    );
+
+    this.addLayer({
+        name: 'bgLayers4',
+        manager: new ParalaxManager({
+          entity: BgLayer4,
+          zIndex: -1,
+          startPosition: {
+            x: 0,
+            y: 0
+          },
+          paralaxFactors: {
+            x: 0.8,
+            y: 0.8,
+          }
+        })
+      }
+    );
   }
 
   addLayer(layer) {
-    this.controller.addManager(layer.name, layer.manager);
     this.layers.push(layer);
+    this.controller.addManager(layer.name, layer.manager);
   }
 
-  update({...params}) {
-    this.layers.forEach(layer => {
-      layer.manager.update({...params})
-    })
-  }
 }
 
 export default Paralaxer;

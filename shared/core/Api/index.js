@@ -4,16 +4,13 @@ class Api {
     this.queries = queries;
     this.options = defaultOprions;
     this.request = request;
-    console.log('call api constructor')
   }
 
   setToken(token) {
-    console.log('set token', token);
     this.options.headers['Authorization'] = `Bearer: ${token}`;
   }
 
   getQuery(queryName) {
-    console.log(this.queries, queryName, this);
     return this.queries[queryName]
   }
 

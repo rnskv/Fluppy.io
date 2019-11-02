@@ -39,7 +39,7 @@ export default class Game {
 
   get initState() {
     let result = {};
-    for (let [managerName] of this.controller.managersEntries) {
+    for (let [managerName] of this.controller.managers.entries) {
       result[managerName] = {};
     }
     return result;
@@ -166,9 +166,8 @@ export default class Game {
     const currentUpdate = this.getCurrentUpdate();
     this.controller.camera.setCameraPosition();
     this.controller.camera.update();
-    this.controller.paralaxer.update();
 
-    for (let [managerName, manager] of this.controller.managersEntries) {
+    for (const [managerName, manager] of this.controller.managers.entries) {
       if (!manager.isEnvironment) {
         if (!currentUpdate.managers[managerName]) {
           console.error(`Hasn't state for manager: ${managerName}`);

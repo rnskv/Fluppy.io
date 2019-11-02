@@ -50,6 +50,7 @@ class PlayersManager extends Manager {
       }
 
       if (this.objects.getById(playerData._id)) {
+        console.log('ALREADY');
         socket.emit("me:alreadyInGame")
         return;
       }
@@ -87,13 +88,15 @@ class PlayersManager extends Manager {
         }
       ).then(() => {
         console.log('Update player user');
+        this.network.io.emit("game:player:leave", socket.player._id);
       });
-      this.network.io.emit("game:player:leave", socket.player._id);
     }
   }
 
   onLeaveHandler(socket) {
+    console.log('leave')
     this.exitHandler(socket);
+    console.log(this.objects)
   }
 
   onDisconnectHandler(socket) {

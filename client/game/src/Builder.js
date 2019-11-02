@@ -1,12 +1,12 @@
+import io from "socket.io-client";
+
 import Client from "./core/Client";
 import Network from "./core/Network";
 import Camera from "./core/Camera";
 
 import PlayersManager from "./managers/players";
 import PipesManager from "./managers/pipes";
-import FloorsManager from "./managers/legacy/floors";
 import CheckPointsManager from "./managers/checkpoints";
-// import BackgroundsManager from "./managers/legacy/backgrounds";
 
 import Paralaxer from './core/Paralaxer';
 
@@ -17,13 +17,13 @@ import Controller from "./core/Controller";
 
 import Player from "./entities/Player";
 import Pipe from "./entities/Pipe";
-import Floor from "./entities/legacy/Floor";
 import CheckPoint from "./entities/CheckPoint";
-// import Background from "./entities/legacy/Background";
 
 import EventEmitter from "shared/core/EventEmitter";
 
 import Proton from "./Proton";
+import servers from "shared/configs/servers";
+
 
 class Builder {
   constructor(client) {
@@ -85,13 +85,23 @@ class Builder {
     this.paralaxer = new Paralaxer({});
   }
 
+  createNetwork() {
+    EventEmitter.reset();
+    return new Promise(resolve => {
+
+      this.network = new Network(io, EventEmitter);
+      this.network.connect(servers.urls.server.url());
+      this.network.subscribes().then(resolve);
+    });
+  }
+
   createGame() {
     this.game = new Proton({
       app: this.app,
       controller: this.controller,
       settings: {
         interpolate: true,
-        renderDelay: 100
+        renderDelay: 50
       }
     });
   }
@@ -101,9 +111,17 @@ class Builder {
       wordAssests: "/resources/jsons/wordassets.json",
       viking: "/resources/jsons/viking.json",
       background: "/resources/images/background.png",
-      player: "/resources/images/player.png",
+      player1: "/resources/images/player1.png",
+      player2: "/resources/images/player2.png",
+      player3: "/resources/images/player3.png",
       pipeEnd: "/resources/images/pipe_end.png",
       pipe: "/resources/images/pipe.png",
+
+      BG_decor: "/resources/images/background/BG_Decor.png",
+      Foreground: "/resources/images/background/Foreground.png",
+      Ground: "/resources/images/background/Ground.png",
+      Middle_decor: "/resources/images/background/Middle_Decor.png",
+      Sky: "/resources/images/background/Sky.png",
     });
 
     this.game.loader.load((loader, resources) => {
@@ -114,12 +132,14 @@ class Builder {
   }
 
   build() {
-    this.createApp();
-    this.createCamera();
-    this.createParalaxer();
-    this.createController();
-    this.createGame();
-    this.loadManifest();
+    this.createNetwork().then(() => {
+      this.createApp();
+      this.createCamera();
+      this.createParalaxer();
+      this.createController();
+      this.createGame();
+      this.loadManifest();
+    });
   }
 }
 

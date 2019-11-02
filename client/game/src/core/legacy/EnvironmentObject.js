@@ -5,8 +5,8 @@ class EvironmentObject extends GameObject {
     super({ ...props });
   }
 
-  update(dt, updates) {
-    this.runUpdates();
+  update(dt, updates, syncCamera) {
+    this.runUpdates(syncCamera);
   }
 }
 

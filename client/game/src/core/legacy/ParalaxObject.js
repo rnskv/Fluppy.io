@@ -4,13 +4,11 @@ class ParalaxObject extends EvironmentObject {
   constructor({ paralaxFactors, ...props }) {
     super({ ...props });
     this.paralaxFactors = paralaxFactors;
-
-    console.log(paralaxFactors, this)
   }
 
-  update(dt) {
+  update(dt, updates, syncCamera) {
     const { camera } = this.controller;
-    super.update(dt);
+    super.update(dt, updates, syncCamera);
 
     this.objectContainer.transform.position.x =
       ((this.x + this.offsets.x) * camera.zoom - camera.position.x) * this.paralaxFactors.x;

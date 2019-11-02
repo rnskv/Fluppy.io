@@ -26,6 +26,7 @@ export default class Client {
       height,
       antialias: true,
       forceFXAA: true,
+      backgroundColor: 0x00ff00,
       powerPreference: 'high-performance',
       autoDensity: true,
       resolution: 2
