@@ -26,11 +26,13 @@ class Player extends GameObject {
     const container = new PIXI.Container();
     const graphics = new PIXI.Graphics();
 
-    const skins = ['player1', 'player2', 'player3'];
+    const skins = ['player1', 'player2', 'player3', 'player4', 'player5'];
 
     let sprite = new PIXI.Sprite(this.controller.stores.main.get('resources')[skins[Math.floor(Math.random() * skins.length)]].texture);
-    sprite.width = this.radius * 2;
-    sprite.height = this.radius * 2;
+    // let sprite = new PIXI.Sprite(this.controller.stores.main.get('resources')[skins[4]].texture);
+
+    sprite.width = this.radius * 2 + this.radius;
+    sprite.height = this.radius * 2 + this.radius;
     sprite.anchor.set(0.5);
 
     // graphics.beginFill(0x000000, 1);

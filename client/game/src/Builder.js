@@ -114,6 +114,8 @@ class Builder {
       player1: "/resources/images/player1.png",
       player2: "/resources/images/player2.png",
       player3: "/resources/images/player3.png",
+      player4: "/resources/images/player4.png",
+      player5: "/resources/images/player5.png",
       pipeEnd: "/resources/images/pipe_end.png",
       pipe: "/resources/images/pipe.png",
 
