@@ -1,5 +1,6 @@
 import ParalaxManager from "./legacy/ParalaxManager";
 import Background from "../entities/legacy/Background";
+import Floor from "../entities/legacy/Floor";
 
 import Roof from "../entities/legacy/Roof";
 
@@ -24,10 +25,26 @@ class Paralaxer {
       name: 'roofs',
       manager: new ParalaxManager({
         entity: Roof,
-        zIndex: 999,
+        zIndex: 1,
         startPosition: {
           x: 0,
           y: -800
+        },
+        paralaxFactors: {
+          x: 1,
+          y: 1,
+        }
+      })
+    });
+
+    this.addLayer({
+      name: 'floors',
+      manager: new ParalaxManager({
+        entity: Floor,
+        zIndex: 1,
+        startPosition: {
+          x: 0,
+          y: 1000
         },
         paralaxFactors: {
           x: 1,

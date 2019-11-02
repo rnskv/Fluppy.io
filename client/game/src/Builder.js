@@ -48,17 +48,12 @@ class Builder {
 
   createController() {
     const managers = {
-      // backgrounds: new BackgroundsManager({
-      //   entity: Background
-      // }),
       pipes: new PipesManager({
         entity: Pipe
       }),
-      floors: new FloorsManager({
-        entity: Floor
-      }),
       players: new PlayersManager({
-        entity: Player
+        entity: Player,
+        zIndex: 2
       }),
       checkpoints: new CheckPointsManager({
         entity: CheckPoint

@@ -1,7 +1,7 @@
 import ParalaxObject from "../../core/legacy/ParalaxObject";
 import * as PIXI from "pixi.js";
 
-class Roof extends ParalaxObject {
+class Background extends ParalaxObject {
   constructor(props) {
     super(props);
     this.width = 2489;
@@ -19,4 +19,4 @@ class Roof extends ParalaxObject {
   }
 }
 
-export default Roof;
+export default Background;
