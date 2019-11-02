@@ -1,4 +1,6 @@
-import RoofsManager from "../managers/legacy/roofs";
+import ParalaxManager from "./legacy/ParalaxManager";
+import Background from "../entities/legacy/Background";
+
 import Roof from "../entities/legacy/Roof";
 
 class Paralaxer {
@@ -20,12 +22,36 @@ class Paralaxer {
   test() {
     this.addLayer({
       name: 'roofs',
-      factors: {x: 1, y: 1},
-      manager: new RoofsManager({
+      manager: new ParalaxManager({
         entity: Roof,
-        zIndex: -1
+        zIndex: 999,
+        startPosition: {
+          x: 0,
+          y: -800
+        },
+        paralaxFactors: {
+          x: 1,
+          y: 1,
+        }
       })
-    })
+    });
+
+    this.addLayer({
+        name: 'backgrounds',
+        manager: new ParalaxManager({
+          entity: Background,
+          zIndex: -1,
+          startPosition: {
+            x: 0,
+            y: 0
+          },
+          paralaxFactors: {
+            x: 0.9,
+            y: 0.9,
+          }
+        })
+      }
+    )
   }
 
   addLayer(layer) {

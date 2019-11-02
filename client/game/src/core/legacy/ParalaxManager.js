@@ -1,26 +1,24 @@
 import Manager from "../Manager";
 
 class ParalaxManager extends Manager {
-  constructor({ ...params }) {
+  constructor({ startPosition, paralaxFactors, ...params }) {
     super(params);
-    this.paralaxFactors = {
-      x: 1,
-      y: 1
-    }
+    this.isEnvironment = true;
+    this.startPosition = startPosition;
+    this.paralaxFactors = paralaxFactors
   }
 
-  getActiveObjects(updates) {
+  getActiveObjects() {
     return this.objects.values.filter(
-      object => object.x + object.width > this.controller.camera.x * this.paralaxFactors.x - this.controller.camera.size.width
+      object => true
     );
   }
 
   getNewPartPosition() {
     const settings = this.controller.stores.main.get("settings");
-
     return {
-      x: this.objects.last.x + this.objects.last.width - this.gluingOffset,
-      y: settings.map.border.bottom
+      x: this.objects.last.x + this.objects.last.width / this.paralaxFactors.x,
+      y: this.startPosition.y
     };
   }
 
@@ -28,8 +26,8 @@ class ParalaxManager extends Manager {
     const settings = this.controller.stores.main.get("settings");
 
     return {
-      x: 0,
-      y: settings.map.border.bottom
+      x: this.startPosition.x,
+      y: this.startPosition.y
     };
   }
 
@@ -63,6 +61,15 @@ class ParalaxManager extends Manager {
   update(dt, updates) {
     this.addPart();
     super.update(dt, updates);
+  }
+
+  selector(objectData) {
+    return {
+      controller: this.controller,
+      paralaxFactors: this.paralaxFactors,
+      x: objectData.x,
+      y: objectData.y
+    };
   }
 }
 

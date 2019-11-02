@@ -48,7 +48,7 @@ class Player extends CollisionGameObject {
 
     this.safeZoneWidth = 500;
 
-    this.isImmortal = false;
+    this.isImmortal = true;
 
     this.socket = socket;
   }
@@ -170,6 +170,7 @@ class Player extends CollisionGameObject {
         }
         this.rotation = 0;
         this.isDie = false;
+        this.y = settings.map.border.bottom - this.height
       }
     }
   }

@@ -6,7 +6,7 @@ import PlayersManager from "./managers/players";
 import PipesManager from "./managers/pipes";
 import FloorsManager from "./managers/legacy/floors";
 import CheckPointsManager from "./managers/checkpoints";
-import BackgroundsManager from "./managers/legacy/backgrounds";
+// import BackgroundsManager from "./managers/legacy/backgrounds";
 
 import Paralaxer from './core/Paralaxer';
 
@@ -19,7 +19,7 @@ import Player from "./entities/Player";
 import Pipe from "./entities/Pipe";
 import Floor from "./entities/legacy/Floor";
 import CheckPoint from "./entities/CheckPoint";
-import Background from "./entities/legacy/Background";
+// import Background from "./entities/legacy/Background";
 
 import EventEmitter from "shared/core/EventEmitter";
 
@@ -48,9 +48,9 @@ class Builder {
 
   createController() {
     const managers = {
-      backgrounds: new BackgroundsManager({
-        entity: Background
-      }),
+      // backgrounds: new BackgroundsManager({
+      //   entity: Background
+      // }),
       pipes: new PipesManager({
         entity: Pipe
       }),

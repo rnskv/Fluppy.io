@@ -90,7 +90,6 @@ export default class GameObject {
 
   hide() {
     this.objectContainer.visible = false;
-    this.objectContainer.visible = false;
   }
 
   show() {

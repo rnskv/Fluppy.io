@@ -6,14 +6,6 @@ class Roof extends ParalaxObject {
     super(props);
     this.width = 2489;
     this.height = 1400;
-    this.paralaxFactors = {
-      x: 0.3,
-      y: 0.9
-    };
-    this.offsets = {
-      y: -50,
-      x: 0
-    }
   }
 
   createObject() {

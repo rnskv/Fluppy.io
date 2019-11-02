@@ -1,7 +1,7 @@
-import EnvironmentObject from "../../core/legacy/EnvironmentObject";
+import ParalaxObject from "../../core/legacy/ParalaxObject";
 import * as PIXI from "pixi.js";
 
-class Roof extends EnvironmentObject {
+class Roof extends ParalaxObject {
   constructor(props) {
     super(props);
     this.width = 400;

@@ -6,6 +6,7 @@ class Manager {
     this.objects = new ObjectPool({ type: "OBJECTS" });
     this.actives = new ObjectPool({ type: "ACTIVES" });
     this.isEnvironment = false;
+
     this.entity = entity;
     this.controller = null;
     this.container = new PIXI.Container();
@@ -16,7 +17,6 @@ class Manager {
   init() {
     this.controller.stage.addChild(this.container);
     this.changeZIndex(this.zIndex);
-
   }
 
   unmount() {
@@ -97,8 +97,8 @@ class Manager {
     this.clearActives();
     this.getActiveObjects(updates).forEach(data => {
       this.moveToActives(data.id);
-      if (this.objects.isExist(data.id)) {
-        this.objects.getById(data.id).update(dt, data, syncCamera);
+      if (this.actives.isExist(data.id)) {
+        this.actives.getById(data.id).update(dt, data, syncCamera);
       } else {
         this.addObject(data).update(dt, data, syncCamera);
       }
