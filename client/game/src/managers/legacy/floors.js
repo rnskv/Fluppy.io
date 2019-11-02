@@ -1,13 +1,10 @@
-import ParalaxManager from "../core/ParalaxManager";
+import ParalaxManager from "../../core/legacy/ParalaxManager";
 
-class BackgroundsManager extends ParalaxManager {
+class FloorsManager extends ParalaxManager {
   constructor({ ...params }) {
     super({ ...params });
     this.isEnvironment = true;
-    this.paralaxFactors = {
-      x: 0.3,
-      y: 0.9
-    }
+    this.paralaxFactor = 1;
   }
 
   getNewPartPosition() {
@@ -15,7 +12,7 @@ class BackgroundsManager extends ParalaxManager {
 
     return {
       x: this.objects.last.x + this.objects.last.width,
-      y: settings.map.border.top
+      y: settings.map.border.bottom
     };
   }
 
@@ -24,7 +21,7 @@ class BackgroundsManager extends ParalaxManager {
 
     return {
       x: 0,
-      y: settings.map.border.top
+      y: settings.map.border.bottom
     };
   }
 
@@ -37,4 +34,4 @@ class BackgroundsManager extends ParalaxManager {
   }
 }
 
-export default BackgroundsManager;
+export default FloorsManager;

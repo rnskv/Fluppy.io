@@ -1,4 +1,4 @@
-import Manager from "./Manager";
+import Manager from "../Manager";
 
 class ParalaxManager extends Manager {
   constructor({ ...params }) {

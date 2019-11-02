@@ -4,11 +4,11 @@ import Camera from "./core/Camera";
 
 import PlayersManager from "./managers/players";
 import PipesManager from "./managers/pipes";
-import FloorsManager from "./managers/floors";
+import FloorsManager from "./managers/legacy/floors";
 import CheckPointsManager from "./managers/checkpoints";
-import RoofsManager from "./managers/roofs";
-import BackgroundsManager from "./managers/backgrounds";
+import BackgroundsManager from "./managers/legacy/backgrounds";
 
+import Paralaxer from './core/Paralaxer';
 
 import PlayerStore from "./stores/PlayerStore";
 import MainStore from "./stores/MainStore";
@@ -17,10 +17,9 @@ import Controller from "./core/Controller";
 
 import Player from "./entities/Player";
 import Pipe from "./entities/Pipe";
-import Floor from "./entities/Floor";
+import Floor from "./entities/legacy/Floor";
 import CheckPoint from "./entities/CheckPoint";
-import Roof from "./entities/Roof";
-import Background from "./entities/Background";
+import Background from "./entities/legacy/Background";
 
 import EventEmitter from "shared/core/EventEmitter";
 
@@ -58,9 +57,6 @@ class Builder {
       floors: new FloorsManager({
         entity: Floor
       }),
-      roofs: new RoofsManager({
-        entity: Roof
-      }),
       players: new PlayersManager({
         entity: Player
       }),
@@ -85,8 +81,13 @@ class Builder {
       camera: this.camera,
       stage: this.stage,
       emitter: EventEmitter,
-      app: this.app
+      app: this.app,
+      paralaxer: this.paralaxer
     });
+  }
+
+  createParalaxer() {
+    this.paralaxer = new Paralaxer({});
   }
 
   createGame() {
@@ -120,6 +121,7 @@ class Builder {
   build() {
     this.createApp();
     this.createCamera();
+    this.createParalaxer();
     this.createController();
     this.createGame();
     this.loadManifest();

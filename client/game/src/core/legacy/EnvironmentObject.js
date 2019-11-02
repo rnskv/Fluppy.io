@@ -1,4 +1,4 @@
-import GameObject from "./GameObject";
+import GameObject from "../GameObject";
 
 class EvironmentObject extends GameObject {
   constructor({ ...props }) {

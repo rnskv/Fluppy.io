@@ -73,7 +73,6 @@ class ObjectsPool {
   }
 
   cache() {
-    console.log('Кэшируем')
       //Задел на будущее - добавить кэширование
       this.chached = {
           values: Array.from(this.map.values()),
@@ -84,8 +83,6 @@ class ObjectsPool {
   }
 
   unCache() {
-    console.log('Очищаем кэш')
-
     this.isCached = false;
     this.chached = {
       values: [],

@@ -9,6 +9,7 @@ export default class Game {
     this.stage = app.stage;
     this.ticker = this.getTickerWithSettings(app.ticker, { autostart: false });
     this.controller = controller;
+
     this.updates = [];
     this.firstServerTimestamp = 0;
     this.startGameTimestamp = 0;
@@ -165,6 +166,8 @@ export default class Game {
     const currentUpdate = this.getCurrentUpdate();
     this.controller.camera.setCameraPosition();
     this.controller.camera.update();
+    this.controller.paralaxer.update();
+
     for (let [managerName, manager] of this.controller.managersEntries) {
       if (!manager.isEnvironment) {
         if (!currentUpdate.managers[managerName]) {

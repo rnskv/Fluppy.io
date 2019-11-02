@@ -1,4 +1,4 @@
-import ParalaxObject from "../core/ParalaxObject";
+import ParalaxObject from "../../core/legacy/ParalaxObject";
 import * as PIXI from "pixi.js";
 
 class Roof extends ParalaxObject {
