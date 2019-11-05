@@ -10,6 +10,8 @@ class BgLayer1 extends ParalaxObject {
 
   createObject() {
     const container = new PIXI.Container();
+    // let sprite = new PIXI.Sprite(this.controller.stores.main.get('resources').player1.texture);
+
     let sprite = new PIXI.Sprite(this.controller.stores.main.get('resources').Sky.texture);
     sprite.width = this.width;
     sprite.height = this.height;

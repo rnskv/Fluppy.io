@@ -14,7 +14,7 @@ class BgLayer5 extends ParalaxObject {
     let sprite = new PIXI.Sprite(this.controller.stores.main.get('resources').Ground.texture);
     sprite.width = this.width;
     sprite.height = this.height;
-    container.addChild(sprite);
+    // container.addChild(sprite);
     return container;
   }
 }

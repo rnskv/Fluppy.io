@@ -10,10 +10,12 @@ class BgLayer2 extends ParalaxObject {
 
   createObject() {
     const container = new PIXI.Container();
-    let sprite = new PIXI.Sprite(this.controller.stores.main.get('resources').BG_decor.texture);
+    let sprite = new PIXI.Sprite(this.controller.stores.main.get('resources').player1.texture);
+
+    // let sprite = new PIXI.Sprite(this.controller.stores.main.get('resources').BG_decor.texture);
     sprite.width = this.width;
     sprite.height = this.height;
-    container.addChild(sprite);
+    // container.addChild(sprite);
     return container;
   }
 }
