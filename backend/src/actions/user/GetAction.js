@@ -7,21 +7,19 @@ const ObjectId = mongoose.Types.ObjectId;
 
 class GetAction extends Action {
     static async run (req, res, next) {
-        const id = '5da8699a9acbf42e7080b1cd' || req.params.id;
+        const id = req.params.id;
 
         const user = await UserModel.aggregate([
           {
             $match : { '_id' : ObjectId(id) }
           },
-          {
-            $project: {
-              _id: 1,
-              inventory: 1
-            }
-          }
+          // {
+          //   $project: {
+          //     _id: 1,
+          //     inventory: 1
+          //   }
+          // }
         ]);
-
-        console.log(user)
 
         if (user) {
           res.json({

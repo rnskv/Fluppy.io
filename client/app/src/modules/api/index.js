@@ -15,4 +15,8 @@ const api = new Api({
   }
 });
 
+api.updateOptions({
+  autoParseJsonResponse: true
+});
+
 export default api;

@@ -55,9 +55,9 @@ class Builder {
         entity: Player,
         zIndex: 2
       }),
-      checkpoints: new CheckPointsManager({
-        entity: CheckPoint
-      })
+      // checkpoints: new CheckPointsManager({
+      //   entity: CheckPoint
+      // })
     };
 
     const stores = {

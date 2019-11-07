@@ -6,5 +6,13 @@ export default {
   'user.get': {
     method: 'GET',
     action: ({ id }) => `/users/${id}`,
+  },
+  'player.changeSkin': {
+    method: 'PUT',
+    action: () => '/player/changeSkin'
+  },
+  'player.get': {
+    method: 'GET',
+    action: () => '/player'
   }
 }

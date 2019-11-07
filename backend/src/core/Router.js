@@ -7,7 +7,7 @@ class Router extends CC {
                 req.securityLevel = securityLevel;
                 await action.run(req, res, next);
             } catch (err) {
-              console.log('need RES SEND')
+                console.log('executeAction error', err)
                 res.send(err)
             }
         }

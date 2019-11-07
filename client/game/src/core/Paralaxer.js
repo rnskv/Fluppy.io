@@ -20,7 +20,7 @@ class Paralaxer {
   }
 
   init() {
-    // this.test();
+    this.test();
   }
 
   test() {

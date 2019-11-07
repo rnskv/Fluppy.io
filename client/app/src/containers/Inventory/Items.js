@@ -15,6 +15,7 @@ class Inventory extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div>
         <h4>Предметы</h4>
@@ -22,7 +23,7 @@ class Inventory extends Component {
           this.props.items.map(itemId => {
             const item = InventoryStore.config[itemId];
             console.log(itemId)
-            return <Item key={itemId} id={itemId} data={item}/>
+            return <Item key={itemId} id={itemId} data={item} isChanged={this.props.changedSkin === itemId}/>
           })
         }
       </div>

@@ -6,7 +6,13 @@ import { routes } from "src/modules/router";
 
 import "src/styles/App.css";
 
+import UserStore from '../stores/User';
+
 class App extends PureComponent {
+  componentDidMount() {
+    UserStore.authFromLocalStorage();
+  }
+
   render() {
     return (
       <Router>

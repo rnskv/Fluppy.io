@@ -1,9 +1,26 @@
+
+function isJson(str) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
+
 class Api {
-  constructor({ url, queries, request, defaultOprions = { headers: {} } }) {
+  constructor({ url, queries, request, defaultOptions = { headers: {}, autoParseJsonResponse: false } }) {
     this.url = url;
     this.queries = queries;
-    this.options = defaultOprions;
+    this.options = defaultOptions;
     this.request = request;
+  }
+
+  updateOptions(nextOptions) {
+    this.options = {
+      ...this.options,
+      ...nextOptions
+    }
   }
 
   setToken(token) {
@@ -16,7 +33,6 @@ class Api {
 
   fetch(url, options = {}) {
     options.uri = url;
-
     return new Promise((resolve, reject) => {
       this.request(options, (err, response, body) => {
         if (err) {
@@ -68,6 +84,18 @@ class Api {
       this.fetch(url, params)
         .then(data => {
           const result = this.processFetchedData(data);
+
+          console.log(result);
+
+          if (this.options.autoParseJsonResponse && isJson(result.body)) {
+            if (result.isError) {
+              reject(JSON.parse(result.body))
+            } else {
+              resolve(JSON.parse(result.body))
+            }
+
+            return;
+          }
 
           if (result.isError) {
             reject(result.body)

@@ -14,15 +14,15 @@ class Item extends Component {
   }
 
   render() {
-    const { data } = this.props;
+    const { id, data } = this.props;
     return (
-      <div>
+      <div onClick={() => InventoryStore.changeSkin(id)}>
         <img
           style={
             {
               width: 55,
               height: 55,
-              border: '1px solid black'
+              border: this.props.isChanged ? '3px solid red' : '1px solid black',
             }
           }
           src={data.preview.url}
