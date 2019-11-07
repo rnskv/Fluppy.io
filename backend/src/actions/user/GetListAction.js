@@ -5,6 +5,7 @@ import configs from '../../configs';
 
 class GetListAction extends Action {
     static async run (req, res, next) {
+      UserModel.add
         res.send({text: 'get list action'})
     }
 }

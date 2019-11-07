@@ -26,7 +26,8 @@ class PlayersManager extends Manager {
       },
       shape: objectData.shape,
       localScores: objectData.localScores,
-      totalScores: objectData.totalScores
+      totalScores: objectData.totalScores,
+      skin: objectData.skin
     };
   }
 

@@ -30,7 +30,8 @@ class PlayersManager extends Manager {
         spawnPipe: this.spawnPipe
       },
       shapeType: SHAPES.CIRCLE,
-      totalScores: objectParams.totalScores
+      totalScores: objectParams.totalScores,
+      skin: objectParams.skin
     };
   }
 
@@ -56,12 +57,7 @@ class PlayersManager extends Manager {
       }
 
       const player = {
-        _id: playerData._id,
-        uid: playerData.uid,
-        x: playerData.x,
-        y: playerData.y,
-        name: playerData.lastName,
-        totalScores: playerData.totalScores,
+        ...playerData,
         socket
       };
 

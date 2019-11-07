@@ -1,8 +1,10 @@
 import GameObject from "../core/GameObject";
 import * as PIXI from "pixi.js";
 
+import itemsConfig from 'shared/configs/items.json';
+
 class Player extends GameObject {
-  constructor({ totalScores, localScores, isCurrentPlayer, viewRadius, uid, name, ...params }) {
+  constructor({ totalScores, localScores, isCurrentPlayer, viewRadius, uid, name, skin, ...params }) {
     super({ ...params });
     this.uid = uid;
     this.name = name;
@@ -10,7 +12,7 @@ class Player extends GameObject {
     this.viewRadius = viewRadius;
     this.localScores = localScores;
     this.totalScores = totalScores;
-
+    this.skin = skin;
     this.totalScoresNode = {};
     this.titleNode = {};
     if (this.isCurrentPlayer) {
@@ -25,10 +27,9 @@ class Player extends GameObject {
   createObject() {
     const container = new PIXI.Container();
     const graphics = new PIXI.Graphics();
-
-    const skins = ['player1', 'player2', 'player3', 'player4', 'player5'];
-
-    let sprite = new PIXI.Sprite(this.controller.stores.main.get('resources')[skins[Math.floor(Math.random() * skins.length)]].texture);
+    const skin = itemsConfig[this.skin]['resource'];
+    console.log(skin)
+    let sprite = new PIXI.Sprite(this.controller.stores.main.get('resources')[skin].texture);
     // let sprite = new PIXI.Sprite(this.controller.stores.main.get('resources')[skins[4]].texture);
 
     sprite.width = this.radius * 2 + this.radius;

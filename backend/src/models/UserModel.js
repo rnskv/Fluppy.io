@@ -37,6 +37,10 @@ const userSchema = new Schema({
       type: Number,
       default: 0
     },
+    inventory: {
+        type: Array,
+        default: [0, 1, 2]
+    }
 });
 
 const UserModel = new Model('user', userSchema);
