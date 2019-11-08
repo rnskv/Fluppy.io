@@ -1,5 +1,5 @@
 class ObjectsPool {
-  constructor({ type = "DEFAULT" }) {
+  constructor({ type = "DEFAULT", initValue = {} }) {
     this.type = type;
     this.lastGeneratedId = 0;
     this.isCached = false;
@@ -10,6 +10,14 @@ class ObjectsPool {
     };
 
     this.map = new Map();
+
+    this.init(initValue)
+  }
+
+  init(initValue) {
+    for (const [key, value] of Object.entries(initValue)) {
+      this.add(key, value);
+    }
   }
 
   get uniqueId() {
@@ -18,19 +26,19 @@ class ObjectsPool {
 
   get entries() {
     return this.isCached
-      ? Array.from(this.chached.entries)
+      ? this.chached.entries
       : Array.from(this.map.entries());
   }
 
   get keys() {
     return this.isCached
-      ? Array.from(this.chached.keys)
+      ? this.chached.keys
       : Array.from(this.map.keys());
   }
 
   get values() {
     return this.isCached
-      ? Array.from(this.chached.values)
+      ? this.chached.values
       : Array.from(this.map.values());
   }
 
@@ -45,7 +53,9 @@ class ObjectsPool {
   add(id, value) {
     const identificator = id === null ? this.uniqueId : id;
     if (!this.isExist(identificator)) {
+      this.unCache();
       this.map.set(identificator, value);
+      this.cache();
       return true;
     }
     return false;
@@ -53,7 +63,9 @@ class ObjectsPool {
 
   remove(id) {
     if (this.isExist(id)) {
+      this.unCache();
       this.map.delete(id);
+      this.cache();
       return true;
     }
 
@@ -70,12 +82,12 @@ class ObjectsPool {
 
   cache() {
       //Задел на будущее - добавить кэширование
-      this.isCached = true;
-      this.chached = {
-          values: this.map.values(),
-          keys: this.map.keys(),
-          entries: this.map.entries()
-      }
+    this.chached = {
+        values: Array.from(this.map.values()),
+        keys: Array.from(this.map.keys()),
+        entries: Array.from(this.map.entries())
+    };
+    this.isCached = true;
   }
 
   unCache() {

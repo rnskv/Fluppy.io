@@ -9,7 +9,7 @@ function getRandomInt(min, max) {
 class PipesManager extends Manager {
   constructor({ ...params }) {
     super({ ...params });
-    this.preset = [{ x: 500, y: -99999 }, { x: 500, y: 99999 }];
+    this.preset = [{ x: 400, y: -99999 }, { x: 400, y: 99999 }];
     this.gapDistance = 400;
   }
 
@@ -39,10 +39,42 @@ class PipesManager extends Manager {
   spawnPipes() {
     const lastPosition = this.objects.last ? this.objects.last.x : 0;
 
-    const wholeSize = getRandomInt(130, 180);
-    const shift = getRandomInt(-250, 250);
+    let wholeSize = getRandomInt(130, 180);
+    let shift = getRandomInt(-250, 250);
 
-    this.addObject({
+    switch (true) {
+      case lastPosition < 1500: {
+        wholeSize *= 1.7;
+        break;
+      }
+
+      case lastPosition < 2000: {
+        wholeSize *= 1.5;
+        break;
+      }
+
+      case lastPosition < 3000: {
+        wholeSize *= 1.2;
+        break;
+      }
+
+      case lastPosition < 5000: {
+        wholeSize *= 1;
+        break;
+      }
+
+      case lastPosition < 7000: {
+        wholeSize *= 0.9;
+        break;
+      }
+
+      case lastPosition < 12000: {
+        wholeSize *= 0.8;
+        break;
+      }
+    }
+
+    const topPipe = this.addObject({
       id: this.objects.uniqueId,
       x: lastPosition + this.gapDistance,
       position: "top",
@@ -57,6 +89,12 @@ class PipesManager extends Manager {
       shift: shift,
       wholeSize
     });
+
+    this.controller.managers.checkpoints.spawnCheckPoint(
+      lastPosition + this.gapDistance + topPipe.width / 2 - 10,
+      topPipe.y + topPipe.height,
+      wholeSize
+    );
   }
 }
 

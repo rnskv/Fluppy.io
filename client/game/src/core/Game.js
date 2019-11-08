@@ -6,16 +6,16 @@ import Interpolator from "../utils/interpolator";
 export default class Game {
   constructor({ app, controller, settings }) {
     this.loader = new Loader(app.loader);
-
     this.stage = app.stage;
     this.ticker = this.getTickerWithSettings(app.ticker, { autostart: false });
     this.controller = controller;
+
     this.updates = [];
     this.firstServerTimestamp = 0;
     this.startGameTimestamp = 0;
 
     this.settings = settings;
-
+    window.game = this;
     this.subscribe.call(this, null);
   }
 
@@ -39,7 +39,7 @@ export default class Game {
 
   get initState() {
     let result = {};
-    for (let [managerName] of this.controller.managersEntries) {
+    for (let [managerName] of this.controller.managers.entries) {
       result[managerName] = {};
     }
     return result;
@@ -76,9 +76,27 @@ export default class Game {
     }
   }
 
+  get ratio() {
+    const baseUpdateIndex = this.baseUpdateIndex;
+    const serverTime = this.currentServerTime;
+
+    const isInitUpdate = baseUpdateIndex < 0;
+    const isNotIterpolatedUpdate = baseUpdateIndex === this.updates.length - 1;
+
+    if (isInitUpdate || isNotIterpolatedUpdate) return 1;
+
+    const baseUpdate = this.updates[baseUpdateIndex];
+    const next = this.updates[baseUpdateIndex + 1];
+    return (serverTime - baseUpdate.timestamp) /
+      (next.timestamp - baseUpdate.timestamp);
+  }
+
   getCurrentUpdate() {
     if (!this.firstServerTimestamp) {
-      return this.initState;
+      return {
+        managers: this.initState,
+        timestamp: 0
+      };
     }
 
     const baseUpdateIndex = this.baseUpdateIndex;
@@ -89,11 +107,17 @@ export default class Game {
 
     switch (true) {
       case isInitUpdate: {
-        return this.updates[this.updates.length - 1].state;
+        return {
+          managers: this.updates[this.updates.length - 1].state,
+          timestamp: 0,
+        };
       }
 
       case isNotIterpolatedUpdate: {
-        return this.updates[baseUpdateIndex].state;
+        return {
+          managers: this.updates[baseUpdateIndex].state,
+          timestamp: 0
+        };
       }
 
       default: {
@@ -105,21 +129,33 @@ export default class Game {
 
         if (this.settings.interpolate) {
           return {
-            players: Interpolator.interpolateObjectsMap(
-              baseUpdate.state.players,
-              next.state.players,
-              ratio
-            ),
-            pipes: Interpolator.interpolateObjectsMap(
-              baseUpdate.state.pipes,
-              next.state.pipes,
-              ratio
-            )
+            managers: {
+              checkpoints: Interpolator.interpolateObjectsMap(
+                baseUpdate.state.checkpoints,
+                next.state.checkpoints,
+                ratio
+              ),
+              players: Interpolator.interpolateObjectsMap(
+                baseUpdate.state.players,
+                next.state.players,
+                ratio
+              ),
+              pipes: Interpolator.interpolateObjectsMap(
+                baseUpdate.state.pipes,
+                next.state.pipes,
+                ratio
+              )
+            },
+            timestamp: baseUpdate.timestamp,
           };
         } else {
           return {
-            players: next.state.players,
-            pipes: next.state.pipes
+            managers: {
+              players: next.state.players,
+              pipes: next.state.pipes,
+              checkpoints: next.state.checkpoints,
+            },
+            timestamp: next.timestamp
           };
         }
       }
@@ -127,13 +163,17 @@ export default class Game {
   }
 
   update(dt) {
-    for (let [managerName, manager] of this.controller.managersEntries) {
+    const currentUpdate = this.getCurrentUpdate();
+    this.controller.camera.setCameraPosition();
+    this.controller.camera.update();
+
+    for (const [managerName, manager] of this.controller.managers.entries) {
       if (!manager.isEnvironment) {
-        if (!this.getCurrentUpdate()[managerName]) {
+        if (!currentUpdate.managers[managerName]) {
           console.error(`Hasn't state for manager: ${managerName}`);
           return;
         }
-        manager.update(dt, this.getCurrentUpdate()[managerName]);
+        manager.update(dt, currentUpdate.managers[managerName]);
       } else {
         manager.update(dt);
       }
@@ -143,5 +183,17 @@ export default class Game {
   start() {
     this.ticker.add(this.update.bind(this));
     this.ticker.start();
+  }
+
+  stop() {
+    this.ticker.stop();
+  }
+
+  unmount() {
+    const stage = this.stage;
+    // this.controller.managersList.forEach(manager => manager.clearContainer())
+    for (var i = stage.children.length - 1; i >= 0; i--) {
+      stage.removeChild(stage.children[i]);
+    }
   }
 }

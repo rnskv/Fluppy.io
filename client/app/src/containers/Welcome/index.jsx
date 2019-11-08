@@ -24,7 +24,8 @@ class Welcome extends Component {
                 <p>Ваш токен - { UserStore.accessToken }</p>
                 <button onClick={UserStore.logout}>Выйти</button>
                 <button><Link to={'/game'}>Войти в мир</Link></button>
-              </div>
+                <button><Link to={'/inventory'}>Ваш инвентарь</Link></button>
+            </div>
             : <div>
               Вам нужно авторизироваться :(
             <p>

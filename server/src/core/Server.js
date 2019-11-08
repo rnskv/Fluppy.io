@@ -48,7 +48,7 @@ export default class Server {
 
   tick() {
     const now = Date.now();
-    const dt = 1 / (this.settings.clientFrameRate / (now - this.lastUpdate));
+    const dt = 1 / (this.settings.serverFrameRate / (now - this.lastUpdate));
     this.lastUpdate = now;
 
     this.controller.update(dt);

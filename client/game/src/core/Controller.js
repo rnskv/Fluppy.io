@@ -1,32 +1,37 @@
+import ObjectPool from 'shared/core/ObjectsPool';
+
 export default class Controller {
-  constructor({ managers, stores, camera, stage }) {
-    this.managers = managers || {};
+  constructor({ app, emitter, managers, stores, camera, stage, paralaxer }) {
+    this.managers = new ObjectPool({ initValue: managers });
     this.stores = stores || {};
+    this.paralaxer = paralaxer;
     this.camera = camera;
     this.stage = stage;
+    this.emitter = emitter;
+    this.app = app;
+
     this.setControllerToManagers();
-  }
-
-  get managersNames() {
-    return Object.keys(this.managers);
-  }
-
-  get managersEntries() {
-    return Object.entries(this.managers);
-  }
-
-  get managersList() {
-    return Object.values(this.managers);
+    this.setControllerToParalaxer();
   }
 
   getManager(name) {
-    return this.managers[name];
+    return this.managers.getById(name);
+  }
+
+  addManager(name, manager) {
+    this.managers.add(name, manager);
+    manager.connectController(this);
+    manager.init();
+    console.log('manager.init')
   }
 
   setControllerToManagers() {
-    this.managersList.forEach(manager => {
-      manager.connectController(this);
-      manager.init();
-    });
+    for (const [name, manager] of this.managers.entries) {
+      this.addManager(name, manager)
+    }
+  }
+
+  setControllerToParalaxer() {
+    this.paralaxer.connectController(this);
   }
 }

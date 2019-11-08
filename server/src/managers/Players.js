@@ -1,8 +1,8 @@
+import request from 'request';
+import servers from 'shared/configs/servers';
 import Manager from "../core/Manager";
 import settings from "../configs/settings";
 import * as SHAPES from "../types/shapes";
-import request from 'request';
-import servers from 'shared/configs/servers';
 
 class PlayersManager extends Manager {
   constructor({ ...params }) {
@@ -25,31 +25,40 @@ class PlayersManager extends Manager {
       x: objectParams.x,
       y: objectParams.y,
       name: objectParams.name,
+      socket: objectParams.socket,
       methods: {
         spawnPipe: this.spawnPipe
       },
-      shapeType: SHAPES.CIRCLE
+      shapeType: SHAPES.CIRCLE,
+      totalScores: objectParams.totalScores,
+      skin: objectParams.skin
     };
   }
 
   onJoinHandler(socket, playerData) {
-    /**** ПРИМЕР *****/
-    console.log('ON JOIN', playerData.accessToken)
-    this.controller.api.setToken(playerData.accessToken);
+    socket.playerData = {
+      accessToken: playerData.accessToken
+    };
+
     this.controller.api.execute({
-      name: 'player.get'
+      name: 'player.get',
+      accessToken: playerData.accessToken
     }).then((body) => {
       const playerData = JSON.parse(body).body;
-      console.log('THEN', playerData)
-      if (!playerData) return;
-      if (this.objects.getById(playerData._id)) return;
-      //Посмотреть _id если шо использовать вместо сокета.
+      if (!playerData) {
+        socket.emit("me:wrongToken")
+        return;
+      }
+
+      if (this.objects.getById(playerData._id)) {
+        console.log('ALREADY');
+        socket.emit("me:alreadyInGame")
+        return;
+      }
+
       const player = {
-        _id: playerData._id,
-        uid: playerData.uid,
-        x: playerData.x,
-        y: playerData.y,
-        name: playerData.lastName
+        ...playerData,
+        socket
       };
 
       socket.player = this.addObject({
@@ -59,32 +68,35 @@ class PlayersManager extends Manager {
       });
 
       socket.emit("me:init", { id: socket.player._id, settings });
-    });
+    }).catch((e) => { console.log('handle players error', e)});
   }
 
-  onLeaveHandler(socket) {
-    if (this.objects.remove(socket.player._id)) {
-      this.network.io.emit("game:player:leave", socket.player._id);
-    }
-  }
-
-  onDisconnectHandler(socket) {
+  exitHandler(socket) {
     if (!socket.player) return;
     if (this.objects.remove(socket.player._id)) {
-      console.log(socket.player)
       this.controller.api.execute(
-        {name: 'users.update', params: { id: socket.player._id } },
+        {name: 'users.update', params: { id: socket.player._id }, accessToken: socket.playerData.accessToken },
         {
           json: { set: {
               x: socket.player.x,
               y: socket.player.y,
-          }}
+            }}
         }
       ).then(() => {
         console.log('Update player user');
+        this.network.io.emit("game:player:leave", socket.player._id);
       });
-      this.network.io.emit("game:player:leave", socket.player._id);
     }
+  }
+
+  onLeaveHandler(socket) {
+    console.log('leave')
+    this.exitHandler(socket);
+    console.log(this.objects)
+  }
+
+  onDisconnectHandler(socket) {
+    this.exitHandler(socket);
   }
 
   onClickHandler(socket) {

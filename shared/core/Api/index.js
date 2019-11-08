@@ -1,25 +1,38 @@
+
+function isJson(str) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
+
 class Api {
-  constructor({ url, queries, request, defaultOprions = { headers: {} } }) {
+  constructor({ url, queries, request, defaultOptions = { headers: {}, autoParseJsonResponse: false } }) {
     this.url = url;
     this.queries = queries;
-    this.options = defaultOprions;
+    this.options = defaultOptions;
     this.request = request;
-    console.log('call api constructor')
+  }
+
+  updateOptions(nextOptions) {
+    this.options = {
+      ...this.options,
+      ...nextOptions
+    }
   }
 
   setToken(token) {
-    console.log('set token', token);
     this.options.headers['Authorization'] = `Bearer: ${token}`;
   }
 
   getQuery(queryName) {
-    console.log(this.queries, queryName, this)
     return this.queries[queryName]
   }
 
   fetch(url, options = {}) {
     options.uri = url;
-
     return new Promise((resolve, reject) => {
       this.request(options, (err, response, body) => {
         if (err) {
@@ -52,7 +65,7 @@ class Api {
     }
   }
 
-  execute(queryData = { name: 'test.test', params: {}}, options = {}) {
+  execute(queryData = { name: 'test.test', params: {}, accessToken: null}, options = {}) {
     return new Promise((resolve, reject) => {
       const query = this.getQuery(queryData.name);
       const url = this.url + query.action(queryData.params);
@@ -63,11 +76,26 @@ class Api {
         ...options
       };
 
-      console.log('fetch params', params);
+      if (queryData.accessToken) {
+        this.setToken(queryData.accessToken);
+      }
+
 
       this.fetch(url, params)
         .then(data => {
           const result = this.processFetchedData(data);
+
+          console.log(result);
+
+          if (this.options.autoParseJsonResponse && isJson(result.body)) {
+            if (result.isError) {
+              reject(JSON.parse(result.body))
+            } else {
+              resolve(JSON.parse(result.body))
+            }
+
+            return;
+          }
 
           if (result.isError) {
             reject(result.body)

@@ -16,7 +16,6 @@ class Servers {
 
     request.post(options, (err, data) => {
       const response = data.body;
-      console.log('get active server list', response)
     });
   }
 
@@ -37,7 +36,6 @@ class Servers {
 
     request.post(options, (err, data) => {
       const response = data.body;
-      console.log('server inited in databse', response)
     });
   }
 

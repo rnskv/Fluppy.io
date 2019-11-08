@@ -2,19 +2,25 @@ import * as PIXI from "pixi.js";
 import ObjectPool from "shared/core/ObjectsPool";
 
 class Manager {
-  constructor({ entity }) {
+  constructor({ entity, zIndex = 1}) {
     this.objects = new ObjectPool({ type: "OBJECTS" });
-
     this.actives = new ObjectPool({ type: "ACTIVES" });
     this.isEnvironment = false;
+
     this.entity = entity;
     this.controller = null;
     this.container = new PIXI.Container();
+    this.zIndex = zIndex;
     this.update = this.update.bind(this);
   }
 
   init() {
     this.controller.stage.addChild(this.container);
+    this.changeZIndex(this.zIndex);
+  }
+
+  unmount() {
+    this.controller.stage.removeChild(this.container);
   }
 
   connectController(controller) {
@@ -29,8 +35,17 @@ class Manager {
     }
   }
 
+  changeZIndex(zIndex) {
+    this.container.zIndex = zIndex;
+    this.controller.stage.sortChildren();
+  }
+
   clearActives() {
-    this.actives.values.forEach(object => object.hide());
+    if (!this.objects.size) return;
+    this.objects.values.forEach(object => {
+      object.hide()
+    });
+
     this.actives.reset();
   }
 
@@ -75,14 +90,21 @@ class Manager {
     return Object.values(updates);
   }
 
-  update(dt, updates) {
+  clearContainer() {
+    // this.container = null;
+    this.container.parent.removeChild(this.container);
+
+    // this.container.destroy({children:true, texture:true, baseTexture:true});
+  }
+
+  update(dt, updates, syncCamera) {
     this.clearActives();
     this.getActiveObjects(updates).forEach(data => {
       this.moveToActives(data.id);
       if (this.objects.isExist(data.id)) {
-        this.objects.getById(data.id).update(dt, data);
+        this.objects.getById(data.id).update(dt, data, syncCamera);
       } else {
-        this.addObject(data).update(dt, data);
+        this.addObject(data).update(dt, data, syncCamera);
       }
     });
   }

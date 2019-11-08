@@ -3,7 +3,6 @@ class Controller {
     this.managers = managers;
     this.collider = collider;
     this.api = api;
-
     this.setControllerToManagers.call(this);
   }
 
@@ -69,6 +68,12 @@ class Controller {
       this.getManager("players"),
       this.getManager("pipes")
     );
+
+    this.collider.checkCollisionsBetween(
+      this.getManager("players"),
+      this.getManager("checkpoints")
+    );
+
   }
 }
 

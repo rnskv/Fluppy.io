@@ -1,0 +1,27 @@
+{
+  "0": {
+    "category": 0,
+    "preview": {
+      "url": "/resources/images/player1.png"
+    },
+    "resource": "player1",
+    "data": 123,
+    "cost": 200
+  },
+  "1": {
+    "category": 0,
+    "preview": {
+      "url": "/resources/images/player2.png"
+    },
+    "resource": "player2",
+    "cost": 200
+  },
+  "2": {
+    "category": 0,
+    "preview": {
+      "url": "/resources/images/player3.png"
+    },
+    "resource": "player3",
+    "cost": 200
+  }
+}

@@ -11,9 +11,11 @@ import Network from "./core/Network";
 
 import PlayersManager from "./managers/Players";
 import PipesManager from "./managers/Pipes";
+import CheckPointsManager from "./managers/CheckPoints";
 
 import Player from "./entities/Player";
 import Pipe from "./entities/Pipe";
+import CheckPoint from "./entities/CheckPoint";
 
 import Collider from "./core/Collider";
 
@@ -26,6 +28,7 @@ network.init();
 const managers = {
     'players': new PlayersManager({network, entity: Player, emitRule: 'RADIUS', type: 'PLAYERS'}),
     'pipes': new PipesManager({network, entity: Pipe, emitRule: 'RADIUS', type: 'PIPES'}),
+    'checkpoints': new CheckPointsManager({network, entity: CheckPoint, emitRule: 'RADIUS', type: 'CHECKPOINTS'})
 };
 
 const application = new Server({

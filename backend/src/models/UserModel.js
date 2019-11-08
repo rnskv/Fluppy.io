@@ -32,6 +32,14 @@ const userSchema = new Schema({
     skin: {
       type: Number,
       default: 0
+    },
+    totalScores: {
+      type: Number,
+      default: 0
+    },
+    inventory: {
+        type: Array,
+        default: [0, 1, 2]
     }
 });
 

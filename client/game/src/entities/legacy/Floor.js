@@ -1,4 +1,4 @@
-import EnvironmentObject from "../core/EnvironmentObject";
+import EnvironmentObject from "../../core/legacy/EnvironmentObject";
 import * as PIXI from "pixi.js";
 
 class Floor extends EnvironmentObject {

@@ -13,11 +13,7 @@ class Interpolator {
         case "x":
         case "y":
         case "rotation":
-          if (Math.abs(from[key]) - Math.abs(to[key]) < 200) {
-            interpolated[key] = from[key] + (to[key] - from[key]) * ratio;
-          } else {
-            interpolated[key] = to[key];
-          }
+          interpolated[key] = from[key] + (to[key] - from[key]) * ratio;
 
           break;
         default:

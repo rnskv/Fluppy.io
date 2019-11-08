@@ -15,8 +15,12 @@ export default {
     method: 'GET',
     action: () => '/player'
   },
+  'player.setTotalScores': {
+    method: 'PUT',
+    action: () => '/player/totalScores'
+  },
   'auth.vk': {
     method: 'POST',
     action: () => '/auth/vk'
-  }
+  },
 }

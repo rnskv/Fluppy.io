@@ -3,23 +3,49 @@ import api from 'app/src/modules/api';
 
 class UserStore {
   @observable accessToken = null;
+  @observable player = {};
 
   constructor() {
-    const accessToken = localStorage.getItem('accessToken');
+    this.authFromLocalStorage().then().catch();
+  }
+
+  async authFromLocalStorage() {
+    const accessToken = window.localStorage.getItem('accessToken');
     if (accessToken) {
-      this.login(accessToken)
+      await this.login(accessToken)
+    } else {
+      alert('Вам нужно авторизироваться')
     }
+  }
+
+  onSessionExpired() {
+    alert('Ваша сессия устарела. Разрываем соединение');
+    this.logout()
   }
 
   @action
   login = (accessToken) => {
-    this.accessToken = accessToken;
-    localStorage.setItem('accessToken', accessToken);
+    return new Promise((resolve, reject) => {
+      this.accessToken = accessToken;
+      localStorage.setItem('accessToken', accessToken);
 
-    api.setToken(this.accessToken);
-    api.execute({name: 'users.get'})
-      .then((data) => { console.log('Все ок', this.accessToken)})
-      .catch((err) => { console.log('Все не ок', err)});
+      api.setToken(this.accessToken);
+      api.execute({name: 'player.get'})
+        .then((data) => {
+          console.log('Все ок', data)
+          if (!data.body) {
+            this.onSessionExpired();
+            return
+          }
+
+          this.player = data.body;
+          resolve();
+        })
+        .catch((err) => {
+          console.log('Все не ок', err)
+          reject(err)
+        });
+    });
   };
 
   @action

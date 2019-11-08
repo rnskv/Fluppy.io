@@ -82,6 +82,8 @@ export default class GameObject {
     }
 
     this.container.addChild(this.objectContainer);
+
+    this.runUpdates();
   }
 
   removeFromStage() {
@@ -89,7 +91,6 @@ export default class GameObject {
   }
 
   hide() {
-    this.objectContainer.visible = false;
     this.objectContainer.visible = false;
   }
 
@@ -118,13 +119,12 @@ export default class GameObject {
       camera.zoom
     );
 
-
     this.activeObject.transform.rotation = this.rotation;
   }
 
-  update(dt, updates) {
+  update(dt, updates, syncCamera) {
     if (!updates) return;
     this.setUpdates(updates);
-    this.runUpdates();
+    this.runUpdates(syncCamera);
   }
 }
