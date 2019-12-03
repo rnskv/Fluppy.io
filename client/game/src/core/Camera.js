@@ -22,6 +22,7 @@ class Camera {
         left: 0
       }
     };
+    this.onWheel = this.onWheel.bind(this);
 
     window.document.addEventListener('mousewheel', this.onWheel)
   }
