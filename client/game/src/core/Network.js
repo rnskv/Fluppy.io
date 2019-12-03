@@ -5,30 +5,52 @@ export default class Network {
     this.io = io;
     this.socket = null;
     this.EventEmitter = EventEmitter;
+
+    this.handleClick = this.handleClick.bind(this);
+    this.handleTouchStart = this.handleTouchStart.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.unsubscribe = this.unsubscribe.bind(this)
   }
 
   connect(url) {
     this.socket = this.io.connect(url)
   }
 
+  unsubscribe() {
+    document.removeEventListener("click", this.handleClick);
+    document.removeEventListener("touchstart", this.handleTouchStart);
+    document.removeEventListener("keypress", this.handleKeyPress);
+  }
+
+  handleClick(e) {
+    const { socket, EventEmitter } = this;
+    socket.emit("game:player:click", e);
+  }
+
+  handleTouchStart(e) {
+    const { socket, EventEmitter } = this;
+
+    socket.emit("game:player:click", e);
+  }
+
+  handleKeyPress(e) {
+    const { socket, EventEmitter } = this;
+
+    if (e.keyCode === 32) {
+      socket.emit("game:player:click", e);
+    }
+  }
+
   subscribes() {
     return new Promise(resolve => {
       const { socket, EventEmitter } = this;
 
-      console.log(EventEmitter);
+      document.addEventListener("click", this.handleClick);
+      document.addEventListener("touchstart", this.handleTouchStart);
+      document.addEventListener("keypress", this.handleKeyPress);
 
-      window.document.addEventListener("click", e => {
-        socket.emit("game:player:click", e);
-      });
-
-      window.document.addEventListener("touchstart", e => {
-        socket.emit("game:player:click", e);
-      });
-
-      window.document.addEventListener("keypress", e => {
-        if (e.keyCode === 32) {
-          socket.emit("game:player:click", e);
-        }
+      EventEmitter.subscribe("game:unmount", () => {
+        this.unsubscribe()
       });
 
       EventEmitter.subscribe("game:join", playerData => {

@@ -23,16 +23,21 @@ class Camera {
       }
     };
 
-    window.document.addEventListener('mousewheel', (e) => {
-      if (e.deltaY >= 0) {
-        // up
-        this.changeZoom(-e.deltaY / 512)
-      } else {
-        // down
-        this.changeZoom( -e.deltaY / 512)
-      }
-    })
-    //Сюда добавить отсутпы (120)
+    window.document.addEventListener('mousewheel', this.onWheel)
+  }
+
+  unmount() {
+    window.document.removeEventListener('mousewheel', this.onWheel)
+  }
+
+  onWheel(e) {
+    if (e.deltaY >= 0) {
+      // up
+      this.changeZoom(-e.deltaY / 512)
+    } else {
+      // down
+      this.changeZoom( -e.deltaY / 512)
+    }
   }
 
   changeZoom(coef) {

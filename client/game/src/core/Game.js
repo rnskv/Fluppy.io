@@ -5,6 +5,7 @@ import Interpolator from "../utils/interpolator";
 
 export default class Game {
   constructor({ app, controller, settings }) {
+    this.app = app;
     this.loader = new Loader(app.loader);
     this.stage = app.stage;
     this.ticker = this.getTickerWithSettings(app.ticker, { autostart: false });
@@ -195,5 +196,9 @@ export default class Game {
     for (var i = stage.children.length - 1; i >= 0; i--) {
       stage.removeChild(stage.children[i]);
     }
+
+    this.app.stage.removeAllListeners();
+    this.app.destroy();
+    this.controller.camera.unmount();
   }
 }

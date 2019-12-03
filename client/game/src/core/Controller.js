@@ -22,7 +22,6 @@ export default class Controller {
     this.managers.add(name, manager);
     manager.connectController(this);
     manager.init();
-    console.log('manager.init')
   }
 
   setControllerToManagers() {

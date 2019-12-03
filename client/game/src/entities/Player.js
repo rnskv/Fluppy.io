@@ -28,7 +28,6 @@ class Player extends GameObject {
     const container = new PIXI.Container();
     const graphics = new PIXI.Graphics();
     const skin = itemsConfig[this.skin]['resource'];
-    console.log(skin)
     let sprite = new PIXI.Sprite(this.controller.stores.main.get('resources')[skin].texture);
     // let sprite = new PIXI.Sprite(this.controller.stores.main.get('resources')[skins[4]].texture);
 

@@ -28,6 +28,7 @@ import servers from "shared/configs/servers";
 class Builder {
   constructor(client) {
     this.client = client;
+    console.log('new builder')
   }
 
   get app() {

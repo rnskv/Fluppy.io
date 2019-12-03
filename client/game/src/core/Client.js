@@ -17,9 +17,13 @@ export default class Client {
     };
   }
 
+  setNode(node) {
+    this.root = node;
+  }
+
   createApp(id) {
     const { width, height } = this.params;
-
+    console.log('App mount', this.apps)
     this.apps[id] = new PIXI.Application({
       transparent: false,
       width,
@@ -42,6 +46,6 @@ export default class Client {
   }
 
   removeStage(id) {
-    delete this.apps[id];
+
   }
 }
